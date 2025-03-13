@@ -1,0 +1,875 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Details - Brinc Project Management System</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Handsontable CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/handsontable@12.3.3/dist/handsontable.full.min.css" rel="stylesheet">
+    <!-- Chart.js for data visualization -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.css">
+    <style>
+        .logo {
+            max-height: 40px;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1, h2 {
+            color: #333;
+        }
+        h2 {
+            margin-top: 30px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+        }
+        .info-section {
+            margin-bottom: 30px;
+        }
+        .info-row {
+            display: flex;
+            margin-bottom: 15px;
+        }
+        .info-label {
+            font-weight: bold;
+            width: 200px;
+            color: #555;
+        }
+        .info-value {
+            flex: 1;
+        }
+        .badge-internal {
+            background-color: #4a90e2;
+            color: white;
+        }
+        .badge-external {
+            background-color: #f5a623;
+            color: white;
+        }
+        .team-member {
+            display: inline-block;
+            background-color: #e9ecef;
+            color: #495057;
+            padding: 5px 10px;
+            border-radius: 4px;
+            margin-right: 5px;
+            margin-bottom: 5px;
+        }
+        .budget-section {
+            margin-top: 30px;
+            margin-bottom: 40px;
+            overflow-x: auto;
+        }
+        .budget-grid {
+            width: 100%;
+            height: auto;
+            margin-top: 10px;
+            overflow: hidden;
+        }
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .total-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+            background-color: #f5f5f5;
+            border-radius: 4px;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+        .total-label {
+            font-weight: bold;
+        }
+        .total-values {
+            display: flex;
+            gap: 20px;
+        }
+        .total-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .total-month {
+            font-size: 12px;
+            color: #666;
+        }
+        .total-value {
+            font-weight: bold;
+        }
+        .headcount-display {
+            font-size: 14px;
+            color: #666;
+            padding: 5px 10px;
+            background-color: #f5f5f5;
+            border-radius: 4px;
+        }
+        .content-container {
+            margin-top: 20px;
+        }
+        .back-button {
+            margin-bottom: 20px;
+        }
+        .action-buttons {
+            margin-top: 30px;
+            display: flex;
+            gap: 10px;
+        }
+        .status-badge {
+            font-size: 14px;
+            padding: 5px 10px;
+            border-radius: 4px;
+            display: inline-block;
+        }
+        .status-active {
+            background-color: #28a745;
+            color: white;
+        }
+        .project-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .project-meta {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+        .chart-container {
+            margin-top: 30px;
+            margin-bottom: 40px;
+            height: 300px;
+        }
+        .chart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        .chart-legend {
+            display: flex;
+            gap: 15px;
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            font-size: 14px;
+        }
+        .legend-color {
+            width: 15px;
+            height: 15px;
+            margin-right: 5px;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
+        <div class="container">
+            <a class="navbar-brand" href="projects.html">
+                <img src="https://storage.googleapis.com/clean-finder-353810/$Dd5BJMS3vYBf7ZOld70TQI6BwJGDbX0AROpvZc0RexkhTUrPQZBO4S" alt="Brinc Logo" class="logo">
+                <span class="ms-2 fw-bold">Project Management System</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="projects.html">Projects</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Reports</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
+                            <i class="fas fa-user-circle"></i> Admin
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="#">Profile</a></li>
+                            <li><a class="dropdown-item" href="#">Settings</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#">Logout</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container content-container">
+        <div class="back-button">
+            <a href="projects.html" class="btn btn-outline-secondary">
+                <i class="fas fa-arrow-left"></i> Back to Projects
+            </a>
+        </div>
+        
+        <div class="project-header">
+            <h1 id="projectNameTitle">Project Name</h1>
+            <div class="project-meta">
+                <span class="status-badge status-active">Active</span>
+                <span class="badge badge-internal" id="projectTypeBadge">Internal</span>
+            </div>
+        </div>
+
+        <div class="info-section">
+            <div class="info-row">
+                <div class="info-label">Department:</div>
+                <div class="info-value" id="departmentValue">Programs</div>
+            </div>
+            <div class="info-row">
+                <div class="info-label">Client:</div>
+                <div class="info-value" id="clientValue">N/A</div>
+            </div>
+            <div class="info-row">
+                <div class="info-label">Start Date:</div>
+                <div class="info-value" id="startDateValue">January 1, 2023</div>
+            </div>
+            <div class="info-row">
+                <div class="info-label">End Date (Estimated):</div>
+                <div class="info-value" id="endDateValue">December 31, 2023</div>
+            </div>
+            <div class="info-row">
+                <div class="info-label">Project Description:</div>
+                <div class="info-value" id="descriptionValue">
+                    Project description will appear here.
+                </div>
+            </div>
+        </div>
+
+        <h2>Team</h2>
+        <div class="info-section">
+            <div class="info-row">
+                <div class="info-label">Project Manager:</div>
+                <div class="info-value" id="projectManagerValue">
+                    <!-- Project managers will be displayed here -->
+                </div>
+            </div>
+            <div class="info-row">
+                <div class="info-label">Team Members:</div>
+                <div class="info-value" id="teamMembersValue">
+                    <!-- Team members will be displayed here -->
+                </div>
+            </div>
+        </div>
+
+        <h2>Budget Overview</h2>
+        <div class="row mb-4">
+            <div class="col-md-3">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">Signed Revenue</h5>
+                        <canvas id="signedRevenueChart"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">Received Revenue</h5>
+                        <canvas id="receivedRevenueChart"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">HR Costs</h5>
+                        <canvas id="hrCostsChart"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">Hard Costs</h5>
+                        <canvas id="hardCostsChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <ul class="nav nav-tabs" id="projectTabs">
+          <li class="nav-item">
+            <a class="nav-link active" href="project.html">Budget Planning</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="project_actual.html">Actual</a>
+          </li>
+        </ul>
+        
+        <h2>Budget Planning</h2>
+        
+        <div class="budget-section">
+            <div class="section-header">
+                <h3>Signed Revenue</h3>
+            </div>
+            <div id="signedRevenue" class="budget-grid"></div>
+            <div id="signedRevenueTotal" class="total-row">
+                <div class="total-label">Total:</div>
+                <div class="total-values"></div>
+            </div>
+        </div>
+        
+        <div class="budget-section">
+            <div class="section-header">
+                <h3>Received Revenue</h3>
+            </div>
+            <div id="receivedRevenue" class="budget-grid"></div>
+            <div id="receivedRevenueTotal" class="total-row">
+                <div class="total-label">Total:</div>
+                <div class="total-values"></div>
+            </div>
+        </div>
+        
+        <div class="budget-section">
+            <div class="section-header">
+                <h3>HR Costs</h3>
+            </div>
+            <div id="hrCosts" class="budget-grid"></div>
+            <div id="hrCostsTotal" class="total-row">
+                <div class="total-label">Total:</div>
+                <div class="total-values"></div>
+            </div>
+        </div>
+        
+        <div class="budget-section">
+            <div class="section-header">
+                <h3>Shared HR Costs</h3>
+                <div class="section-controls">
+                    <span class="headcount-display">Current Headcount: <span id="currentHeadcount">0</span> people</span>
+                </div>
+            </div>
+            <div id="sharedCosts" class="budget-grid"></div>
+            <div id="sharedCostsTotal" class="total-row">
+                <div class="total-label">Total:</div>
+                <div class="total-values"></div>
+            </div>
+        </div>
+        
+        <div class="budget-section">
+            <div class="section-header">
+                <h3>Hard Costs</h3>
+            </div>
+            <div id="hardCosts" class="budget-grid"></div>
+            <div id="hardCostsTotal" class="total-row">
+                <div class="total-label">Total:</div>
+                <div class="total-values"></div>
+            </div>
+        </div>
+        
+        <div class="action-buttons">
+            <a href="edit_project.html" class="btn btn-primary">
+                <i class="fas fa-edit"></i> Edit Project
+            </a>
+            <button type="button" class="btn btn-danger" id="archiveProjectBtn">
+                <i class="fas fa-archive"></i> Archive Project
+            </button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-light py-3 mt-5">
+        <div class="container text-center">
+            <p class="text-muted mb-0">© 2023 Brinc Project Management System. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Handsontable JS -->
+    <script src="https://cdn.jsdelivr.net/npm/handsontable@12.3.3/dist/handsontable.full.min.js"></script>
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Sample project data (in a real application, this would come from the server)
+            const projectData = {
+                projectName: "Digital Transformation Initiative",
+                projectType: "internal",
+                department: "Transform",
+                client: "Internal",
+                startDate: "2023-06-01",
+                endDate: "2024-05-31",
+                description: "This project aims to modernize our internal systems and processes to improve efficiency and reduce operational costs. The initiative includes upgrading our CRM, implementing new project management tools, and training staff on digital workflows.",
+                projectManager: ["Guillermo Ginesta", "Janina Motter"],
+                team: ["Edwin Lee", "Einstein Rojas", "Kevin Leung", "Natalie Lung", "Manav Gupta"],
+                budget: {
+                    signedRevenue: [
+                        { name: "Phase 1 - Discovery", month0: 25000, month1: 0, month2: 0, month3: 0, month4: 0, month5: 0, month6: 0, month7: 0, month8: 0, month9: 0, month10: 0, month11: 0, month12: 0 },
+                        { name: "Phase 2 - Implementation", month0: 0, month1: 35000, month2: 35000, month3: 0, month4: 0, month5: 0, month6: 0, month7: 0, month8: 0, month9: 0, month10: 0, month11: 0, month12: 0 },
+                        { name: "Phase 3 - Training", month0: 0, month1: 0, month2: 0, month3: 20000, month4: 0, month5: 0, month6: 0, month7: 0, month8: 0, month9: 0, month10: 0, month11: 0, month12: 0 }
+                    ],
+                    receivedRevenue: [
+                        { name: "Phase 1 - Discovery", month0: 25000, month1: 0, month2: 0, month3: 0, month4: 0, month5: 0, month6: 0, month7: 0, month8: 0, month9: 0, month10: 0, month11: 0, month12: 0 },
+                        { name: "Phase 2 - Implementation", month0: 0, month1: 35000, month2: 0, month3: 0, month4: 0, month5: 0, month6: 0, month7: 0, month8: 0, month9: 0, month10: 0, month11: 0, month12: 0 }
+                    ],
+                    hrCosts: [
+                        { name: "Edwin Lee", utilization: 50, month0: 4000, month1: 4000, month2: 4000, month3: 4000, month4: 0, month5: 0, month6: 0, month7: 0, month8: 0, month9: 0, month10: 0, month11: 0, month12: 0 },
+                        { name: "Einstein Rojas", utilization: 75, month0: 5625, month1: 5625, month2: 5625, month3: 5625, month4: 0, month5: 0, month6: 0, month7: 0, month8: 0, month9: 0, month10: 0, month11: 0, month12: 0 },
+                        { name: "Kevin Leung", utilization: 25, month0: 1950, month1: 1950, month2: 1950, month3: 1950, month4: 0, month5: 0, month6: 0, month7: 0, month8: 0, month9: 0, month10: 0, month11: 0, month12: 0 }
+                    ],
+                    hardCosts: [
+                        { name: "Software licenses", month0: 5000, month1: 0, month2: 0, month3: 0, month4: 0, month5: 0, month6: 0, month7: 0, month8: 0, month9: 0, month10: 0, month11: 0, month12: 0 },
+                        { name: "Training materials", month0: 0, month1: 0, month2: 2500, month3: 0, month4: 0, month5: 0, month6: 0, month7: 0, month8: 0, month9: 0, month10: 0, month11: 0, month12: 0 },
+                        { name: "Consulting services", month0: 10000, month1: 10000, month2: 0, month3: 0, month4: 0, month5: 0, month6: 0, month7: 0, month8: 0, month9: 0, month10: 0, month11: 0, month12: 0 }
+                    ]
+                }
+            };
+
+            // Define salary data for team members (monthly salary)
+            const salaryData = {
+                'Edwin Lee': 8000,
+                'Einstein Rojas': 7500,
+                'Guillermo Ginesta': 9000,
+                'Janina Motter': 8200,
+                'Kevin Leung': 7800
+            };
+
+            // Populate project details
+            document.getElementById('projectNameTitle').textContent = projectData.projectName;
+            document.getElementById('projectTypeBadge').textContent = projectData.projectType.charAt(0).toUpperCase() + projectData.projectType.slice(1);
+            document.getElementById('projectTypeBadge').className = 'badge badge-' + projectData.projectType;
+            document.getElementById('departmentValue').textContent = projectData.department;
+            document.getElementById('clientValue').textContent = projectData.client;
+            document.getElementById('startDateValue').textContent = formatDate(projectData.startDate);
+            document.getElementById('endDateValue').textContent = formatDate(projectData.endDate);
+            document.getElementById('descriptionValue').textContent = projectData.description;
+
+            // Format date for display
+            function formatDate(dateString) {
+                if (!dateString) return 'N/A';
+                const date = new Date(dateString);
+                return date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+            }
+
+            // Populate team members
+            const projectManagerValue = document.getElementById('projectManagerValue');
+            projectData.projectManager.forEach(manager => {
+                const managerElement = document.createElement('span');
+                managerElement.className = 'team-member';
+                managerElement.textContent = manager;
+                projectManagerValue.appendChild(managerElement);
+            });
+
+            const teamMembersValue = document.getElementById('teamMembersValue');
+            projectData.team.forEach(member => {
+                const memberElement = document.createElement('span');
+                memberElement.className = 'team-member';
+                memberElement.textContent = member;
+                teamMembersValue.appendChild(memberElement);
+            });
+
+            // 获取月份列表（从当前月开始的13个月）
+            function getMonthColumns() {
+                const months = [];
+                const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+                const now = new Date();
+                let currentMonth = now.getMonth();
+                let currentYear = now.getFullYear();
+                
+                for (let i = 0; i < 13; i++) {
+                    months.push(monthNames[currentMonth] + currentYear.toString().substr(2));
+                    currentMonth++;
+                    if (currentMonth > 11) {
+                        currentMonth = 0;
+                        currentYear++;
+                    }
+                }
+                
+                return months;
+            }
+            
+            const monthColumns = getMonthColumns();
+
+            // Create budget grids in read-only mode
+            function createBudgetGrid(elementId, data, includeUtilization = false) {
+                const container = document.getElementById(elementId);
+                const columns = [];
+                
+                // First column - Item name
+                if (elementId === 'hrCosts') {
+                    columns.push({
+                        title: 'Role / Name',
+                        data: 'name',
+                        width: 200,
+                        readOnly: true
+                    });
+                } else {
+                    columns.push({
+                        title: 'Item Name',
+                        data: 'name',
+                        width: 200,
+                        readOnly: true
+                    });
+                }
+                
+                // Include utilization column if needed
+                if (includeUtilization) {
+                    columns.push({
+                        title: '% of utilization',
+                        data: 'utilization',
+                        type: 'numeric',
+                        numericFormat: {
+                            pattern: '0%',
+                            culture: 'en-US'
+                        },
+                        width: 120,
+                        readOnly: true,
+                        renderer: function(instance, td, row, col, prop, value, cellProperties) {
+                            Handsontable.renderers.NumericRenderer.apply(this, arguments);
+                            
+                            // Convert the raw value to percentage display
+                            if (value !== null && value !== '') {
+                                // Divide by 100 to get the correct percentage display
+                                const percent = parseFloat(value) / 100;
+                                td.innerHTML = (percent * 100).toFixed(0) + '%';
+                            }
+                            
+                            return td;
+                        }
+                    });
+                }
+                
+                // Month columns
+                monthColumns.forEach((month, index) => {
+                    columns.push({
+                        title: month,
+                        data: 'month' + index,
+                        type: 'numeric',
+                        numericFormat: {
+                            pattern: '0,0.00'
+                        },
+                        width: 80,
+                        readOnly: true
+                    });
+                });
+                
+                // Create the grid
+                const hot = new Handsontable(container, {
+                    data: data,
+                    columns: columns,
+                    rowHeaders: true,
+                    colHeaders: true,
+                    height: 'auto',
+                    licenseKey: 'non-commercial-and-evaluation',
+                    readOnly: true
+                });
+                
+                // Calculate totals
+                calculateTotals(hot, elementId);
+                
+                return hot;
+            }
+
+            // Create shared costs grid
+            function createSharedCostsGrid() {
+                const container = document.getElementById('sharedCosts');
+                const columns = [];
+                
+                // First column - Cost type
+                columns.push({
+                    title: 'Cost Type',
+                    data: 'name',
+                    width: 200,
+                    readOnly: true
+                });
+                
+                // Second column - Cost per person
+                columns.push({
+                    title: 'Cost Per Person',
+                    data: 'perPersonCost',
+                    type: 'numeric',
+                    numericFormat: {
+                        pattern: '0,0.00'
+                    },
+                    width: 120,
+                    readOnly: true
+                });
+                
+                // Month columns
+                monthColumns.forEach((month, index) => {
+                    columns.push({
+                        title: month,
+                        data: 'month' + index,
+                        type: 'numeric',
+                        numericFormat: {
+                            pattern: '0,0.00'
+                        },
+                        width: 80,
+                        readOnly: true
+                    });
+                });
+                
+                // Create initial data
+                const initialData = [
+                    {
+                        name: 'Insurance shared cost',
+                        perPersonCost: 500,
+                        costType: 'insurance'
+                    },
+                    {
+                        name: 'Systems shared cost',
+                        perPersonCost: 300,
+                        costType: 'systems'
+                    }
+                ];
+                
+                // Initialize monthly values
+                initialData.forEach(row => {
+                    for (let i = 0; i < 13; i++) {
+                        row['month' + i] = 0;
+                    }
+                });
+                
+                // Create the grid
+                const hot = new Handsontable(container, {
+                    data: initialData,
+                    columns: columns,
+                    rowHeaders: true,
+                    colHeaders: true,
+                    height: 'auto',
+                    licenseKey: 'non-commercial-and-evaluation',
+                    readOnly: true
+                });
+                
+                return hot;
+            }
+
+            // Calculate totals and display them
+            function calculateTotals(hot, elementId) {
+                const data = hot.getData();
+                const totals = [];
+                
+                // Calculate sum for each column
+                const startCol = elementId === 'hrCosts' ? 2 : 1;
+                for (let col = startCol; col < hot.countCols(); col++) {
+                    let sum = 0;
+                    for (let row = 0; row < data.length; row++) {
+                        const value = parseFloat(data[row][col]) || 0;
+                        sum += value;
+                    }
+                    totals.push(sum);
+                }
+                
+                // Update total display
+                const totalElement = document.getElementById(elementId + 'Total');
+                const totalValuesElement = totalElement.querySelector('.total-values');
+                totalValuesElement.innerHTML = '';
+                
+                totals.forEach((total, index) => {
+                    const monthIndex = elementId === 'hrCosts' ? index : index;
+                    const month = monthColumns[monthIndex];
+                    
+                    const totalItem = document.createElement('div');
+                    totalItem.className = 'total-item';
+                    
+                    const totalMonth = document.createElement('div');
+                    totalMonth.className = 'total-month';
+                    totalMonth.textContent = month;
+                    
+                    const totalValue = document.createElement('div');
+                    totalValue.className = 'total-value';
+                    totalValue.textContent = total.toLocaleString('en-US', {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2
+                    });
+                    
+                    totalItem.appendChild(totalMonth);
+                    totalItem.appendChild(totalValue);
+                    totalValuesElement.appendChild(totalItem);
+                });
+            }
+
+            // Calculate headcount and update shared costs
+            function updateHeadcount() {
+                // Count people in HR costs table
+                let headcount = 0;
+                const hrData = projectData.budget.hrCosts;
+                
+                for (let i = 0; i < hrData.length; i++) {
+                    if (hrData[i].name && hrData[i].name in salaryData) {
+                        headcount++;
+                    }
+                }
+                
+                // Update displayed headcount
+                document.getElementById('currentHeadcount').textContent = headcount;
+                
+                // Update shared costs
+                const sharedData = sharedCostsGrid.getSourceData();
+                
+                for (let i = 0; i < sharedData.length; i++) {
+                    const perPersonCost = sharedData[i].perPersonCost;
+                    
+                    // Update costs for all months
+                    for (let j = 0; j < 13; j++) {
+                        const totalCost = perPersonCost * headcount;
+                        sharedCostsGrid.setDataAtRowProp(i, 'month' + j, totalCost);
+                    }
+                }
+                
+                // Recalculate shared costs totals
+                calculateTotals(sharedCostsGrid, 'sharedCosts');
+            }
+
+            // Initialize all grids
+            const signedRevenueGrid = createBudgetGrid('signedRevenue', projectData.budget.signedRevenue);
+            const receivedRevenueGrid = createBudgetGrid('receivedRevenue', projectData.budget.receivedRevenue);
+            const hrCostsGrid = createBudgetGrid('hrCosts', projectData.budget.hrCosts, true);
+            const hardCostsGrid = createBudgetGrid('hardCosts', projectData.budget.hardCosts);
+            const sharedCostsGrid = createSharedCostsGrid();
+            
+            // Update headcount and shared costs after all grids are initialized
+            setTimeout(function() {
+                updateHeadcount();
+            }, 100);
+
+            // Archive project button handler
+            document.getElementById('archiveProjectBtn').addEventListener('click', function() {
+                if (confirm('Are you sure you want to archive this project?')) {
+                    alert('Project archived successfully!');
+                    // In a real application, this would send a request to the server
+                    // and then redirect to the projects list
+                    window.location.href = 'projects.html';
+                }
+            });
+
+            // Sample actual data (in a real application, this would come from the server)
+            const actualData = {
+                signedRevenue: [
+                    { name: "Phase 1 - Discovery", month0: 25000, month1: 0, month2: 0, month3: 0, month4: 0, month5: 0, month6: 0, month7: 0, month8: 0, month9: 0, month10: 0, month11: 0, month12: 0 },
+                    { name: "Phase 2 - Implementation", month0: 0, month1: 30000, month2: 40000, month3: 0, month4: 0, month5: 0, month6: 0, month7: 0, month8: 0, month9: 0, month10: 0, month11: 0, month12: 0 },
+                    { name: "Phase 3 - Training", month0: 0, month1: 0, month2: 0, month3: 15000, month4: 5000, month5: 0, month6: 0, month7: 0, month8: 0, month9: 0, month10: 0, month11: 0, month12: 0 }
+                ],
+                receivedRevenue: [
+                    { name: "Phase 1 - Discovery", month0: 25000, month1: 0, month2: 0, month3: 0, month4: 0, month5: 0, month6: 0, month7: 0, month8: 0, month9: 0, month10: 0, month11: 0, month12: 0 },
+                    { name: "Phase 2 - Implementation", month0: 0, month1: 30000, month2: 0, month3: 0, month4: 0, month5: 0, month6: 0, month7: 0, month8: 0, month9: 0, month10: 0, month11: 0, month12: 0 }
+                ],
+                hrCosts: [
+                    { name: "Edwin Lee", month0: 4200, month1: 4100, month2: 4300, month3: 4100, month4: 0, month5: 0, month6: 0, month7: 0, month8: 0, month9: 0, month10: 0, month11: 0, month12: 0 },
+                    { name: "Einstein Rojas", month0: 5500, month1: 5700, month2: 5800, month3: 5600, month4: 0, month5: 0, month6: 0, month7: 0, month8: 0, month9: 0, month10: 0, month11: 0, month12: 0 },
+                    { name: "Kevin Leung", month0: 2000, month1: 1900, month2: 2100, month3: 1800, month4: 0, month5: 0, month6: 0, month7: 0, month8: 0, month9: 0, month10: 0, month11: 0, month12: 0 }
+                ],
+                hardCosts: [
+                    { name: "Software licenses", month0: 5200, month1: 0, month2: 0, month3: 0, month4: 0, month5: 0, month6: 0, month7: 0, month8: 0, month9: 0, month10: 0, month11: 0, month12: 0 },
+                    { name: "Training materials", month0: 0, month1: 0, month2: 2700, month3: 0, month4: 0, month5: 0, month6: 0, month7: 0, month8: 0, month9: 0, month10: 0, month11: 0, month12: 0 },
+                    { name: "Consulting services", month0: 9800, month1: 10200, month2: 0, month3: 0, month4: 0, month5: 0, month6: 0, month7: 0, month8: 0, month9: 0, month10: 0, month11: 0, month12: 0 }
+                ]
+            };
+            
+            // Function to sum up total data from all months and rows
+            function sumTotalData(data) {
+                let total = 0;
+                
+                data.forEach(row => {
+                    for (let i = 0; i < 13; i++) {
+                        const monthValue = parseFloat(row['month' + i]) || 0;
+                        total += monthValue;
+                    }
+                });
+                
+                return total;
+            }
+            
+            // Create total comparison charts
+            function createTotalComparisonChart(elementId, planningData, actualData) {
+                const ctx = document.getElementById(elementId).getContext('2d');
+                
+                // Calculate total sums for planning and actual
+                const planningSum = sumTotalData(planningData);
+                const actualSum = sumTotalData(actualData);
+                
+                new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Planning', 'Actual'],
+                        datasets: [{
+                            data: [planningSum, actualSum],
+                            backgroundColor: [
+                                'rgba(54, 162, 235, 0.7)',
+                                'rgba(255, 99, 132, 0.7)'
+                            ],
+                            borderColor: [
+                                'rgba(54, 162, 235, 1)',
+                                'rgba(255, 99, 132, 1)'
+                            ],
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: true,
+                        aspectRatio: 1.5,
+                        plugins: {
+                            legend: {
+                                display: false
+                            },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        let label = context.dataset.label || '';
+                                        if (context.parsed.y !== null) {
+                                            label = '$' + context.parsed.y.toLocaleString();
+                                        }
+                                        return label;
+                                    }
+                                }
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                ticks: {
+                                    callback: function(value) {
+                                        return '$' + value.toLocaleString();
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+            
+            // Initialize all charts after grids are created
+            setTimeout(function() {
+                createTotalComparisonChart('signedRevenueChart', projectData.budget.signedRevenue, actualData.signedRevenue);
+                createTotalComparisonChart('receivedRevenueChart', projectData.budget.receivedRevenue, actualData.receivedRevenue);
+                createTotalComparisonChart('hrCostsChart', projectData.budget.hrCosts, actualData.hrCosts);
+                createTotalComparisonChart('hardCostsChart', projectData.budget.hardCosts, actualData.hardCosts);
+            }, 200);
+            
+            // Remove the old chart containers if they exist
+            const oldChartContainers = document.querySelectorAll('.chart-container');
+            oldChartContainers.forEach(container => {
+                container.remove();
+            });
+        });
+    </script>
+</body>
+</html>

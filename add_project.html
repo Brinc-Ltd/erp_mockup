@@ -1,0 +1,1014 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add New Project - Brinc Project Management System</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- 引入 Handsontable CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/handsontable@12.3.3/dist/handsontable.full.min.css" rel="stylesheet">
+    <style>
+        .logo {
+            max-height: 40px;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1, h2 {
+            color: #333;
+        }
+        h2 {
+            margin-top: 30px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input[type="text"], 
+        input[type="date"],
+        textarea,
+        select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 14px;
+        }
+        textarea {
+            height: 100px;
+            resize: vertical;
+        }
+        .project-type-toggle {
+            display: flex;
+            border-radius: 4px;
+            overflow: hidden;
+            border: 1px solid #ddd;
+            width: fit-content;
+            margin-bottom: 5px;
+        }
+        .toggle-btn {
+            padding: 8px 16px;
+            background: #f5f5f5;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 14px;
+        }
+        .toggle-btn:first-child {
+            border-right: 1px solid #ddd;
+        }
+        .toggle-btn.active {
+            background: #4a90e2;
+            color: white;
+        }
+        .toggle-btn:hover:not(.active) {
+            background: #e9e9e9;
+        }
+        .submit-btn {
+            background-color: #4CAF50;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 20px;
+        }
+        .submit-btn:hover {
+            background-color: #45a049;
+        }
+        .budget-section {
+            margin-top: 30px;
+            margin-bottom: 40px;
+            overflow-x: auto;
+        }
+        .budget-grid {
+            width: 100%;
+            height: auto;
+            margin-top: 10px;
+            overflow: hidden;
+        }
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .section-controls {
+            display: flex;
+            gap: 10px;
+        }
+        .add-row-btn {
+            background-color: #4a90e2;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+        .add-row-btn:hover {
+            background-color: #3a7bc8;
+        }
+        .tabs {
+            display: none;
+        }
+        .tab-content {
+            display: block;
+        }
+        .total-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+            background-color: #f5f5f5;
+            border-radius: 4px;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+        .total-label {
+            font-weight: bold;
+        }
+        .total-values {
+            display: flex;
+            gap: 20px;
+        }
+        .total-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .total-month {
+            font-size: 12px;
+            color: #666;
+        }
+        .total-value {
+            font-weight: bold;
+        }
+        .team-input-container {
+            position: relative;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            padding: 5px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background-color: white;
+            margin-bottom: 10px;
+        }
+        .team-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+            margin-right: 5px;
+            width: 100%;
+        }
+        .team-tag {
+            display: inline-flex;
+            align-items: center;
+            background-color: #e9ecef;
+            color: #495057;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 14px;
+            margin: 2px;
+        }
+        .headcount-display {
+            font-size: 14px;
+            color: #666;
+            padding: 5px 10px;
+            background-color: #f5f5f5;
+            border-radius: 4px;
+        }
+        .content-container {
+            margin-top: 20px;
+        }
+        .back-button {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
+        <div class="container">
+            <a class="navbar-brand" href="projects.html">
+                <img src="https://storage.googleapis.com/clean-finder-353810/$Dd5BJMS3vYBf7ZOld70TQI6BwJGDbX0AROpvZc0RexkhTUrPQZBO4S" alt="Brinc Logo" class="logo">
+                <span class="ms-2 fw-bold">Project Management System</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="projects.html">Projects</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Reports</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
+                            <i class="fas fa-user-circle"></i> Admin
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="#">Profile</a></li>
+                            <li><a class="dropdown-item" href="#">Settings</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#">Logout</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container content-container">
+        <div class="back-button">
+            <a href="projects.html" class="btn btn-outline-secondary">
+                <i class="fas fa-arrow-left"></i> Back to Projects
+            </a>
+        </div>
+        
+        <h1>Add New Project</h1>
+        <form id="projectForm">
+            <div class="form-group">
+                <label for="projectName">Project Name</label>
+                <input type="text" id="projectName" name="projectName" required>
+            </div>
+            
+            <div class="form-group">
+                <label>Project Type</label>
+                <div class="project-type-toggle">
+                    <button type="button" class="toggle-btn active" data-type="internal">Internal</button>
+                    <button type="button" class="toggle-btn" data-type="external">External</button>
+                </div>
+                <input type="hidden" id="projectType" name="projectType" value="internal">
+            </div>
+            
+            <div class="form-group">
+                <label for="department">Department</label>
+                <select id="department" name="department" class="form-control">
+                    <option value="">Select Department</option>
+                    <option value="Programs">Programs</option>
+                    <option value="Cooperate">Cooperate</option>
+                    <option value="Transform">Transform</option>
+                    <option value="Finance">Finance</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="client">Client</label>
+                <input type="text" id="client" name="client">
+            </div>
+            
+            <div class="form-group">
+                <label for="startDate">Start Date</label>
+                <input type="date" id="startDate" name="startDate">
+            </div>
+            
+            <div class="form-group">
+                <label for="endDate">End Date (Estimated)</label>
+                <input type="date" id="endDate" name="endDate">
+            </div>
+            
+            <div class="form-group">
+                <label for="description">Project Description</label>
+                <textarea id="description" name="description"></textarea>
+            </div>
+            
+            <div class="form-group">
+                <label for="projectManager">Project Manager</label>
+                <div class="team-input-container">
+                    <div id="pmTags" class="team-tags"></div>
+                    <input type="text" id="pmInput" placeholder="Type to search managers">
+                    <input type="hidden" id="projectManager" name="projectManager">
+                </div>
+                <small class="form-text text-muted">Project managers who can modify and update this project</small>
+            </div>
+            
+            <div class="form-group">
+                <label for="team">Team Members</label>
+                <div class="team-input-container">
+                    <div id="teamTags" class="team-tags"></div>
+                    <input type="text" id="teamInput" placeholder="Type to search members">
+                    <input type="hidden" id="team" name="team">
+                </div>
+                <small class="form-text text-muted">Team members who can see the project details</small>
+            </div>
+            
+            <h2>Budget Planning</h2>
+            
+            <div class="budget-section">
+                <div class="section-header">
+                    <h3>Signed Revenue</h3>
+                    <div class="section-controls">
+                        <button type="button" class="add-row-btn" data-grid="signedRevenue">Add Row</button>
+                    </div>
+                </div>
+                <div id="signedRevenue" class="budget-grid"></div>
+                <div id="signedRevenueTotal" class="total-row">
+                    <div class="total-label">Total:</div>
+                    <div class="total-values"></div>
+                </div>
+            </div>
+            
+            <div class="budget-section">
+                <div class="section-header">
+                    <h3>Received Revenue</h3>
+                    <div class="section-controls">
+                        <button type="button" class="add-row-btn" data-grid="receivedRevenue">Add Row</button>
+                    </div>
+                </div>
+                <div id="receivedRevenue" class="budget-grid"></div>
+                <div id="receivedRevenueTotal" class="total-row">
+                    <div class="total-label">Total:</div>
+                    <div class="total-values"></div>
+                </div>
+            </div>
+            
+            <div class="budget-section">
+                <div class="section-header">
+                    <h3>HR Costs</h3>
+                    <div class="section-controls">
+                        <button type="button" class="add-row-btn" data-grid="hrCosts">Add Row</button>
+                    </div>
+                </div>
+                <div id="hrCosts" class="budget-grid"></div>
+                <div id="hrCostsTotal" class="total-row">
+                    <div class="total-label">Total:</div>
+                    <div class="total-values"></div>
+                </div>
+            </div>
+            
+            <div class="budget-section">
+                <div class="section-header">
+                    <h3>Shared HR Costs</h3>
+                    <div class="section-controls">
+                        <span class="headcount-display">Current Headcount: <span id="currentHeadcount">0</span> people</span>
+                    </div>
+                </div>
+                <div id="sharedCosts" class="budget-grid"></div>
+                <div id="sharedCostsTotal" class="total-row">
+                    <div class="total-label">Total:</div>
+                    <div class="total-values"></div>
+                </div>
+            </div>
+            
+            <div class="budget-section">
+                <div class="section-header">
+                    <h3>Hard Costs</h3>
+                    <div class="section-controls">
+                        <button type="button" class="add-row-btn" data-grid="hardCosts">Add Row</button>
+                    </div>
+                </div>
+                <div id="hardCosts" class="budget-grid"></div>
+                <div id="hardCostsTotal" class="total-row">
+                    <div class="total-label">Total:</div>
+                    <div class="total-values"></div>
+                </div>
+            </div>
+            
+            <div class="d-flex justify-content-between">
+                <a href="projects.html" class="btn btn-outline-secondary">Cancel</a>
+                <button type="submit" class="btn btn-success">Create Project</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-light py-3 mt-5">
+        <div class="container text-center">
+            <p class="text-muted mb-0">© 2023 Brinc Project Management System. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- 引入 Handsontable JS -->
+    <script src="https://cdn.jsdelivr.net/npm/handsontable@12.3.3/dist/handsontable.full.min.js"></script>
+    <!-- Add jQuery UI for autocomplete -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Team members autocomplete data
+            const teamMembers = [
+                "Aisling Gormley", "Castor Hui", "Cheyelene Singh", "Denise Africano",
+                "Edwin Lee", "Einstein Rojas", "Guillermo Ginesta", "Janina Motter",
+                "Kevin Leung", "Michael Wong", "Natalie Lung", "Outpost Brinc",
+                "Suphansa Thesanok", "Aarif Kuang", "Bashar Aboudaoud", "Kit Yang",
+                "Mafai Ma", "Manav Gupta", "Minal Mirpuri", "Olga Dontsova",
+                "Simon zhang", "Wayne Wang", "Milan Thakkar", "Deva Deepak",
+                "Harshit Joshi", "Karan Keswani", "Nikkhil Srinivaas", "Raghu Chandra",
+                "Santhosh Durairaj", "Ahmed Almutawa", "Ahmed Bayoumi", "Aileen Malit",
+                "Amani Al Subhi", "Ghita Elidrissi", "Ghufran Khatam", "Hafsa Nadeem Mohammad",
+                "Hassan Hajj", "Husain Haji", "Karim Banna", "Latifa Latifa",
+                "Latifa Sowaileh", "Levi Lewandowski", "Sameer Pirani", "Sana Alibux",
+                "Tom Purdon", "Yasin Aboudaoud", "Yasmina Aridi", "Aleena Zacharia",
+                "Fatema Alhaddad", "May Marzooq", "Kareem Elmanawy", "Joseph Makhlouf",
+                "Mohamed Ferrekha", "Kyoya Okazawa", "Ryoya Hoshino", "Sachiyo Yoshida",
+                "Aakansha Athakur", "Jannat Al Barwani"
+            ];
+            
+            // Team members tag system
+            const teamInput = document.getElementById('teamInput');
+            const teamTags = document.getElementById('teamTags');
+            const teamHiddenInput = document.getElementById('team');
+            let selectedTeamMembers = [];
+            
+            // Project Manager tag system
+            const pmInput = document.getElementById('pmInput');
+            const pmTags = document.getElementById('pmTags');
+            const pmHiddenInput = document.getElementById('projectManager');
+            let selectedProjectManagers = [];
+            
+            // Function to create a tag system
+            function initializeTagSystem(inputElement, tagsContainer, hiddenInput, selectedArray) {
+                // Function to update the hidden input with selected members
+                function updateHiddenInput() {
+                    hiddenInput.value = selectedArray.join(', ');
+                }
+                
+                // Function to add a tag
+                function addTag(name) {
+                    if (name && !selectedArray.includes(name)) {
+                        selectedArray.push(name);
+                        
+                        const tag = document.createElement('div');
+                        tag.className = 'team-tag';
+                        tag.innerHTML = `
+                            ${name}
+                            <span class="team-tag-remove" data-name="${name}">&times;</span>
+                        `;
+                        
+                        tagsContainer.appendChild(tag);
+                        updateHiddenInput();
+                    }
+                    inputElement.value = '';
+                }
+                
+                // Remove tag when clicking the X
+                tagsContainer.addEventListener('click', function(e) {
+                    if (e.target.classList.contains('team-tag-remove')) {
+                        const name = e.target.getAttribute('data-name');
+                        e.target.parentElement.remove();
+                        
+                        // Remove from selected array
+                        const index = selectedArray.indexOf(name);
+                        if (index > -1) {
+                            selectedArray.splice(index, 1);
+                            updateHiddenInput();
+                        }
+                    }
+                });
+                
+                // Initialize autocomplete
+                $(inputElement).autocomplete({
+                    source: function(request, response) {
+                        // Filter members based on current term
+                        const term = request.term.toLowerCase();
+                        const filteredMembers = teamMembers.filter(member => 
+                            member.toLowerCase().indexOf(term) !== -1 && 
+                            !selectedArray.includes(member)
+                        );
+                        
+                        response(filteredMembers);
+                    },
+                    select: function(event, ui) {
+                        addTag(ui.item.value);
+                        return false;
+                    },
+                    minLength: 1
+                });
+                
+                // Handle Enter key to add custom tags
+                inputElement.addEventListener('keydown', function(e) {
+                    if (e.key === 'Enter' && this.value.trim()) {
+                        e.preventDefault();
+                        addTag(this.value.trim());
+                    }
+                });
+            }
+            
+            // Initialize both tag systems
+            initializeTagSystem(teamInput, teamTags, teamHiddenInput, selectedTeamMembers);
+            initializeTagSystem(pmInput, pmTags, pmHiddenInput, selectedProjectManagers);
+            
+            // 项目类型切换
+            const toggleBtns = document.querySelectorAll('.toggle-btn');
+            const projectTypeInput = document.getElementById('projectType');
+            
+            toggleBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    toggleBtns.forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    projectTypeInput.value = this.getAttribute('data-type');
+                });
+            });
+            
+            // 获取月份列表（从当前月开始的13个月）
+            function getMonthColumns() {
+                const months = [];
+                const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+                const now = new Date();
+                let currentMonth = now.getMonth();
+                let currentYear = now.getFullYear();
+                
+                for (let i = 0; i < 13; i++) {
+                    months.push(monthNames[currentMonth] + currentYear.toString().substr(2));
+                    currentMonth++;
+                    if (currentMonth > 11) {
+                        currentMonth = 0;
+                        currentYear++;
+                    }
+                }
+                
+                return months;
+            }
+            
+            const monthColumns = getMonthColumns();
+            
+            // Define salary data for team members (monthly salary)
+            const salaryData = {
+                'Edwin Lee': 8000,
+                'Einstein Rojas': 7500,
+                'Guillermo Ginesta': 9000,
+                'Janina Motter': 8200,
+                'Kevin Leung': 7800
+            };
+            
+            // 创建共享成本表格
+            function createSharedCostsGrid() {
+                const container = document.getElementById('sharedCosts');
+                const columns = [];
+                
+                // 第一列 - 项目名称
+                columns.push({
+                    title: 'Cost Type',
+                    data: 'name',
+                    width: 200,
+                    readOnly: true
+                });
+                
+                // 第二列 - 每人成本
+                columns.push({
+                    title: 'Cost Per Person',
+                    data: 'perPersonCost',
+                    type: 'numeric',
+                    numericFormat: {
+                        pattern: '0,0.00'
+                    },
+                    width: 120,
+                    readOnly: true
+                });
+                
+                // 月份列
+                monthColumns.forEach((month, index) => {
+                    columns.push({
+                        title: month,
+                        data: 'month' + index,
+                        type: 'numeric',
+                        numericFormat: {
+                            pattern: '0,0.00'
+                        },
+                        width: 80,
+                        readOnly: true
+                    });
+                });
+                
+                // 创建初始数据
+                const initialData = [
+                    {
+                        name: 'Insurance shared cost',
+                        perPersonCost: 500,
+                        costType: 'insurance'
+                    },
+                    {
+                        name: 'Systems shared cost',
+                        perPersonCost: 300,
+                        costType: 'systems'
+                    }
+                ];
+                
+                // 初始化月度值
+                initialData.forEach(row => {
+                    for (let i = 0; i < 13; i++) {
+                        row['month' + i] = 0;
+                    }
+                });
+                
+                // 创建表格
+                const hot = new Handsontable(container, {
+                    data: initialData,
+                    columns: columns,
+                    rowHeaders: true,
+                    colHeaders: true,
+                    height: 'auto',
+                    licenseKey: 'non-commercial-and-evaluation',
+                    cells: function(row, col) {
+                        const cellProperties = {};
+                        cellProperties.readOnly = true;
+                        
+                        // 为共享成本行添加特殊样式
+                        cellProperties.renderer = function(instance, td, row, col, prop, value, cellProperties) {
+                            // 应用默认渲染器
+                            if (col > 0) { // 对于数字列
+                                Handsontable.renderers.NumericRenderer.apply(this, arguments);
+                            } else {
+                                Handsontable.renderers.TextRenderer.apply(this, arguments);
+                            }
+                            
+                            return td;
+                        };
+                        
+                        return cellProperties;
+                    }
+                });
+                
+                return hot;
+            }
+            
+            // 创建表格
+            function createBudgetGrid(elementId, includeUtilization = false) {
+                const container = document.getElementById(elementId);
+                const columns = [];
+                
+                // 第一列 - 项目名称
+                if (elementId === 'hrCosts') {
+                    columns.push({
+                        title: 'Role / Name',
+                        data: 'name',
+                        width: 200,
+                        type: 'dropdown',
+                        source: [
+                            'Edwin Lee',
+                            'Einstein Rojas',
+                            'Guillermo Ginesta',
+                            'Janina Motter',
+                            'Kevin Leung'
+                        ]
+                    });
+                } else if (elementId === 'hardCosts') {
+                    columns.push({
+                        title: 'Item Name',
+                        data: 'name',
+                        width: 200,
+                        type: 'text',
+                        editor: 'text'
+                    });
+                } else {
+                    columns.push({
+                        title: 'Item Name',
+                        data: 'name',
+                        width: 200
+                    });
+                }
+                
+                // 如果需要包含利用率列
+                if (includeUtilization) {
+                    columns.push({
+                        title: '% of utilization',
+                        data: 'utilization',
+                        type: 'numeric',
+                        numericFormat: {
+                            pattern: '0%',
+                            culture: 'en-US'
+                        },
+                        width: 120,
+                        renderer: function(instance, td, row, col, prop, value, cellProperties) {
+                            Handsontable.renderers.NumericRenderer.apply(this, arguments);
+                            
+                            // Convert the raw value to percentage display
+                            if (value !== null && value !== '') {
+                                // Divide by 100 to get the correct percentage display
+                                const percent = parseFloat(value) / 100;
+                                td.innerHTML = (percent * 100).toFixed(0) + '%';
+                            }
+                            
+                            return td;
+                        }
+                    });
+                }
+                
+                // 月份列
+                monthColumns.forEach((month, index) => {
+                    columns.push({
+                        title: month,
+                        data: 'month' + index,
+                        type: 'numeric',
+                        numericFormat: {
+                            pattern: '0,0.00'
+                        },
+                        width: 80
+                    });
+                });
+                
+                // 创建初始数据 - 10行
+                const initialData = [];
+                for (let i = 0; i < 10; i++) {
+                    const row = { name: '' };
+                    
+                    if (includeUtilization) {
+                        row.utilization = '';
+                    }
+                    
+                    for (let j = 0; j < 13; j++) {
+                        row['month' + j] = 0;
+                    }
+                    
+                    initialData.push(row);
+                }
+                
+                // For hardCosts, populate with predefined items
+                if (elementId === 'hardCosts') {
+                    const hardCostItems = [
+                        // Office costs
+                        'Office lease',
+                        'Office management fee',
+                        'Utilities',
+                        'Cleaning',
+                        'Internet access',
+                        'Business registration renewal',
+                        'Office equipment',
+                        'Office supplies',
+                        'Local office insurance',
+                        
+                        // Software/tools costs
+                        'Software/tools costs',
+                        'Budget for new systems / tools',
+                        
+                        // Marketing costs
+                        'Website hosting',
+                        'Website updates',
+                        'Collateral preparation',
+                        'Collateral printing',
+                        'Comms + content',
+                        'Marketing events',
+                        'Marketing agent',
+                        'Digital ads',
+                        
+                        // Training/travel costs
+                        'Training classes',
+                        'Training-related travel costs',
+                        
+                        // Business development costs
+                        'BD-related travel costs',
+                        'Entertainment',
+                        
+                        // Professional costs
+                        'Company secretary',
+                        'Audit',
+                        'Tax service',
+                        'Legal',
+                        'Other consultancy services',
+                        
+                        // Insurance
+                        'D&O insurance',
+                        'Broker fees',
+                        
+                        // Direct investments
+                        'Teambuilding expenses',
+                        'Miscellaneous expenses',
+                        
+                        // Corporate fees
+                        'Corporate fees'
+                    ];
+                    
+                    // Fill in the first rows with predefined items
+                    for (let i = 0; i < Math.min(hardCostItems.length, initialData.length); i++) {
+                        initialData[i].name = hardCostItems[i];
+                    }
+                }
+                
+                // 创建表格
+                const hot = new Handsontable(container, {
+                    data: initialData,
+                    columns: columns,
+                    rowHeaders: true,
+                    colHeaders: true,
+                    height: 'auto',
+                    licenseKey: 'non-commercial-and-evaluation',
+                    contextMenu: true,
+                    afterChange: function(changes, source) {
+                        if (source === 'edit' || source === 'loadData') {
+                            // Auto-calculate salary based on role and utilization for HR costs
+                            if (elementId === 'hrCosts' && changes) {
+                                changes.forEach(([row, prop, oldValue, newValue]) => {
+                                    // If name or utilization changed
+                                    if (prop === 'name' || prop === 'utilization') {
+                                        const rowData = this.getSourceDataAtRow(row);
+                                        const name = rowData.name;
+                                        const utilization = parseFloat(rowData.utilization) || 0;
+                                        
+                                        // If we have both name and utilization, calculate monthly costs
+                                        if (name && name in salaryData && utilization) {
+                                            const monthlySalary = salaryData[name];
+                                            const utilizationDecimal = utilization / 100;
+                                            
+                                            // Fill in monthly costs for all months
+                                            for (let i = 0; i < 13; i++) {
+                                                const monthKey = 'month' + i;
+                                                const allocatedSalary = monthlySalary * utilizationDecimal;
+                                                this.setDataAtRowProp(row, monthKey, allocatedSalary);
+                                            }
+                                        }
+                                    }
+                                });
+                                
+                                // Update headcount and shared costs
+                                updateHeadcount();
+                            }
+                            
+                            calculateTotals(this, elementId);
+                        }
+                    }
+                });
+                
+                // 初始化计算总计
+                calculateTotals(hot, elementId);
+                
+                return hot;
+            }
+            
+            // 计算总计并显示在表格外
+            function calculateTotals(hot, elementId) {
+                const data = hot.getData();
+                const totals = [];
+                
+                // 计算每列的总和
+                const startCol = elementId === 'hrCosts' ? 2 : 1;
+                for (let col = startCol; col < hot.countCols(); col++) {
+                    let sum = 0;
+                    for (let row = 0; row < data.length; row++) {
+                        const value = parseFloat(data[row][col]) || 0;
+                        sum += value;
+                    }
+                    totals.push(sum);
+                }
+                
+                // 更新总计显示
+                const totalElement = document.getElementById(elementId + 'Total');
+                const totalValuesElement = totalElement.querySelector('.total-values');
+                totalValuesElement.innerHTML = '';
+                
+                totals.forEach((total, index) => {
+                    const monthIndex = elementId === 'hrCosts' ? index : index;
+                    const month = monthColumns[monthIndex];
+                    
+                    const totalItem = document.createElement('div');
+                    totalItem.className = 'total-item';
+                    
+                    const totalMonth = document.createElement('div');
+                    totalMonth.className = 'total-month';
+                    totalMonth.textContent = month;
+                    
+                    const totalValue = document.createElement('div');
+                    totalValue.className = 'total-value';
+                    totalValue.textContent = total.toLocaleString('en-US', {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2
+                    });
+                    
+                    totalItem.appendChild(totalMonth);
+                    totalItem.appendChild(totalValue);
+                    totalValuesElement.appendChild(totalItem);
+                });
+            }
+            
+            // 计算人数并更新共享成本
+            function updateHeadcount() {
+                // 计算HR成本表格中的人数
+                let headcount = 0;
+                const hrData = hrCostsGrid.getSourceData();
+                
+                for (let i = 0; i < hrData.length; i++) {
+                    if (hrData[i].name && hrData[i].name in salaryData) {
+                        headcount++;
+                    }
+                }
+                
+                // 更新显示的人数
+                document.getElementById('currentHeadcount').textContent = headcount;
+                console.log('Updated headcount to:', headcount); // 添加调试日志
+                
+                // 更新共享成本
+                const sharedData = sharedCostsGrid.getSourceData();
+                
+                for (let i = 0; i < sharedData.length; i++) {
+                    const perPersonCost = sharedData[i].perPersonCost;
+                    
+                    // 更新所有月份的成本
+                    for (let j = 0; j < 13; j++) {
+                        const totalCost = perPersonCost * headcount;
+                        sharedCostsGrid.setDataAtRowProp(i, 'month' + j, totalCost);
+                    }
+                }
+                
+                // 重新计算共享成本总计
+                calculateTotals(sharedCostsGrid, 'sharedCosts');
+            }
+            
+            // 初始化所有表格
+            const sharedCostsGrid = createSharedCostsGrid();
+            const signedRevenueGrid = createBudgetGrid('signedRevenue');
+            const receivedRevenueGrid = createBudgetGrid('receivedRevenue');
+            const hrCostsGrid = createBudgetGrid('hrCosts', true);
+            const hardCostsGrid = createBudgetGrid('hardCosts');
+            
+            // 确保在所有表格初始化后再更新人数
+            setTimeout(function() {
+                updateHeadcount();
+                console.log('Initial headcount update called'); // 添加调试日志
+            }, 100);
+            
+            // 添加行按钮
+            document.querySelectorAll('.add-row-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const gridId = this.getAttribute('data-grid');
+                    let grid;
+                    
+                    // Get the correct grid object
+                    if (gridId === 'signedRevenue') {
+                        grid = signedRevenueGrid;
+                    } else if (gridId === 'receivedRevenue') {
+                        grid = receivedRevenueGrid;
+                    } else if (gridId === 'hrCosts') {
+                        grid = hrCostsGrid;
+                    } else if (gridId === 'hardCosts') {
+                        grid = hardCostsGrid;
+                    }
+                    
+                    if (grid) {
+                        const newRow = { name: '' };
+                        
+                        if (gridId === 'hrCosts') {
+                            newRow.utilization = '';
+                        }
+                        
+                        for (let i = 0; i < 13; i++) {
+                            newRow['month' + i] = 0;
+                        }
+                        
+                        grid.alter('insert_row', grid.countRows());
+                        calculateTotals(grid, gridId);
+                        
+                        // 如果是HR成本表格，更新人数和共享成本
+                        if (gridId === 'hrCosts') {
+                            updateHeadcount();
+                        }
+                    }
+                });
+            });
+            
+            // 表单提交处理
+            document.getElementById('projectForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // 收集表单数据
+                const formData = new FormData(this);
+                const projectData = {};
+                
+                for (const [key, value] of formData.entries()) {
+                    projectData[key] = value;
+                }
+                
+                // 收集预算数据
+                projectData.budget = {
+                    signedRevenue: signedRevenueGrid.getData(),
+                    receivedRevenue: receivedRevenueGrid.getData(),
+                    hrCosts: hrCostsGrid.getData(),
+                    hardCosts: hardCostsGrid.getData()
+                };
+                
+                console.log('Project Data:', projectData);
+                alert('Project created successfully!');
+            });
+        });
+    </script>
+</body>
+</html>
