@@ -106,7 +106,7 @@
                 <a href="token_dashboard.html" class="btn btn-outline-secondary">
                     <i class="fas fa-arrow-left"></i> Back to Dashboard
                 </a>
-                <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#newTransactionModal">
+                <a href="token_transaction_add.html" class="btn btn-primary">
                     <i class="fas fa-plus"></i> New Transaction
                 </a>
             </div>
@@ -581,77 +581,6 @@
                 </li>
             </ul>
         </nav>
-    </div>
-
-    <!-- New Transaction Modal -->
-    <div class="modal fade" id="newTransactionModal" tabindex="-1" aria-labelledby="newTransactionModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="newTransactionModalLabel">New Transaction</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form>
-                        <div class="row mb-3">
-                            <div class="col-md-6">
-                                <label for="transactionType" class="form-label">Transaction Type</label>
-                                <select class="form-select" id="transactionType">
-                                    <option selected>Select transaction type</option>
-                                    <option value="send">Send</option>
-                                    <option value="receive">Receive</option>
-                                    <option value="buy">Buy</option>
-                                    <option value="sell">Sell</option>
-                                    <option value="swap">Swap</option>
-                                </select>
-                            </div>
-                            <div class="col-md-6">
-                                <label for="walletSelect" class="form-label">Wallet</label>
-                                <select class="form-select" id="walletSelect">
-                                    <option selected>Select wallet</option>
-                                    <option value="main">Main Wallet (0x8f7...3a2b)</option>
-                                    <option value="investment">Investment Wallet (0x3d2...9c4f)</option>
-                                    <option value="trading">Trading Wallet (0x6e1...7d5a)</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <div class="col-md-6">
-                                <label for="tokenSelect" class="form-label">Token</label>
-                                <select class="form-select" id="tokenSelect">
-                                    <option selected>Select token</option>
-                                    <optgroup label="Listed Tokens">
-                                        <option value="btc">BTC - Bitcoin</option>
-                                        <option value="eth">ETH - Ethereum</option>
-                                        <option value="sol">SOL - Solana</option>
-                                        <option value="ada">ADA - Cardano</option>
-                                    </optgroup>
-                                    <optgroup label="Unlisted Tokens">
-                                        <option value="qfin">QFIN - Quantum Finance</option>
-                                        <option value="aip">AIP - AI Protocol</option>
-                                        <option value="mvx">MVX - MetaVerse X</option>
-                                        <option value="cosmic">COSMIC - Cosmic Chain</option>
-                                        <option value="nova">NOVA - DeFi Nova</option>
-                                    </optgroup>
-                                </select>
-                            </div>
-                            <div class="col-md-6">
-                                <label for="tokenAmount" class="form-label">Amount</label>
-                                <input type="number" class="form-control" id="tokenAmount" placeholder="Enter amount">
-                            </div>
-                        </div>
-                        <div class="mb-3">
-                            <label for="transactionNotes" class="form-label">Notes (Optional)</label>
-                            <textarea class="form-control" id="transactionNotes" rows="3" placeholder="Add notes about this transaction"></textarea>
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-primary">Create Transaction</button>
-                </div>
-            </div>
-        </div>
     </div>
 
     <!-- Footer -->

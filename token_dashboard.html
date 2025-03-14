@@ -41,11 +41,16 @@
             width: 30px;
             height: 30px;
             border-radius: 50%;
-            background-color: #e9ecef;
             display: flex;
             align-items: center;
             justify-content: center;
             margin-right: 10px;
+            overflow: hidden;
+        }
+        .token-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
         }
         .chart-container {
             position: relative;
@@ -271,126 +276,9 @@
                                     <tr>
                                         <td>
                                             <div class="d-flex align-items-center">
-                                                <div class="token-icon">QFIN</div>
-                                                <div>
-                                                    <div class="fw-bold">QFIN</div>
-                                                    <div class="small text-muted">Quantum Finance</div>
+                                                <div class="token-icon">
+                                                    <img src="https://cryptologos.cc/logos/bitcoin-btc-logo.png" alt="BTC">
                                                 </div>
-                                            </div>
-                                        </td>
-                                        <td>30,000.000000</td>
-                                        <td>$0.20</td>
-                                        <td>$0.20</td>
-                                        <td>$6,000.00</td>
-                                        <td>$0.00</td>
-                                        <td>0.00%</td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <div class="d-flex align-items-center">
-                                                <div class="token-icon">ETH</div>
-                                                <div>
-                                                    <div class="fw-bold">ETH</div>
-                                                    <div class="small text-muted">Ethereum</div>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>13.000000</td>
-                                        <td>$2,615.38</td>
-                                        <td>$1,882.44</td>
-                                        <td>$24,471.72</td>
-                                        <td class="profit-negative">-$9,528.28</td>
-                                        <td class="profit-negative">-28.02%</td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <div class="d-flex align-items-center">
-                                                <div class="token-icon">ADA</div>
-                                                <div>
-                                                    <div class="fw-bold">ADA</div>
-                                                    <div class="small text-muted">Cardano</div>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>5,000.000000</td>
-                                        <td>$0.45</td>
-                                        <td>$0.72</td>
-                                        <td>$3,610.13</td>
-                                        <td class="profit-positive">$1,360.13</td>
-                                        <td class="profit-positive">60.45%</td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <div class="d-flex align-items-center">
-                                                <div class="token-icon">AIP</div>
-                                                <div>
-                                                    <div class="fw-bold">AIP</div>
-                                                    <div class="small text-muted">AI Protocol</div>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>60,000.000000</td>
-                                        <td>$0.11</td>
-                                        <td>$0.12</td>
-                                        <td>$7,200.00</td>
-                                        <td>$0.00</td>
-                                        <td>0.00%</td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <div class="d-flex align-items-center">
-                                                <div class="token-icon">SOL</div>
-                                                <div>
-                                                    <div class="fw-bold">SOL</div>
-                                                    <div class="small text-muted">Solana</div>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>75.000000</td>
-                                        <td>$126.67</td>
-                                        <td>$122.64</td>
-                                        <td>$9,198.00</td>
-                                        <td class="profit-negative">-$302.00</td>
-                                        <td class="profit-negative">-3.18%</td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <div class="d-flex align-items-center">
-                                                <div class="token-icon">MVX</div>
-                                                <div>
-                                                    <div class="fw-bold">MVX</div>
-                                                    <div class="small text-muted">MetaVerse X</div>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>75,000.000000</td>
-                                        <td>$0.15</td>
-                                        <td>$0.15</td>
-                                        <td>$11,250.00</td>
-                                        <td>$0.00</td>
-                                        <td>0.00%</td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <div class="d-flex align-items-center">
-                                                <div class="token-icon">COSMIC</div>
-                                                <div>
-                                                    <div class="fw-bold">COSMIC</div>
-                                                    <div class="small text-muted">Cosmic Chain</div>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>75,000.000000</td>
-                                        <td>$0.06</td>
-                                        <td>$0.08</td>
-                                        <td>$6,000.00</td>
-                                        <td>$0.00</td>
-                                        <td>0.00%</td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <div class="d-flex align-items-center">
-                                                <div class="token-icon">BTC</div>
                                                 <div>
                                                     <div class="fw-bold">BTC</div>
                                                     <div class="small text-muted">Bitcoin</div>
@@ -407,7 +295,123 @@
                                     <tr>
                                         <td>
                                             <div class="d-flex align-items-center">
-                                                <div class="token-icon">NOVA</div>
+                                                <div class="token-icon">
+                                                    <img src="https://cryptologos.cc/logos/ethereum-eth-logo.png" alt="ETH">
+                                                </div>
+                                                <div>
+                                                    <div class="fw-bold">ETH</div>
+                                                    <div class="small text-muted">Ethereum</div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>13.000000</td>
+                                        <td>$2,615.38</td>
+                                        <td>$1,882.44</td>
+                                        <td>$24,471.72</td>
+                                        <td class="profit-negative">-$9,528.28</td>
+                                        <td class="profit-negative">-28.02%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <div class="token-icon">
+                                                    <img src="https://cryptologos.cc/logos/cardano-ada-logo.png" alt="ADA">
+                                                </div>
+                                                <div>
+                                                    <div class="fw-bold">ADA</div>
+                                                    <div class="small text-muted">Cardano</div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>5,000.000000</td>
+                                        <td>$0.45</td>
+                                        <td>$0.72</td>
+                                        <td>$3,610.13</td>
+                                        <td class="profit-positive">$1,360.13</td>
+                                        <td class="profit-positive">60.45%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <div class="token-icon">
+                                                    <img src="https://cryptologos.cc/logos/algorand-algo-logo.png" alt="AIP">
+                                                </div>
+                                                <div>
+                                                    <div class="fw-bold">AIP</div>
+                                                    <div class="small text-muted">AI Protocol</div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>60,000.000000</td>
+                                        <td>$0.11</td>
+                                        <td>$0.12</td>
+                                        <td>$7,200.00</td>
+                                        <td>$0.00</td>
+                                        <td>0.00%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <div class="token-icon">
+                                                    <img src="https://cryptologos.cc/logos/solana-sol-logo.png" alt="SOL">
+                                                </div>
+                                                <div>
+                                                    <div class="fw-bold">SOL</div>
+                                                    <div class="small text-muted">Solana</div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>75.000000</td>
+                                        <td>$126.67</td>
+                                        <td>$122.64</td>
+                                        <td>$9,198.00</td>
+                                        <td class="profit-negative">-$302.00</td>
+                                        <td class="profit-negative">-3.18%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <div class="token-icon">
+                                                    <img src="https://cryptologos.cc/logos/polygon-matic-logo.png" alt="MVX">
+                                                </div>
+                                                <div>
+                                                    <div class="fw-bold">MVX</div>
+                                                    <div class="small text-muted">MetaVerse X</div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>75,000.000000</td>
+                                        <td>$0.15</td>
+                                        <td>$0.15</td>
+                                        <td>$11,250.00</td>
+                                        <td>$0.00</td>
+                                        <td>0.00%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <div class="token-icon">
+                                                    <img src="https://cryptologos.cc/logos/cosmos-atom-logo.png" alt="COSMIC">
+                                                </div>
+                                                <div>
+                                                    <div class="fw-bold">COSMIC</div>
+                                                    <div class="small text-muted">Cosmic Chain</div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>75,000.000000</td>
+                                        <td>$0.06</td>
+                                        <td>$0.08</td>
+                                        <td>$6,000.00</td>
+                                        <td>$0.00</td>
+                                        <td>0.00%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <div class="token-icon">
+                                                    <img src="https://cryptologos.cc/logos/near-protocol-near-logo.png" alt="NOVA">
+                                                </div>
                                                 <div>
                                                     <div class="fw-bold">NOVA</div>
                                                     <div class="small text-muted">DeFi Nova</div>
@@ -445,7 +449,9 @@
                                     <tr>
                                         <td>
                                             <div class="d-flex align-items-center">
-                                                <div class="token-icon">ETH</div>
+                                                <div class="token-icon">
+                                                    <img src="https://cryptologos.cc/logos/ethereum-eth-logo.png" alt="ETH">
+                                                </div>
                                                 <div>
                                                     <div class="fw-bold">ETH</div>
                                                     <div class="small text-muted">Ethereum</div>
@@ -462,7 +468,9 @@
                                     <tr>
                                         <td>
                                             <div class="d-flex align-items-center">
-                                                <div class="token-icon">ADA</div>
+                                                <div class="token-icon">
+                                                    <img src="https://cryptologos.cc/logos/cardano-ada-logo.png" alt="ADA">
+                                                </div>
                                                 <div>
                                                     <div class="fw-bold">ADA</div>
                                                     <div class="small text-muted">Cardano</div>
@@ -479,7 +487,9 @@
                                     <tr>
                                         <td>
                                             <div class="d-flex align-items-center">
-                                                <div class="token-icon">SOL</div>
+                                                <div class="token-icon">
+                                                    <img src="https://cryptologos.cc/logos/solana-sol-logo.png" alt="SOL">
+                                                </div>
                                                 <div>
                                                     <div class="fw-bold">SOL</div>
                                                     <div class="small text-muted">Solana</div>
@@ -496,7 +506,9 @@
                                     <tr>
                                         <td>
                                             <div class="d-flex align-items-center">
-                                                <div class="token-icon">BTC</div>
+                                                <div class="token-icon">
+                                                    <img src="https://cryptologos.cc/logos/bitcoin-btc-logo.png" alt="BTC">
+                                                </div>
                                                 <div>
                                                     <div class="fw-bold">BTC</div>
                                                     <div class="small text-muted">Bitcoin</div>
@@ -534,24 +546,9 @@
                                     <tr>
                                         <td>
                                             <div class="d-flex align-items-center">
-                                                <div class="token-icon">QFIN</div>
-                                                <div>
-                                                    <div class="fw-bold">QFIN</div>
-                                                    <div class="small text-muted">Quantum Finance</div>
+                                                <div class="token-icon">
+                                                    <img src="https://cryptologos.cc/logos/algorand-algo-logo.png" alt="AIP">
                                                 </div>
-                                            </div>
-                                        </td>
-                                        <td>30,000.000000</td>
-                                        <td>$0.20</td>
-                                        <td>$0.20</td>
-                                        <td>$6,000.00</td>
-                                        <td>$0.00</td>
-                                        <td>0.00%</td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <div class="d-flex align-items-center">
-                                                <div class="token-icon">AIP</div>
                                                 <div>
                                                     <div class="fw-bold">AIP</div>
                                                     <div class="small text-muted">AI Protocol</div>
@@ -568,7 +565,9 @@
                                     <tr>
                                         <td>
                                             <div class="d-flex align-items-center">
-                                                <div class="token-icon">MVX</div>
+                                                <div class="token-icon">
+                                                    <img src="https://cryptologos.cc/logos/polygon-matic-logo.png" alt="MVX">
+                                                </div>
                                                 <div>
                                                     <div class="fw-bold">MVX</div>
                                                     <div class="small text-muted">MetaVerse X</div>
@@ -585,7 +584,9 @@
                                     <tr>
                                         <td>
                                             <div class="d-flex align-items-center">
-                                                <div class="token-icon">COSMIC</div>
+                                                <div class="token-icon">
+                                                    <img src="https://cryptologos.cc/logos/cosmos-atom-logo.png" alt="COSMIC">
+                                                </div>
                                                 <div>
                                                     <div class="fw-bold">COSMIC</div>
                                                     <div class="small text-muted">Cosmic Chain</div>
@@ -602,7 +603,9 @@
                                     <tr>
                                         <td>
                                             <div class="d-flex align-items-center">
-                                                <div class="token-icon">NOVA</div>
+                                                <div class="token-icon">
+                                                    <img src="https://cryptologos.cc/logos/near-protocol-near-logo.png" alt="NOVA">
+                                                </div>
                                                 <div>
                                                     <div class="fw-bold">NOVA</div>
                                                     <div class="small text-muted">DeFi Nova</div>
