@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Token Transaction - Brinc Digital Currency System</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/spothq/cryptocurrency-icons@latest/dist/all/icon/all.min.css">
+    <style>
+        .logo {
+            max-height: 40px;
+        }
+        .card-header {
+            background-color: #f8f9fa;
+        }
+        .token-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+            overflow: hidden;
+        }
+        .token-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+        .transaction-details-label {
+            font-weight: 500;
+            color: #6c757d;
+        }
+        .form-label {
+            font-weight: 500;
+        }
+        .token-preview {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            border: 1px solid #dee2e6;
+            border-radius: 4px;
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <img src="https://storage.googleapis.com/clean-finder-353810/$Dd5BJMS3vYBf7ZOld70TQI6BwJGDbX0AROpvZc0RexkhTUrPQZBO4S" alt="Brinc Logo" class="logo">
+                <span class="ms-2 fw-bold">Brinc Digital Currency System</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="projects.html">Projects</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="payroll.html">Payroll System</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="token_dashboard.html">Digital Currency System</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
+                            <img src="https://s3-ap-southeast-1.amazonaws.com/timeauction.paperclip/auctions/images/000/000/123/display/Manav-Gupta_Founder-CEO_brinc_profilephoto.webp?1614188921" alt="Manav" class="rounded-circle" style="width: 24px; height: 24px; object-fit: cover;"> Manav
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="#">Profile</a></li>
+                            <li><a class="dropdown-item" href="#">Settings</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#">Logout</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container mt-4">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <h2>Edit Transaction</h2>
+                <p class="text-muted mb-0">Update transaction details</p>
+            </div>
+            <div>
+                <a href="token_transactions.html" class="btn btn-outline-secondary">
+                    <i class="fas fa-arrow-left"></i> Back to Transactions
+                </a>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-8">
+                <!-- Edit Transaction Form -->
+                <div class="card mb-4">
+                    <div class="card-header py-3">
+                        <h5 class="mb-0">Transaction Information</h5>
+                    </div>
+                    <div class="card-body">
+                        <form id="editTransactionForm">
+                            <!-- Transaction ID -->
+                            <div class="mb-3">
+                                <label class="form-label transaction-details-label">Transaction ID</label>
+                                <div class="form-control bg-light">TX-20250308-ETH-001</div>
+                                <div class="form-text">Transaction ID cannot be modified</div>
+                            </div>
+
+                            <!-- Transaction Type -->
+                            <div class="mb-3">
+                                <label for="transactionType" class="form-label">Transaction Type</label>
+                                <select class="form-select" id="transactionType">
+                                    <option>Buy</option>
+                                    <option>Sell</option>
+                                    <option selected>Send</option>
+                                    <option>Receive</option>
+                                    <option>Swap</option>
+                                </select>
+                            </div>
+
+                            <!-- Token Selection -->
+                            <div class="mb-3">
+                                <label for="tokenSelect" class="form-label">Token</label>
+                                <select class="form-select" id="tokenSelect">
+                                    <optgroup label="Listed Tokens">
+                                        <option value="btc">BTC - Bitcoin</option>
+                                        <option value="eth" selected>ETH - Ethereum</option>
+                                        <option value="sol">SOL - Solana</option>
+                                        <option value="ada">ADA - Cardano</option>
+                                        <option value="doge">DOGE - Dogecoin</option>
+                                        <option value="xrp">XRP - Ripple</option>
+                                        <option value="link">LINK - Chainlink</option>
+                                        <option value="dot">DOT - Polkadot</option>
+                                        <option value="avax">AVAX - Avalanche</option>
+                                        <option value="uni">UNI - Uniswap</option>
+                                    </optgroup>
+                                    <optgroup label="Unlisted Tokens">
+                                        <option value="qfin">QFIN - Quantum Finance</option>
+                                        <option value="aip">AIP - AI Protocol</option>
+                                        <option value="mvx">MVX - MetaVerse X</option>
+                                        <option value="cosmic">COSMIC - Cosmic Chain</option>
+                                        <option value="nova">NOVA - DeFi Nova</option>
+                                    </optgroup>
+                                </select>
+                            </div>
+
+                            <!-- Token Preview -->
+                            <div class="token-preview mb-4">
+                                <div class="token-icon">
+                                    <img src="https://cryptologos.cc/logos/ethereum-eth-logo.png" alt="ETH">
+                                </div>
+                                <div>
+                                    <div class="fw-bold">ETH</div>
+                                    <div class="text-muted">Ethereum</div>
+                                </div>
+                            </div>
+
+                            <!-- Amount -->
+                            <div class="mb-3">
+                                <label for="tokenAmount" class="form-label">Amount</label>
+                                <div class="input-group">
+                                    <input type="number" class="form-control" id="tokenAmount" value="2.5" step="0.000001">
+                                    <span class="input-group-text">ETH</span>
+                                </div>
+                            </div>
+
+                            <!-- USD Value -->
+                            <div class="mb-3">
+                                <label for="usdValue" class="form-label">USD Value</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">$</span>
+                                    <input type="number" class="form-control" id="usdValue" value="4706.10">
+                                </div>
+                                <div class="form-text">Current market value: $1,882.44 per ETH</div>
+                            </div>
+
+                            <!-- Wallet Selection -->
+                            <div class="mb-3">
+                                <label for="walletSelect" class="form-label">Wallet</label>
+                                <select class="form-select" id="walletSelect">
+                                    <option value="main">Main Wallet (0x8f7...3a2b)</option>
+                                    <option value="investment">Investment Wallet (0x3d2...9c4f)</option>
+                                    <option value="trading" selected>Trading Wallet (0x6e1...7d5a)</option>
+                                </select>
+                            </div>
+
+                            <!-- Date and Time -->
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <label for="transactionDate" class="form-label">Date</label>
+                                    <input type="date" class="form-control" id="transactionDate" value="2025-03-08">
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="transactionTime" class="form-label">Time</label>
+                                    <input type="time" class="form-control" id="transactionTime" value="09:15">
+                                </div>
+                            </div>
+
+                            <!-- Status -->
+                            <div class="mb-3">
+                                <label for="transactionStatus" class="form-label">Status</label>
+                                <select class="form-select" id="transactionStatus">
+                                    <option value="pending">Pending</option>
+                                    <option value="completed" selected>Completed</option>
+                                    <option value="failed">Failed</option>
+                                </select>
+                            </div>
+
+                            <!-- Source -->
+                            <div class="mb-3">
+                                <label for="transactionSource" class="form-label">Source</label>
+                                <select class="form-select" id="transactionSource" disabled>
+                                    <option value="import">Wallet Import</option>
+                                    <option value="manual" selected>Manual Entry</option>
+                                </select>
+                                <div class="form-text">Source cannot be modified for existing transactions</div>
+                            </div>
+
+                            <!-- Recipient Address (for Send transactions) -->
+                            <div class="mb-3">
+                                <label for="recipientAddress" class="form-label">Recipient Address</label>
+                                <input type="text" class="form-control" id="recipientAddress" value="0x742d35Cc6634C0532925a3b844Bc454e4438f44e">
+                            </div>
+
+                            <!-- Notes -->
+                            <div class="mb-3">
+                                <label for="transactionNotes" class="form-label">Notes</label>
+                                <textarea class="form-control" id="transactionNotes" rows="3">Transfer to external wallet for DeFi staking.</textarea>
+                            </div>
+
+                            <!-- Tags -->
+                            <div class="mb-3">
+                                <label for="transactionTags" class="form-label">Tags</label>
+                                <input type="text" class="form-control" id="transactionTags" value="staking, defi, investment">
+                                <div class="form-text">Separate tags with commas</div>
+                            </div>
+
+                            <div class="d-flex justify-content-between mt-4">
+                                <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteConfirmModal">
+                                    <i class="fas fa-trash-alt"></i> Delete Transaction
+                                </button>
+                                <div>
+                                    <a href="token_transactions.html" class="btn btn-outline-secondary me-2">Cancel</a>
+                                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4">
+                <!-- Transaction History Card -->
+                <div class="card mb-4">
+                    <div class="card-header py-3">
+                        <h5 class="mb-0">Transaction History</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="timeline">
+                            <div class="timeline-item mb-3 pb-3 border-bottom">
+                                <div class="d-flex justify-content-between">
+                                    <div class="fw-bold">Transaction Created</div>
+                                    <div class="text-muted small">Mar 8, 2025</div>
+                                </div>
+                                <div class="text-muted">Manual entry by Manav</div>
+                            </div>
+                            <div class="timeline-item mb-3 pb-3 border-bottom">
+                                <div class="d-flex justify-content-between">
+                                    <div class="fw-bold">Status Updated</div>
+                                    <div class="text-muted small">Mar 8, 2025</div>
+                                </div>
+                                <div class="text-muted">Status changed from "Pending" to "Completed"</div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="d-flex justify-content-between">
+                                    <div class="fw-bold">Current Edit</div>
+                                    <div class="text-muted small">Now</div>
+                                </div>
+                                <div class="text-muted">Editing transaction details</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Related Transactions Card -->
+                <div class="card mb-4">
+                    <div class="card-header py-3">
+                        <h5 class="mb-0">Related Transactions</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="list-group list-group-flush">
+                            <a href="#" class="list-group-item list-group-item-action">
+                                <div class="d-flex w-100 justify-content-between">
+                                    <h6 class="mb-1">ETH Purchase</h6>
+                                    <small class="text-muted">Feb 15, 2025</small>
+                                </div>
+                                <p class="mb-1">+5.0 ETH</p>
+                                <small class="text-muted">Trading Wallet</small>
+                            </a>
+                            <a href="#" class="list-group-item list-group-item-action">
+                                <div class="d-flex w-100 justify-content-between">
+                                    <h6 class="mb-1">ETH Staking Rewards</h6>
+                                    <small class="text-muted">Mar 1, 2025</small>
+                                </div>
+                                <p class="mb-1">+0.2 ETH</p>
+                                <small class="text-muted">Trading Wallet</small>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div class="modal fade" id="deleteConfirmModal" tabindex="-1" aria-labelledby="deleteConfirmModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteConfirmModalLabel">Confirm Deletion</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to delete this transaction? This action cannot be undone.</p>
+                    <div class="alert alert-warning">
+                        <i class="fas fa-exclamation-triangle"></i> Warning: Deleting this transaction may affect your portfolio balance and transaction history.
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-danger">Delete Transaction</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-light py-3 mt-5">
+        <div class="container text-center">
+            <p class="text-muted mb-0">© 2023 Brinc Digital Currency System. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Form validation and submission script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Form submission handler
+            const form = document.getElementById('editTransactionForm');
+            form.addEventListener('submit', function(event) {
+                event.preventDefault();
+                
+                // Here you would normally validate and submit the form
+                // For demo purposes, we'll just redirect back to the transactions page
+                window.location.href = 'token_transactions.html';
+            });
+
+            // Token selection change handler
+            const tokenSelect = document.getElementById('tokenSelect');
+            tokenSelect.addEventListener('change', function() {
+                updateTokenPreview(this.value);
+            });
+
+            // Function to update token preview
+            function updateTokenPreview(tokenSymbol) {
+                const tokenIcons = {
+                    'btc': 'https://cryptologos.cc/logos/bitcoin-btc-logo.png',
+                    'eth': 'https://cryptologos.cc/logos/ethereum-eth-logo.png',
+                    'sol': 'https://cryptologos.cc/logos/solana-sol-logo.png',
+                    'ada': 'https://cryptologos.cc/logos/cardano-ada-logo.png',
+                    'doge': 'https://cryptologos.cc/logos/dogecoin-doge-logo.png',
+                    'xrp': 'https://cryptologos.cc/logos/xrp-xrp-logo.png',
+                    'link': 'https://cryptologos.cc/logos/chainlink-link-logo.png',
+                    'dot': 'https://cryptologos.cc/logos/polkadot-new-dot-logo.png',
+                    'avax': 'https://cryptologos.cc/logos/avalanche-avax-logo.png',
+                    'uni': 'https://cryptologos.cc/logos/uniswap-uni-logo.png',
+                    'qfin': 'https://via.placeholder.com/40/6c757d/FFFFFF/?text=QFIN',
+                    'aip': 'https://via.placeholder.com/40/6c757d/FFFFFF/?text=AIP',
+                    'mvx': 'https://via.placeholder.com/40/6c757d/FFFFFF/?text=MVX',
+                    'cosmic': 'https://via.placeholder.com/40/6c757d/FFFFFF/?text=COSMIC',
+                    'nova': 'https://via.placeholder.com/40/6c757d/FFFFFF/?text=NOVA'
+                };
+                
+                const tokenNames = {
+                    'btc': 'Bitcoin',
+                    'eth': 'Ethereum',
+                    'sol': 'Solana',
+                    'ada': 'Cardano',
+                    'doge': 'Dogecoin',
+                    'xrp': 'Ripple',
+                    'link': 'Chainlink',
+                    'dot': 'Polkadot',
+                    'avax': 'Avalanche',
+                    'uni': 'Uniswap',
+                    'qfin': 'Quantum Finance',
+                    'aip': 'AI Protocol',
+                    'mvx': 'MetaVerse X',
+                    'cosmic': 'Cosmic Chain',
+                    'nova': 'DeFi Nova'
+                };
+                
+                const previewContainer = document.querySelector('.token-preview');
+                const iconImg = previewContainer.querySelector('img');
+                const symbolText = previewContainer.querySelector('.fw-bold');
+                const nameText = previewContainer.querySelector('.text-muted');
+                
+                iconImg.src = tokenIcons[tokenSymbol] || 'https://via.placeholder.com/40/6c757d/FFFFFF/?text=' + tokenSymbol.toUpperCase();
+                symbolText.textContent = tokenSymbol.toUpperCase();
+                nameText.textContent = tokenNames[tokenSymbol] || 'Unknown Token';
+                
+                // Update the amount input group suffix
+                const amountSuffix = document.querySelector('.input-group-text');
+                amountSuffix.textContent = tokenSymbol.toUpperCase();
+            }
+        });
+    </script>
+</body>
+</html>

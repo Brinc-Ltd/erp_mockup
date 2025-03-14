@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brinc Token Transactions</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/spothq/cryptocurrency-icons@latest/dist/all/icon/all.min.css">
+    <style>
+        .logo {
+            max-height: 40px;
+        }
+        .card-header {
+            background-color: #f8f9fa;
+        }
+        .search-container {
+            position: relative;
+        }
+        .search-container .fa-search {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            color: #6c757d;
+        }
+        .search-input {
+            padding-left: 35px;
+        }
+        .token-icon {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+            overflow: hidden;
+        }
+        .token-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+        .transaction-receive {
+            color: #198754;
+            font-weight: 500;
+        }
+        .transaction-send {
+            color: #dc3545;
+            font-weight: 500;
+        }
+        .wallet-badge {
+            font-size: 0.75rem;
+            padding: 0.25rem 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <img src="https://storage.googleapis.com/clean-finder-353810/$Dd5BJMS3vYBf7ZOld70TQI6BwJGDbX0AROpvZc0RexkhTUrPQZBO4S" alt="Brinc Logo" class="logo">
+                <span class="ms-2 fw-bold">Brinc Digital Currency System</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="projects.html">Projects</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="payroll.html">Payroll System</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="token_dashboard.html">Digital Currency System</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
+                            <img src="https://s3-ap-southeast-1.amazonaws.com/timeauction.paperclip/auctions/images/000/000/123/display/Manav-Gupta_Founder-CEO_brinc_profilephoto.webp?1614188921" alt="Manav" class="rounded-circle" style="width: 24px; height: 24px; object-fit: cover;"> Manav
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="#">Profile</a></li>
+                            <li><a class="dropdown-item" href="#">Settings</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#">Logout</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container mt-4">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <h2>Token Transactions</h2>
+                <p class="text-muted mb-0">View and manage your token transaction history</p>
+            </div>
+            <div class="d-flex gap-2">
+                <a href="token_dashboard.html" class="btn btn-outline-secondary">
+                    <i class="fas fa-arrow-left"></i> Back to Dashboard
+                </a>
+                <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#newTransactionModal">
+                    <i class="fas fa-plus"></i> New Transaction
+                </a>
+            </div>
+        </div>
+
+        <!-- Search and Filters -->
+        <div class="card mb-4">
+            <div class="card-body">
+                <div class="row g-3">
+                    <div class="col-md-4">
+                        <div class="search-container">
+                            <i class="fas fa-search"></i>
+                            <input type="text" class="form-control search-input" placeholder="Search transactions...">
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="d-flex flex-wrap gap-2">
+                            <div class="dropdown">
+                                <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="walletFilter" data-bs-toggle="dropdown">
+                                    Wallet
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="walletFilter">
+                                    <li><a class="dropdown-item" href="#">All Wallets</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item" href="#">Main Wallet (0x8f7...3a2b)</a></li>
+                                    <li><a class="dropdown-item" href="#">Investment Wallet (0x3d2...9c4f)</a></li>
+                                    <li><a class="dropdown-item" href="#">Trading Wallet (0x6e1...7d5a)</a></li>
+                                </ul>
+                            </div>
+                            <div class="dropdown">
+                                <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="tokenTypeFilter" data-bs-toggle="dropdown">
+                                    Token Type
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="tokenTypeFilter">
+                                    <li><a class="dropdown-item" href="#">All Tokens</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item" href="#">Listed</a></li>
+                                    <li><a class="dropdown-item" href="#">Unlisted</a></li>
+                                </ul>
+                            </div>
+                            <div class="dropdown">
+                                <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="transactionTypeFilter" data-bs-toggle="dropdown">
+                                    Transaction Type
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="transactionTypeFilter">
+                                    <li><a class="dropdown-item" href="#">All Types</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item" href="#">Send</a></li>
+                                    <li><a class="dropdown-item" href="#">Receive</a></li>
+                                    <li><a class="dropdown-item" href="#">Swap</a></li>
+                                    <li><a class="dropdown-item" href="#">Buy</a></li>
+                                    <li><a class="dropdown-item" href="#">Sell</a></li>
+                                </ul>
+                            </div>
+                            <div class="dropdown">
+                                <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="dateRangeFilter" data-bs-toggle="dropdown">
+                                    Date Range
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="dateRangeFilter">
+                                    <li><a class="dropdown-item" href="#">All Time</a></li>
+                                    <li><a class="dropdown-item" href="#">Last 7 Days</a></li>
+                                    <li><a class="dropdown-item" href="#">Last 30 Days</a></li>
+                                    <li><a class="dropdown-item" href="#">Last 90 Days</a></li>
+                                    <li><a class="dropdown-item" href="#">This Year</a></li>
+                                    <li><a class="dropdown-item" href="#">Custom Range...</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Active Filters -->
+        <div class="d-flex flex-wrap gap-2 mb-3">
+            <span class="badge bg-primary">All Wallets <i class="fas fa-times-circle"></i></span>
+            <span class="badge bg-primary">All Token Types <i class="fas fa-times-circle"></i></span>
+            <span class="badge bg-primary">All Transaction Types <i class="fas fa-times-circle"></i></span>
+            <span class="badge bg-primary">Last 30 Days <i class="fas fa-times-circle"></i></span>
+        </div>
+
+        <!-- Transactions Table -->
+        <div class="card mb-4">
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Date & Time</th>
+                                <th>Token</th>
+                                <th>Type</th>
+                                <th>Amount</th>
+                                <th>Value (USD)</th>
+                                <th>Wallet</th>
+                                <th>Status</th>
+                                <th>Source</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Transaction 1 -->
+                            <tr>
+                                <td>
+                                    <div>Mar 10, 2025</div>
+                                    <div class="small text-muted">14:32:45</div>
+                                </td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <div class="token-icon">
+                                            <img src="https://cryptologos.cc/logos/bitcoin-btc-logo.png" alt="BTC">
+                                        </div>
+                                        <div>
+                                            <div class="fw-bold">BTC</div>
+                                            <div class="small text-muted">Bitcoin</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td><span class="badge bg-success">Buy</span></td>
+                                <td class="transaction-receive">+0.25 BTC</td>
+                                <td>$20,397.00</td>
+                                <td>
+                                    <span class="badge bg-secondary wallet-badge">Main Wallet</span>
+                                    <div class="small text-muted">0x8f7...3a2b</div>
+                                </td>
+                                <td><span class="badge bg-success">Completed</span></td>
+                                <td><span class="badge bg-info">Wallet Import</span></td>
+                                <td>
+                                    <a href="token_transaction_show.html" class="btn btn-sm btn-outline-secondary" data-bs-toggle="tooltip" title="View Details">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            
+                            <!-- Transaction 2 -->
+                            <tr>
+                                <td>
+                                    <div>Mar 8, 2025</div>
+                                    <div class="small text-muted">09:15:22</div>
+                                </td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <div class="token-icon">
+                                            <img src="https://cryptologos.cc/logos/ethereum-eth-logo.png" alt="ETH">
+                                        </div>
+                                        <div>
+                                            <div class="fw-bold">ETH</div>
+                                            <div class="small text-muted">Ethereum</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td><span class="badge bg-danger">Send</span></td>
+                                <td class="transaction-send">-2.5 ETH</td>
+                                <td>$4,706.10</td>
+                                <td>
+                                    <span class="badge bg-secondary wallet-badge">Trading Wallet</span>
+                                    <div class="small text-muted">0x6e1...7d5a</div>
+                                </td>
+                                <td><span class="badge bg-success">Completed</span></td>
+                                <td><span class="badge bg-warning">Manual Entry</span></td>
+                                <td>
+                                    <div class="btn-group">
+                                        <a href="token_transaction_show.html" class="btn btn-sm btn-outline-secondary" data-bs-toggle="tooltip" title="View Details">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                        <a href="token_transaction_edit.html" class="btn btn-sm btn-outline-primary" data-bs-toggle="tooltip" title="Edit Transaction">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                            
+                            <!-- Transaction 3 -->
+                            <tr>
+                                <td>
+                                    <div>Mar 5, 2025</div>
+                                    <div class="small text-muted">16:45:10</div>
+                                </td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                      <div class="token-icon">
+                                        <img src="https://cryptologos.cc/logos/dogecoin-doge-logo.png" alt="DOGE">
+                                      </div>
+                                      <div>
+                                          <div class="fw-bold">DOGE</div>
+                                          <div class="small text-muted">Dogecoin</div>
+                                      </div>
+                                    </div>
+                                </td>
+                                <td><span class="badge bg-success">Receive</span></td>
+                                <td class="transaction-receive">+10,000 QFIN</td>
+                                <td>$2,000.00</td>
+                                <td>
+                                    <span class="badge bg-secondary wallet-badge">Investment Wallet</span>
+                                    <div class="small text-muted">0x3d2...9c4f</div>
+                                </td>
+                                <td><span class="badge bg-success">Completed</span></td>
+                                <td><span class="badge bg-warning">Manual Entry</span></td>
+                                <td>
+                                    <div class="btn-group">
+                                        <a href="token_transaction_show.html" class="btn btn-sm btn-outline-secondary" data-bs-toggle="tooltip" title="View Details">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                        <a href="token_transaction_edit.html" class="btn btn-sm btn-outline-primary" data-bs-toggle="tooltip" title="Edit Transaction">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                            
+                            <!-- Transaction 4 -->
+                            <tr>
+                                <td>
+                                    <div>Mar 3, 2025</div>
+                                    <div class="small text-muted">11:22:33</div>
+                                </td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <div class="token-icon">
+                                            <img src="https://cryptologos.cc/logos/solana-sol-logo.png" alt="SOL">
+                                        </div>
+                                        <div>
+                                            <div class="fw-bold">SOL</div>
+                                            <div class="small text-muted">Solana</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td><span class="badge bg-info">Swap</span></td>
+                                <td class="transaction-receive">+25 SOL</td>
+                                <td>$3,066.00</td>
+                                <td>
+                                    <span class="badge bg-secondary wallet-badge">Trading Wallet</span>
+                                    <div class="small text-muted">0x6e1...7d5a</div>
+                                </td>
+                                <td><span class="badge bg-success">Completed</span></td>
+                                <td><span class="badge bg-info">Wallet Import</span></td>
+                                <td>
+                                    <a href="token_transaction_show.html" class="btn btn-sm btn-outline-secondary" data-bs-toggle="tooltip" title="View Details">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            
+                            <!-- Transaction 5 -->
+                            <tr>
+                                <td>
+                                    <div>Mar 1, 2025</div>
+                                    <div class="small text-muted">08:05:17</div>
+                                </td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                      <div class="token-icon">
+                                        <img src="https://cryptologos.cc/logos/xrp-xrp-logo.png" alt="XRP">
+                                      </div>
+                                      <div>
+                                          <div class="fw-bold">XRP</div>
+                                          <div class="small text-muted">Ripple</div>
+                                      </div>
+                                    </div>
+                                </td>
+                                <td><span class="badge bg-success">Buy</span></td>
+                                <td class="transaction-receive">+20,000 AIP</td>
+                                <td>$2,400.00</td>
+                                <td>
+                                    <span class="badge bg-secondary wallet-badge">Investment Wallet</span>
+                                    <div class="small text-muted">0x3d2...9c4f</div>
+                                </td>
+                                <td><span class="badge bg-success">Completed</span></td>
+                                <td><span class="badge bg-warning">Manual Entry</span></td>
+                                <td>
+                                    <div class="btn-group">
+                                        <a href="token_transaction_show.html" class="btn btn-sm btn-outline-secondary" data-bs-toggle="tooltip" title="View Details">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                        <a href="token_transaction_edit.html" class="btn btn-sm btn-outline-primary" data-bs-toggle="tooltip" title="Edit Transaction">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                            
+                            <!-- Transaction 6 -->
+                            <tr>
+                                <td>
+                                    <div>Feb 28, 2025</div>
+                                    <div class="small text-muted">14:30:55</div>
+                                </td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <div class="token-icon">
+                                            <img src="https://cryptologos.cc/logos/cardano-ada-logo.png" alt="ADA">
+                                        </div>
+                                        <div>
+                                            <div class="fw-bold">ADA</div>
+                                            <div class="small text-muted">Cardano</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td><span class="badge bg-danger">Sell</span></td>
+                                <td class="transaction-send">-1,000 ADA</td>
+                                <td>$722.03</td>
+                                <td>
+                                    <span class="badge bg-secondary wallet-badge">Main Wallet</span>
+                                    <div class="small text-muted">0x8f7...3a2b</div>
+                                </td>
+                                <td><span class="badge bg-success">Completed</span></td>
+                                <td><span class="badge bg-info">Wallet Import</span></td>
+                                <td>
+                                    <a href="token_transaction_show.html" class="btn btn-sm btn-outline-secondary" data-bs-toggle="tooltip" title="View Details">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            
+                            <!-- Transaction 7 -->
+                            <tr>
+                                <td>
+                                    <div>Feb 25, 2025</div>
+                                    <div class="small text-muted">10:12:40</div>
+                                </td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <div class="token-icon">
+                                            <img src="https://cryptologos.cc/logos/chainlink-link-logo.png" alt="LINK">
+                                        </div>
+                                        <div>
+                                            <div class="fw-bold">LINK</div>
+                                            <div class="small text-muted">Chainlink</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td><span class="badge bg-success">Receive</span></td>
+                                <td class="transaction-receive">+25,000 LINK</td>
+                                <td>$3,750.00</td>
+                                <td>
+                                    <span class="badge bg-secondary wallet-badge">Investment Wallet</span>
+                                    <div class="small text-muted">0x3d2...9c4f</div>
+                                </td>
+                                <td><span class="badge bg-success">Completed</span></td>
+                                <td><span class="badge bg-warning">Manual Entry</span></td>
+                                <td>
+                                    <div class="btn-group">
+                                        <a href="token_transaction_show.html" class="btn btn-sm btn-outline-secondary" data-bs-toggle="tooltip" title="View Details">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                        <a href="token_transaction_edit.html" class="btn btn-sm btn-outline-primary" data-bs-toggle="tooltip" title="Edit Transaction">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                            
+                            <!-- Transaction 8 -->
+                            <tr>
+                                <td>
+                                    <div>Feb 22, 2025</div>
+                                    <div class="small text-muted">09:45:33</div>
+                                </td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <div class="token-icon">
+                                            <img src="https://cryptologos.cc/logos/polkadot-new-dot-logo.png" alt="DOT">
+                                        </div>
+                                        <div>
+                                            <div class="fw-bold">DOT</div>
+                                            <div class="small text-muted">Polkadot</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td><span class="badge bg-danger">Send</span></td>
+                                <td class="transaction-send">-0.1 DOT</td>
+                                <td>$8,158.80</td>
+                                <td>
+                                    <span class="badge bg-secondary wallet-badge">Main Wallet</span>
+                                    <div class="small text-muted">0x8f7...3a2b</div>
+                                </td>
+                                <td><span class="badge bg-warning">Pending</span></td>
+                                <td><span class="badge bg-info">Wallet Import</span></td>
+                                <td>
+                                    <a href="token_transaction_show.html" class="btn btn-sm btn-outline-secondary" data-bs-toggle="tooltip" title="View Details">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            
+                            <!-- Transaction 9 -->
+                            <tr>
+                                <td>
+                                    <div>Feb 20, 2025</div>
+                                    <div class="small text-muted">16:20:15</div>
+                                </td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <div class="token-icon">
+                                            <img src="https://cryptologos.cc/logos/avalanche-avax-logo.png" alt="AVAX">
+                                        </div>
+                                        <div>
+                                            <div class="fw-bold">AVAX</div>
+                                            <div class="small text-muted">Avalanche</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td><span class="badge bg-success">Buy</span></td>
+                                <td class="transaction-receive">+30,000 AVAX</td>
+                                <td>$2,400.00</td>
+                                <td>
+                                    <span class="badge bg-secondary wallet-badge">Investment Wallet</span>
+                                    <div class="small text-muted">0x3d2...9c4f</div>
+                                </td>
+                                <td><span class="badge bg-success">Completed</span></td>
+                                <td><span class="badge bg-warning">Manual Entry</span></td>
+                                <td>
+                                    <div class="btn-group">
+                                        <a href="token_transaction_show.html" class="btn btn-sm btn-outline-secondary" data-bs-toggle="tooltip" title="View Details">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                        <a href="token_transaction_edit.html" class="btn btn-sm btn-outline-primary" data-bs-toggle="tooltip" title="Edit Transaction">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                            
+                            <!-- Transaction 10 -->
+                            <tr>
+                                <td>
+                                    <div>Feb 18, 2025</div>
+                                    <div class="small text-muted">11:05:42</div>
+                                </td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <div class="token-icon">
+                                            <img src="https://cryptologos.cc/logos/uniswap-uni-logo.png" alt="UNI">
+                                        </div>
+                                        <div>
+                                            <div class="fw-bold">UNI</div>
+                                            <div class="small text-muted">Uniswap</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td><span class="badge bg-success">Buy</span></td>
+                                <td class="transaction-receive">+5 UNI</td>
+                                <td>$9,412.20</td>
+                                <td>
+                                    <span class="badge bg-secondary wallet-badge">Trading Wallet</span>
+                                    <div class="small text-muted">0x6e1...7d5a</div>
+                                </td>
+                                <td><span class="badge bg-success">Completed</span></td>
+                                <td><span class="badge bg-info">Wallet Import</span></td>
+                                <td>
+                                    <a href="token_transaction_show.html" class="btn btn-sm btn-outline-secondary" data-bs-toggle="tooltip" title="View Details">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pagination -->
+        <nav class="mt-4">
+            <ul class="pagination justify-content-center">
+                <li class="page-item disabled">
+                    <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+                </li>
+                <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                <li class="page-item">
+                    <a class="page-link" href="#">Next</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    <!-- New Transaction Modal -->
+    <div class="modal fade" id="newTransactionModal" tabindex="-1" aria-labelledby="newTransactionModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="newTransactionModalLabel">New Transaction</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="transactionType" class="form-label">Transaction Type</label>
+                                <select class="form-select" id="transactionType">
+                                    <option selected>Select transaction type</option>
+                                    <option value="send">Send</option>
+                                    <option value="receive">Receive</option>
+                                    <option value="buy">Buy</option>
+                                    <option value="sell">Sell</option>
+                                    <option value="swap">Swap</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="walletSelect" class="form-label">Wallet</label>
+                                <select class="form-select" id="walletSelect">
+                                    <option selected>Select wallet</option>
+                                    <option value="main">Main Wallet (0x8f7...3a2b)</option>
+                                    <option value="investment">Investment Wallet (0x3d2...9c4f)</option>
+                                    <option value="trading">Trading Wallet (0x6e1...7d5a)</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="tokenSelect" class="form-label">Token</label>
+                                <select class="form-select" id="tokenSelect">
+                                    <option selected>Select token</option>
+                                    <optgroup label="Listed Tokens">
+                                        <option value="btc">BTC - Bitcoin</option>
+                                        <option value="eth">ETH - Ethereum</option>
+                                        <option value="sol">SOL - Solana</option>
+                                        <option value="ada">ADA - Cardano</option>
+                                    </optgroup>
+                                    <optgroup label="Unlisted Tokens">
+                                        <option value="qfin">QFIN - Quantum Finance</option>
+                                        <option value="aip">AIP - AI Protocol</option>
+                                        <option value="mvx">MVX - MetaVerse X</option>
+                                        <option value="cosmic">COSMIC - Cosmic Chain</option>
+                                        <option value="nova">NOVA - DeFi Nova</option>
+                                    </optgroup>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="tokenAmount" class="form-label">Amount</label>
+                                <input type="number" class="form-control" id="tokenAmount" placeholder="Enter amount">
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="transactionNotes" class="form-label">Notes (Optional)</label>
+                            <textarea class="form-control" id="transactionNotes" rows="3" placeholder="Add notes about this transaction"></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary">Create Transaction</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-light py-3 mt-5">
+        <div class="container text-center">
+            <p class="text-muted mb-0">© 2023 Brinc Digital Currency System. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Initialize tooltips -->
+    <script>
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl)
+        })
+    </script>
+</body>
+</html>

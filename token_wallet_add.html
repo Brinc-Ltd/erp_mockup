@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add New Wallet - Brinc Token System</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .logo {
+            max-height: 40px;
+        }
+        .wallet-type-card {
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: 2px solid transparent;
+            height: 100%;
+        }
+        .wallet-type-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .wallet-type-card.selected {
+            border-color: #0d6efd;
+            background-color: rgba(13, 110, 253, 0.05);
+        }
+        .wallet-type-icon {
+            width: 64px;
+            height: 64px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            font-size: 32px;
+        }
+        .form-step {
+            display: none;
+        }
+        .form-step.active {
+            display: block;
+        }
+        .network-option {
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 10px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .network-option:hover {
+            background-color: #f8f9fa;
+        }
+        .network-option.selected {
+            border-color: #0d6efd;
+            background-color: rgba(13, 110, 253, 0.05);
+        }
+        .network-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <img src="https://storage.googleapis.com/clean-finder-353810/$Dd5BJMS3vYBf7ZOld70TQI6BwJGDbX0AROpvZc0RexkhTUrPQZBO4S" alt="Brinc Logo" class="logo">
+                <span class="ms-2 fw-bold">Brinc Digital Currency System</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="projects.html">Projects</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="payroll.html">Payroll System</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#">Digital Currency System</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
+                            <img src="https://s3-ap-southeast-1.amazonaws.com/timeauction.paperclip/auctions/images/000/000/123/display/Manav-Gupta_Founder-CEO_brinc_profilephoto.webp?1614188921" alt="Manav" class="rounded-circle" style="width: 24px; height: 24px; object-fit: cover;"> Manav
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="#">Profile</a></li>
+                            <li><a class="dropdown-item" href="#">Settings</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#">Logout</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container mt-4">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <h2>Add New Wallet</h2>
+                <p class="text-muted">Record a new wallet for financial tracking purposes</p>
+            </div>
+            <div class="d-flex gap-2">
+                <a href="token_wallets.html" class="btn btn-outline-secondary">
+                    <i class="fas fa-arrow-left"></i> Back to Wallets
+                </a>
+            </div>
+        </div>
+
+        <!-- Form Container -->
+        <div class="card">
+            <div class="card-body">
+                <form id="addWalletForm">
+                    <div class="row g-3">
+                        <!-- Basic Information -->
+                        <div class="col-12">
+                            <h5 class="mb-3">Basic Information</h5>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <label for="walletName" class="form-label">Wallet Name*</label>
+                            <input type="text" class="form-control" id="walletName" placeholder="e.g., Bitcoin Investment Wallet" required>
+                            <div class="form-text">A descriptive name for this wallet</div>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <label for="walletType" class="form-label">Wallet Type*</label>
+                            <select class="form-select" id="walletType" required>
+                                <option value="" selected disabled>Select wallet type</option>
+                                <option value="hot">Hot Wallet</option>
+                                <option value="cold">Cold Storage</option>
+                                <option value="exchange">Exchange Account</option>
+                                <option value="hardware">Hardware Wallet</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <label for="network" class="form-label">Network/Blockchain*</label>
+                            <select class="form-select" id="network" required>
+                                <option value="" selected disabled>Select network</option>
+                                <option value="bitcoin">Bitcoin</option>
+                                <option value="ethereum">Ethereum</option>
+                                <option value="solana">Solana</option>
+                                <option value="cardano">Cardano</option>
+                                <option value="bsc">Binance Smart Chain</option>
+                                <option value="custom">Custom</option>
+                            </select>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <label for="walletAddress" class="form-label">Wallet Address</label>
+                            <input type="text" class="form-control" id="walletAddress" placeholder="Enter wallet address (optional)">
+                            <div class="form-text">Public address of the wallet (if applicable)</div>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <label for="initialBalance" class="form-label">Initial Balance*</label>
+                            <div class="input-group">
+                                <input type="number" class="form-control" id="initialBalance" placeholder="0.00" step="0.00000001" required>
+                                <span class="input-group-text" id="currencySymbol">BTC</span>
+                            </div>
+                            <div class="form-text">Current balance in this wallet</div>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <label for="balanceUSD" class="form-label">USD Value</label>
+                            <div class="input-group">
+                                <span class="input-group-text">$</span>
+                                <input type="number" class="form-control" id="balanceUSD" placeholder="0.00" step="0.01">
+                            </div>
+                            <div class="form-text">Approximate USD value of the balance</div>
+                        </div>
+                        
+                        <!-- Additional Information -->
+                        <div class="col-12 mt-4">
+                            <h5 class="mb-3">Additional Information</h5>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <label for="acquisitionDate" class="form-label">Acquisition Date</label>
+                            <input type="date" class="form-control" id="acquisitionDate">
+                            <div class="form-text">When this wallet was created or acquired</div>
+                        </div>
+                        
+                        <div class="col-12">
+                            <label for="walletDescription" class="form-label">Description</label>
+                            <textarea class="form-control" id="walletDescription" rows="3" placeholder="Additional notes about this wallet"></textarea>
+                        </div>
+                        
+                        <div class="col-12 mt-4">
+                            <div class="d-flex justify-content-end">
+                                <a href="token_wallets.html" class="btn btn-outline-secondary me-2">Cancel</a>
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-plus me-1"></i> Add Wallet
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-light py-3 mt-5">
+        <div class="container text-center">
+            <p class="text-muted mb-0">© 2023 Brinc Digital Currency System. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Form Handling Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Update currency symbol when network changes
+            document.getElementById('network').addEventListener('change', function() {
+                const networkCurrencyMap = {
+                    'bitcoin': 'BTC',
+                    'ethereum': 'ETH',
+                    'solana': 'SOL',
+                    'cardano': 'ADA',
+                    'bsc': 'BNB',
+                    'custom': 'TOKEN'
+                };
+                
+                document.getElementById('currencySymbol').textContent = 
+                    networkCurrencyMap[this.value] || 'TOKEN';
+            });
+            
+            // Form submission
+            document.getElementById('addWalletForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Basic validation
+                const walletName = document.getElementById('walletName').value;
+                const walletType = document.getElementById('walletType').value;
+                const network = document.getElementById('network').value;
+                const initialBalance = document.getElementById('initialBalance').value;
+                
+                if (!walletName || !walletType || !network || !initialBalance) {
+                    alert('Please fill in all required fields.');
+                    return;
+                }
+                
+                // Simulate successful wallet addition
+                alert('Wallet added successfully!');
+                window.location.href = 'token_wallets.html';
+            });
+        });
+    </script>
+</body>
+</html>

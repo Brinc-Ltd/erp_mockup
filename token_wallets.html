@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wallet Management - Brinc Token System</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .logo {
+            max-height: 40px;
+        }
+        .wallet-card {
+            transition: transform 0.2s;
+            border-left: 4px solid #0d6efd;
+        }
+        .wallet-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .wallet-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            background-color: #e9ecef;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            font-size: 24px;
+        }
+        .wallet-balance {
+            font-size: 1.25rem;
+            font-weight: 500;
+        }
+        .wallet-address {
+            font-family: monospace;
+            font-size: 0.85rem;
+            color: #6c757d;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            max-width: 180px;
+        }
+        .wallet-type-badge {
+            font-size: 0.75rem;
+        }
+        .action-buttons {
+            white-space: nowrap;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <img src="https://storage.googleapis.com/clean-finder-353810/$Dd5BJMS3vYBf7ZOld70TQI6BwJGDbX0AROpvZc0RexkhTUrPQZBO4S" alt="Brinc Logo" class="logo">
+                <span class="ms-2 fw-bold">Brinc Digital Currency System</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="projects.html">Projects</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="payroll.html">Payroll System</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#">Digital Currency System</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
+                            <img src="https://s3-ap-southeast-1.amazonaws.com/timeauction.paperclip/auctions/images/000/000/123/display/Manav-Gupta_Founder-CEO_brinc_profilephoto.webp?1614188921" alt="Manav" class="rounded-circle" style="width: 24px; height: 24px; object-fit: cover;"> Manav
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="#">Profile</a></li>
+                            <li><a class="dropdown-item" href="#">Settings</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#">Logout</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container mt-4">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <h2>Wallet Management</h2>
+                <p class="text-muted">Manage your cryptocurrency wallets and addresses</p>
+            </div>
+            <div class="d-flex gap-2">
+                <a href="token_dashboard.html" class="btn btn-outline-primary">
+                    <i class="fas fa-chart-pie"></i> Dashboard
+                </a>
+                <a href="token_wallet_add.html" class="btn btn-primary">
+                    <i class="fas fa-plus"></i> Add New Wallet
+                </a>
+            </div>
+        </div>
+
+        <!-- Wallet Filter Options -->
+        <div class="card mb-4">
+            <div class="card-body">
+                <div class="row g-3">
+                    <div class="col-md-4">
+                        <label for="walletTypeFilter" class="form-label">Wallet Type</label>
+                        <select class="form-select" id="walletTypeFilter">
+                            <option value="all" selected>All Types</option>
+                            <option value="hot">Hot Wallets</option>
+                            <option value="cold">Cold Storage</option>
+                            <option value="exchange">Exchange</option>
+                            <option value="hardware">Hardware</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="networkFilter" class="form-label">Network</label>
+                        <select class="form-select" id="networkFilter">
+                            <option value="all" selected>All Networks</option>
+                            <option value="bitcoin">Bitcoin</option>
+                            <option value="ethereum">Ethereum</option>
+                            <option value="solana">Solana</option>
+                            <option value="cardano">Cardano</option>
+                            <option value="custom">Custom Networks</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="walletSearch" class="form-label">Search</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="walletSearch" placeholder="Search by name or address">
+                            <button class="btn btn-outline-secondary" type="button">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Wallets Grid -->
+        <div class="row g-4 mb-4">
+            <!-- Bitcoin Wallet -->
+            <div class="col-md-6 col-lg-4">
+                <div class="card wallet-card h-100">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between mb-3">
+                            <div class="d-flex align-items-center">
+                                <div class="wallet-icon bg-warning text-white">
+                                    <i class="fab fa-bitcoin"></i>
+                                </div>
+                                <div>
+                                    <h5 class="mb-0">Primary BTC Wallet</h5>
+                                    <span class="badge bg-warning wallet-type-badge">Cold Storage</span>
+                                </div>
+                            </div>
+                            <div class="dropdown">
+                                <button class="btn btn-sm btn-light" type="button" data-bs-toggle="dropdown">
+                                    <i class="fas fa-ellipsis-v"></i>
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#editWalletModal" data-wallet-id="1"><i class="fas fa-edit me-2"></i>Edit</a></li>
+                                    <li><a class="dropdown-item" href="#"><i class="fas fa-key me-2"></i>View Private Keys</a></li>
+                                    <li><a class="dropdown-item" href="#"><i class="fas fa-file-export me-2"></i>Export</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item text-danger" href="#"><i class="fas fa-trash me-2"></i>Delete</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <div class="wallet-address" title="bc1q8c6fshw2dlwun7ekn9qwf37cu2rn755upcp6el">bc1q8c6fshw2dlwun7ekn9qwf37cu2rn755upcp6el</div>
+                            <div class="d-flex align-items-center mt-1">
+                                <button class="btn btn-sm btn-light me-2" onclick="copyToClipboard('bc1q8c6fshw2dlwun7ekn9qwf37cu2rn755upcp6el')">
+                                    <i class="fas fa-copy"></i>
+                                </button>
+                                <span class="text-muted small">Created: Jan 15, 2023</span>
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <div class="text-muted small">Balance</div>
+                                <div class="wallet-balance">1.00000000 BTC</div>
+                                <div class="text-muted small">≈ $81,588.00</div>
+                            </div>
+                            <div class="action-buttons">
+                                <button class="btn btn-sm btn-outline-primary me-1" title="Send">
+                                    <i class="fas fa-paper-plane"></i>
+                                </button>
+                                <button class="btn btn-sm btn-outline-success" title="Receive">
+                                    <i class="fas fa-qrcode"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ethereum Wallet -->
+            <div class="col-md-6 col-lg-4">
+                <div class="card wallet-card h-100">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between mb-3">
+                            <div class="d-flex align-items-center">
+                                <div class="wallet-icon bg-primary text-white">
+                                    <i class="fab fa-ethereum"></i>
+                                </div>
+                                <div>
+                                    <h5 class="mb-0">Main ETH Wallet</h5>
+                                    <span class="badge bg-primary wallet-type-badge">Hot Wallet</span>
+                                </div>
+                            </div>
+                            <div class="dropdown">
+                                <button class="btn btn-sm btn-light" type="button" data-bs-toggle="dropdown">
+                                    <i class="fas fa-ellipsis-v"></i>
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#editWalletModal" data-wallet-id="2"><i class="fas fa-edit me-2"></i>Edit</a></li>
+                                    <li><a class="dropdown-item" href="#"><i class="fas fa-key me-2"></i>View Private Keys</a></li>
+                                    <li><a class="dropdown-item" href="#"><i class="fas fa-file-export me-2"></i>Export</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item text-danger" href="#"><i class="fas fa-trash me-2"></i>Delete</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <div class="wallet-address" title="0x71C7656EC7ab88b098defB751B7401B5f6d8976F">0x71C7656EC7ab88b098defB751B7401B5f6d8976F</div>
+                            <div class="d-flex align-items-center mt-1">
+                                <button class="btn btn-sm btn-light me-2" onclick="copyToClipboard('0x71C7656EC7ab88b098defB751B7401B5f6d8976F')">
+                                    <i class="fas fa-copy"></i>
+                                </button>
+                                <span class="text-muted small">Created: Feb 3, 2023</span>
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <div class="text-muted small">Balance</div>
+                                <div class="wallet-balance">13.00000000 ETH</div>
+                                <div class="text-muted small">≈ $24,471.72</div>
+                            </div>
+                            <div class="action-buttons">
+                                <button class="btn btn-sm btn-outline-primary me-1" title="Send">
+                                    <i class="fas fa-paper-plane"></i>
+                                </button>
+                                <button class="btn btn-sm btn-outline-success" title="Receive">
+                                    <i class="fas fa-qrcode"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Solana Wallet -->
+            <div class="col-md-6 col-lg-4">
+                <div class="card wallet-card h-100">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between mb-3">
+                            <div class="d-flex align-items-center">
+                                <div class="wallet-icon bg-info text-white">
+                                    <i class="fas fa-sun"></i>
+                                </div>
+                                <div>
+                                    <h5 class="mb-0">Solana Wallet</h5>
+                                    <span class="badge bg-info wallet-type-badge">Hardware</span>
+                                </div>
+                            </div>
+                            <div class="dropdown">
+                                <button class="btn btn-sm btn-light" type="button" data-bs-toggle="dropdown">
+                                    <i class="fas fa-ellipsis-v"></i>
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#editWalletModal" data-wallet-id="3"><i class="fas fa-edit me-2"></i>Edit</a></li>
+                                    <li><a class="dropdown-item" href="#"><i class="fas fa-key me-2"></i>View Private Keys</a></li>
+                                    <li><a class="dropdown-item" href="#"><i class="fas fa-file-export me-2"></i>Export</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item text-danger" href="#"><i class="fas fa-trash me-2"></i>Delete</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <div class="wallet-address" title="5KL6KGHBDzNPPKGM4WzaDvf1vgaHu4Kq5qzQyNP9g8Xp">5KL6KGHBDzNPPKGM4WzaDvf1vgaHu4Kq5qzQyNP9g8Xp</div>
+                            <div class="d-flex align-items-center mt-1">
+                                <button class="btn btn-sm btn-light me-2" onclick="copyToClipboard('5KL6KGHBDzNPPKGM4WzaDvf1vgaHu4Kq5qzQyNP9g8Xp')">
+                                    <i class="fas fa-copy"></i>
+                                </button>
+                                <span class="text-muted small">Created: Mar 21, 2023</span>
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <div class="text-muted small">Balance</div>
+                                <div class="wallet-balance">75.00000000 SOL</div>
+                                <div class="text-muted small">≈ $9,198.00</div>
+                            </div>
+                            <div class="action-buttons">
+                                <button class="btn btn-sm btn-outline-primary me-1" title="Send">
+                                    <i class="fas fa-paper-plane"></i>
+                                </button>
+                                <button class="btn btn-sm btn-outline-success" title="Receive">
+                                    <i class="fas fa-qrcode"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Cardano Wallet -->
+            <div class="col-md-6 col-lg-4">
+                <div class="card wallet-card h-100">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between mb-3">
+                            <div class="d-flex align-items-center">
+                                <div class="wallet-icon bg-success text-white">
+                                    <i class="fas fa-project-diagram"></i>
+                                </div>
+                                <div>
+                                    <h5 class="mb-0">Cardano Wallet</h5>
+                                    <span class="badge bg-success wallet-type-badge">Hot Wallet</span>
+                                </div>
+                            </div>
+                            <div class="dropdown">
+                                <button class="btn btn-sm btn-light" type="button" data-bs-toggle="dropdown">
+                                    <i class="fas fa-ellipsis-v"></i>
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#editWalletModal" data-wallet-id="4"><i class="fas fa-edit me-2"></i>Edit</a></li>
+                                    <li><a class="dropdown-item" href="#"><i class="fas fa-key me-2"></i>View Private Keys</a></li>
+                                    <li><a class="dropdown-item" href="#"><i class="fas fa-file-export me-2"></i>Export</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item text-danger" href="#"><i class="fas fa-trash me-2"></i>Delete</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <div class="wallet-address" title="addr1qxck6ztj8lqjvgz9vd7mx395l8c30h7wseyeqcn58xsx2m7qrv89kg6kp47rkdkwrguv2fmk5xh9uxz4z0kzwhyj7j7s3yc0gg">addr1qxck6ztj8lqjvgz9vd7mx395l8c30h7wseyeqcn58xsx2m7qrv89kg6kp47rkdkwrguv2fmk5xh9uxz4z0kzwhyj7j7s3yc0gg</div>
+                            <div class="d-flex align-items-center mt-1">
+                                <button class="btn btn-sm btn-light me-2" onclick="copyToClipboard('addr1qxck6ztj8lqjvgz9vd7mx395l8c30h7wseyeqcn58xsx2m7qrv89kg6kp47rkdkwrguv2fmk5xh9uxz4z0kzwhyj7j7s3yc0gg')">
+                                    <i class="fas fa-copy"></i>
+                                </button>
+                                <span class="text-muted small">Created: Apr 5, 2023</span>
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <div class="text-muted small">Balance</div>
+                                <div class="wallet-balance">5,000.00000000 ADA</div>
+                                <div class="text-muted small">≈ $3,610.13</div>
+                            </div>
+                            <div class="action-buttons">
+                                <button class="btn btn-sm btn-outline-primary me-1" title="Send">
+                                    <i class="fas fa-paper-plane"></i>
+                                </button>
+                                <button class="btn btn-sm btn-outline-success" title="Receive">
+                                    <i class="fas fa-qrcode"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Binance Exchange Wallet -->
+            <div class="col-md-6 col-lg-4">
+                <div class="card wallet-card h-100">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between mb-3">
+                            <div class="d-flex align-items-center">
+                                <div class="wallet-icon bg-warning text-white">
+                                    <i class="fas fa-exchange-alt"></i>
+                                </div>
+                                <div>
+                                    <h5 class="mb-0">Binance Account</h5>
+                                    <span class="badge bg-warning wallet-type-badge">Exchange</span>
+                                </div>
+                            </div>
+                            <div class="dropdown">
+                                <button class="btn btn-sm btn-light" type="button" data-bs-toggle="dropdown">
+                                    <i class="fas fa-ellipsis-v"></i>
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#editWalletModal" data-wallet-id="5"><i class="fas fa-edit me-2"></i>Edit</a></li>
+                                    <li><a class="dropdown-item" href="#"><i class="fas fa-key me-2"></i>View API Keys</a></li>
+                                    <li><a class="dropdown-item" href="#"><i class="fas fa-sync me-2"></i>Sync Balance</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item text-danger" href="#"><i class="fas fa-trash me-2"></i>Delete</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <div class="wallet-address" title="Exchange Account">Exchange Account</div>
+                            <div class="d-flex align-items-center mt-1">
+                                <span class="text-muted small">Connected: May 12, 2023</span>
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <div class="text-muted small">Multiple Assets</div>
+                                <div class="wallet-balance">5 tokens</div>
+                                <div class="text-muted small">≈ $32,450.00</div>
+                            </div>
+                            <div class="action-buttons">
+                                <button class="btn btn-sm btn-outline-primary me-1" title="Withdraw">
+                                    <i class="fas fa-arrow-right"></i>
+                                </button>
+                                <button class="btn btn-sm btn-outline-success" title="Deposit">
+                                    <i class="fas fa-arrow-left"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Add Wallet Card -->
+            <div class="col-md-6 col-lg-4">
+                <div class="card h-100 border-dashed" style="border-style: dashed; border-width: 2px; border-color: #dee2e6;">
+                    <div class="card-body d-flex flex-column align-items-center justify-content-center text-center" style="min-height: 250px;">
+                        <div class="mb-3">
+                            <i class="fas fa-plus-circle" style="font-size: 48px; color: #6c757d;"></i>
+                        </div>
+                        <h5>Add New Wallet</h5>
+                        <p class="text-muted">Connect an exchange or add a new wallet address</p>
+                        <a href="token_wallet_add.html" class="btn btn-primary mt-2">
+                            <i class="fas fa-plus me-2"></i>Add Wallet
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Wallet Modal -->
+    <div class="modal fade" id="addWalletModal" tabindex="-1" aria-labelledby="addWalletModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addWalletModalLabel">Add New Wallet</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>For a more comprehensive wallet setup experience, please use our dedicated wallet creation page:</p>
+                    <div class="text-center mt-3">
+                        <a href="token_wallet_add.html" class="btn btn-primary">
+                            <i class="fas fa-external-link-alt me-2"></i>Go to Wallet Creation Page
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS and jQuery -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        function copyToClipboard(text) {
+            const tempInput = document.createElement('input');
+            tempInput.value = text;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempInput);
+            alert('Text copied to clipboard!');
+        }
+    </script>
+</body>
+</html>

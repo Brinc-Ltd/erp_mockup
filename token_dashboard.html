@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brinc Token Dashboard</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        .logo {
+            max-height: 40px;
+        }
+        .card-header {
+            background-color: #f8f9fa;
+        }
+        .value-card {
+            border-left: 4px solid #0d6efd;
+        }
+        .cost-card {
+            border-left: 4px solid #6c757d;
+        }
+        .profit-card {
+            border-left: 4px solid #198754;
+        }
+        .assets-card {
+            border-left: 4px solid #ffc107;
+        }
+        .profit-positive {
+            color: #198754;
+            font-weight: 500;
+        }
+        .profit-negative {
+            color: #dc3545;
+            font-weight: 500;
+        }
+        .token-icon {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background-color: #e9ecef;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+        }
+        .chart-container {
+            position: relative;
+            height: 300px;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <img src="https://storage.googleapis.com/clean-finder-353810/$Dd5BJMS3vYBf7ZOld70TQI6BwJGDbX0AROpvZc0RexkhTUrPQZBO4S" alt="Brinc Logo" class="logo">
+                <span class="ms-2 fw-bold">Brinc Digital Currency System</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="projects.html">Projects</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="payroll.html">Payroll System</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#">Digital Currency System</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
+                            <img src="https://s3-ap-southeast-1.amazonaws.com/timeauction.paperclip/auctions/images/000/000/123/display/Manav-Gupta_Founder-CEO_brinc_profilephoto.webp?1614188921" alt="Manav" class="rounded-circle" style="width: 24px; height: 24px; object-fit: cover;"> Manav
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="#">Profile</a></li>
+                            <li><a class="dropdown-item" href="#">Settings</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#">Logout</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container mt-4">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2>Token Dashboard</h2>
+            <div class="d-flex gap-2">
+                <a href="token_types_edit.html" class="btn btn-outline-secondary">
+                    <i class="fas fa-tags"></i> Manage Token Types
+                </a>
+                <a href="token_wallets.html" class="btn btn-outline-primary">
+                    <i class="fas fa-wallet"></i> Wallets Management
+                </a>
+                <a href="token_transactions.html" class="btn btn-primary">
+                    <i class="fas fa-exchange-alt"></i> Token Transactions
+                </a>
+            </div>
+        </div>
+
+        <!-- Portfolio Summary Cards -->
+        <div class="row g-3 mb-4">
+            <!-- Total Portfolio Value -->
+            <div class="col-md-6 col-lg-3">
+                <div class="card h-100 value-card">
+                    <div class="card-body">
+                        <h6 class="card-subtitle mb-2 text-muted">Total Portfolio Value</h6>
+                        <h3 class="card-title">$151,317.85</h3>
+                        <p class="card-text small text-muted">Last updated: 3/12/2025, 3:06:51 PM</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Total Cost Basis -->
+            <div class="col-md-6 col-lg-3">
+                <div class="card h-100 cost-card">
+                    <div class="card-body">
+                        <h6 class="card-subtitle mb-2 text-muted">Total Cost Basis</h6>
+                        <h3 class="card-title">$134,400.00</h3>
+                        <p class="card-text small text-muted">Initial investment amount</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Total Profit/Loss -->
+            <div class="col-md-6 col-lg-3">
+                <div class="card h-100 profit-card">
+                    <div class="card-body">
+                        <h6 class="card-subtitle mb-2 text-muted">Total Profit/Loss</h6>
+                        <h3 class="card-title profit-positive">$16,917.85</h3>
+                        <p class="card-text small profit-positive">+12.59% overall return</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Number of Assets -->
+            <div class="col-md-6 col-lg-3">
+                <div class="card h-100 assets-card">
+                    <div class="card-body">
+                        <h6 class="card-subtitle mb-2 text-muted">Number of Assets</h6>
+                        <h3 class="card-title">9</h3>
+                        <p class="card-text small text-muted">Diversified portfolio</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Listed vs Unlisted Summary -->
+        <div class="row g-3 mb-4">
+            <div class="col-md-6">
+                <div class="card h-100">
+                    <div class="card-header">
+                        <h5 class="mb-0">Listed Assets</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>Total Value:</span>
+                            <span class="fw-bold">$118,867.85</span>
+                        </div>
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>Cost Basis:</span>
+                            <span>$110,000.00</span>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <span>Profit/Loss:</span>
+                            <span class="profit-positive">$8,867.85 (8.06%)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card h-100">
+                    <div class="card-header">
+                        <h5 class="mb-0">Unlisted Assets</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>Total Value:</span>
+                            <span class="fw-bold">$32,450.00</span>
+                        </div>
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>Cost Basis:</span>
+                            <span>$24,400.00</span>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <span>Profit/Loss:</span>
+                            <span class="profit-positive">$8,050.00 (32.99%)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Portfolio Charts -->
+        <div class="row g-3 mb-4">
+            <div class="col-md-6">
+                <div class="card h-100">
+                    <div class="card-header">
+                        <h5 class="mb-0">Portfolio Distribution</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="chart-container">
+                            <canvas id="portfolioDistribution"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card h-100">
+                    <div class="card-header">
+                        <h5 class="mb-0">Performance by Asset</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="chart-container">
+                            <canvas id="performanceChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Portfolio Table -->
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 class="mb-0">Your Portfolio</h5>
+                <p class="text-muted mb-0">Overview of your current cryptocurrency holdings</p>
+            </div>
+            <div class="card-body">
+                <!-- Tabs -->
+                <ul class="nav nav-tabs mb-3" id="portfolioTabs" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="all-tab" data-bs-toggle="tab" data-bs-target="#all-content" type="button" role="tab" aria-controls="all-content" aria-selected="true">All</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="listed-tab" data-bs-toggle="tab" data-bs-target="#listed-content" type="button" role="tab" aria-controls="listed-content" aria-selected="false">Listed</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="unlisted-tab" data-bs-toggle="tab" data-bs-target="#unlisted-content" type="button" role="tab" aria-controls="unlisted-content" aria-selected="false">Unlisted</button>
+                    </li>
+                </ul>
+                
+                <!-- Tab Content -->
+                <div class="tab-content" id="portfolioTabsContent">
+                    <!-- All Assets Tab -->
+                    <div class="tab-pane fade show active" id="all-content" role="tabpanel" aria-labelledby="all-tab">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Asset</th>
+                                        <th>Amount</th>
+                                        <th>Avg. Cost</th>
+                                        <th>Current Price</th>
+                                        <th>Value</th>
+                                        <th>Profit/Loss</th>
+                                        <th>Change %</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <div class="token-icon">QFIN</div>
+                                                <div>
+                                                    <div class="fw-bold">QFIN</div>
+                                                    <div class="small text-muted">Quantum Finance</div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>30,000.000000</td>
+                                        <td>$0.20</td>
+                                        <td>$0.20</td>
+                                        <td>$6,000.00</td>
+                                        <td>$0.00</td>
+                                        <td>0.00%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <div class="token-icon">ETH</div>
+                                                <div>
+                                                    <div class="fw-bold">ETH</div>
+                                                    <div class="small text-muted">Ethereum</div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>13.000000</td>
+                                        <td>$2,615.38</td>
+                                        <td>$1,882.44</td>
+                                        <td>$24,471.72</td>
+                                        <td class="profit-negative">-$9,528.28</td>
+                                        <td class="profit-negative">-28.02%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <div class="token-icon">ADA</div>
+                                                <div>
+                                                    <div class="fw-bold">ADA</div>
+                                                    <div class="small text-muted">Cardano</div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>5,000.000000</td>
+                                        <td>$0.45</td>
+                                        <td>$0.72</td>
+                                        <td>$3,610.13</td>
+                                        <td class="profit-positive">$1,360.13</td>
+                                        <td class="profit-positive">60.45%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <div class="token-icon">AIP</div>
+                                                <div>
+                                                    <div class="fw-bold">AIP</div>
+                                                    <div class="small text-muted">AI Protocol</div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>60,000.000000</td>
+                                        <td>$0.11</td>
+                                        <td>$0.12</td>
+                                        <td>$7,200.00</td>
+                                        <td>$0.00</td>
+                                        <td>0.00%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <div class="token-icon">SOL</div>
+                                                <div>
+                                                    <div class="fw-bold">SOL</div>
+                                                    <div class="small text-muted">Solana</div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>75.000000</td>
+                                        <td>$126.67</td>
+                                        <td>$122.64</td>
+                                        <td>$9,198.00</td>
+                                        <td class="profit-negative">-$302.00</td>
+                                        <td class="profit-negative">-3.18%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <div class="token-icon">MVX</div>
+                                                <div>
+                                                    <div class="fw-bold">MVX</div>
+                                                    <div class="small text-muted">MetaVerse X</div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>75,000.000000</td>
+                                        <td>$0.15</td>
+                                        <td>$0.15</td>
+                                        <td>$11,250.00</td>
+                                        <td>$0.00</td>
+                                        <td>0.00%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <div class="token-icon">COSMIC</div>
+                                                <div>
+                                                    <div class="fw-bold">COSMIC</div>
+                                                    <div class="small text-muted">Cosmic Chain</div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>75,000.000000</td>
+                                        <td>$0.06</td>
+                                        <td>$0.08</td>
+                                        <td>$6,000.00</td>
+                                        <td>$0.00</td>
+                                        <td>0.00%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <div class="token-icon">BTC</div>
+                                                <div>
+                                                    <div class="fw-bold">BTC</div>
+                                                    <div class="small text-muted">Bitcoin</div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>1.000000</td>
+                                        <td>$58,500.00</td>
+                                        <td>$81,588.00</td>
+                                        <td>$81,588.00</td>
+                                        <td class="profit-positive">$23,088.00</td>
+                                        <td class="profit-positive">39.47%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <div class="token-icon">NOVA</div>
+                                                <div>
+                                                    <div class="fw-bold">NOVA</div>
+                                                    <div class="small text-muted">DeFi Nova</div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>100,000.000000</td>
+                                        <td>$0.02</td>
+                                        <td>$0.02</td>
+                                        <td>$2,000.00</td>
+                                        <td>$0.00</td>
+                                        <td>0.00%</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    
+                    <!-- Listed Assets Tab -->
+                    <div class="tab-pane fade" id="listed-content" role="tabpanel" aria-labelledby="listed-tab">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Asset</th>
+                                        <th>Amount</th>
+                                        <th>Avg. Cost</th>
+                                        <th>Current Price</th>
+                                        <th>Value</th>
+                                        <th>Profit/Loss</th>
+                                        <th>Change %</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <div class="token-icon">ETH</div>
+                                                <div>
+                                                    <div class="fw-bold">ETH</div>
+                                                    <div class="small text-muted">Ethereum</div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>13.000000</td>
+                                        <td>$2,615.38</td>
+                                        <td>$1,882.44</td>
+                                        <td>$24,471.72</td>
+                                        <td class="profit-negative">-$9,528.28</td>
+                                        <td class="profit-negative">-28.02%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <div class="token-icon">ADA</div>
+                                                <div>
+                                                    <div class="fw-bold">ADA</div>
+                                                    <div class="small text-muted">Cardano</div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>5,000.000000</td>
+                                        <td>$0.45</td>
+                                        <td>$0.72</td>
+                                        <td>$3,610.13</td>
+                                        <td class="profit-positive">$1,360.13</td>
+                                        <td class="profit-positive">60.45%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <div class="token-icon">SOL</div>
+                                                <div>
+                                                    <div class="fw-bold">SOL</div>
+                                                    <div class="small text-muted">Solana</div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>75.000000</td>
+                                        <td>$126.67</td>
+                                        <td>$122.64</td>
+                                        <td>$9,198.00</td>
+                                        <td class="profit-negative">-$302.00</td>
+                                        <td class="profit-negative">-3.18%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <div class="token-icon">BTC</div>
+                                                <div>
+                                                    <div class="fw-bold">BTC</div>
+                                                    <div class="small text-muted">Bitcoin</div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>1.000000</td>
+                                        <td>$58,500.00</td>
+                                        <td>$81,588.00</td>
+                                        <td>$81,588.00</td>
+                                        <td class="profit-positive">$23,088.00</td>
+                                        <td class="profit-positive">39.47%</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    
+                    <!-- Unlisted Assets Tab -->
+                    <div class="tab-pane fade" id="unlisted-content" role="tabpanel" aria-labelledby="unlisted-tab">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Asset</th>
+                                        <th>Amount</th>
+                                        <th>Avg. Cost</th>
+                                        <th>Current Price</th>
+                                        <th>Value</th>
+                                        <th>Profit/Loss</th>
+                                        <th>Change %</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <div class="token-icon">QFIN</div>
+                                                <div>
+                                                    <div class="fw-bold">QFIN</div>
+                                                    <div class="small text-muted">Quantum Finance</div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>30,000.000000</td>
+                                        <td>$0.20</td>
+                                        <td>$0.20</td>
+                                        <td>$6,000.00</td>
+                                        <td>$0.00</td>
+                                        <td>0.00%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <div class="token-icon">AIP</div>
+                                                <div>
+                                                    <div class="fw-bold">AIP</div>
+                                                    <div class="small text-muted">AI Protocol</div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>60,000.000000</td>
+                                        <td>$0.11</td>
+                                        <td>$0.12</td>
+                                        <td>$7,200.00</td>
+                                        <td>$0.00</td>
+                                        <td>0.00%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <div class="token-icon">MVX</div>
+                                                <div>
+                                                    <div class="fw-bold">MVX</div>
+                                                    <div class="small text-muted">MetaVerse X</div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>75,000.000000</td>
+                                        <td>$0.15</td>
+                                        <td>$0.15</td>
+                                        <td>$11,250.00</td>
+                                        <td>$0.00</td>
+                                        <td>0.00%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <div class="token-icon">COSMIC</div>
+                                                <div>
+                                                    <div class="fw-bold">COSMIC</div>
+                                                    <div class="small text-muted">Cosmic Chain</div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>75,000.000000</td>
+                                        <td>$0.06</td>
+                                        <td>$0.08</td>
+                                        <td>$6,000.00</td>
+                                        <td>$0.00</td>
+                                        <td>0.00%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <div class="token-icon">NOVA</div>
+                                                <div>
+                                                    <div class="fw-bold">NOVA</div>
+                                                    <div class="small text-muted">DeFi Nova</div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>100,000.000000</td>
+                                        <td>$0.02</td>
+                                        <td>$0.02</td>
+                                        <td>$2,000.00</td>
+                                        <td>$0.00</td>
+                                        <td>0.00%</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-light py-3 mt-5">
+        <div class="container text-center">
+            <p class="text-muted mb-0">© 2023 Brinc Digital Currency System. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Chart Initialization -->
+    <script>
+        // Portfolio Distribution Chart
+        const distributionCtx = document.getElementById('portfolioDistribution').getContext('2d');
+        const distributionChart = new Chart(distributionCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['BTC', 'ETH', 'SOL', 'MVX', 'AIP', 'QFIN', 'COSMIC', 'ADA', 'NOVA'],
+                datasets: [{
+                    data: [81588, 24471.72, 9198, 11250, 7200, 6000, 6000, 3610.13, 2000],
+                    backgroundColor: [
+                        '#FF9F40', '#36A2EB', '#4BC0C0', '#9966FF',                        '#FF9F40', '#36A2EB', '#4BC0C0', '#9966FF',
+                        '#FF6384', '#FFCD56', '#C9CBCF', '#7ED6DF', '#F8A5C2'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'right',
+                        labels: {
+                            boxWidth: 15
+                        }
+                    },
+                    title: {
+                        display: true,
+                        text: 'Allocation of your assets by value'
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                const label = context.label || '';
+                                const value = context.raw || 0;
+                                const total = context.chart.data.datasets[0].data.reduce((a, b) => a + b, 0);
+                                const percentage = Math.round((value / total) * 100);
+                                return `${label}: $${value.toLocaleString()} (${percentage}%)`;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        // Performance Chart
+        const performanceCtx = document.getElementById('performanceChart').getContext('2d');
+        const performanceChart = new Chart(performanceCtx, {
+            type: 'bar',
+            data: {
+                labels: ['BTC', 'ETH', 'SOL', 'ADA', 'QFIN', 'AIP', 'MVX', 'COSMIC', 'NOVA'],
+                datasets: [{
+                    label: 'Profit/Loss (%)',
+                    data: [39.47, -28.02, -3.18, 60.45, 0, 0, 0, 0, 0],
+                    backgroundColor: [
+                        '#198754', '#dc3545', '#dc3545', '#198754',
+                        '#6c757d', '#6c757d', '#6c757d', '#6c757d', '#6c757d'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Profit/Loss by Asset (%)'
+                    },
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                const value = context.raw || 0;
+                                return `${value > 0 ? '+' : ''}${value}%`;
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: {
+                            drawBorder: false
+                        },
+                        ticks: {
+                            callback: function(value) {
+                                return value + '%';
+                            }
+                        }
+                    },
+                    x: {
+                        grid: {
+                            display: false
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
