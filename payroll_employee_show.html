@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add New Employee - Brinc Payroll System</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .logo {
+            max-height: 40px;
+        }
+        .required-field::after {
+            content: "*";
+            color: red;
+            margin-left: 4px;
+        }
+        .form-section {
+            border-bottom: 1px solid #dee2e6;
+            padding-bottom: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        .form-section:last-child {
+            border-bottom: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <img src="https://storage.googleapis.com/clean-finder-353810/$Dd5BJMS3vYBf7ZOld70TQI6BwJGDbX0AROpvZc0RexkhTUrPQZBO4S" alt="Brinc Logo" class="logo">
+                <span class="ms-2 fw-bold">Payroll System</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="projects.html">Projects</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="payroll_dashboard.html">Payroll System</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="token_dashboard.html">Digital Currency System</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
+                            <img src="https://s3-ap-southeast-1.amazonaws.com/timeauction.paperclip/auctions/images/000/000/123/display/Manav-Gupta_Founder-CEO_brinc_profilephoto.webp?1614188921" alt="Manav" class="rounded-circle" style="width: 24px; height: 24px; object-fit: cover;"> Manav
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="#">Profile</a></li>
+                            <li><a class="dropdown-item" href="#">Settings</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#">Logout</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container mt-4">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <h2>Employee Details</h2>
+                <p class="text-muted">View employee information in the payroll system</p>
+            </div>
+            <div>
+                <a href="payroll_employee_edit.html" class="btn btn-primary me-2">
+                    <i class="fas fa-edit me-1"></i> Edit Employee
+                </a>
+                <a href="payroll_employee_index.html" class="btn btn-outline-secondary">
+                    <i class="fas fa-arrow-left me-1"></i> Back to Employees
+                </a>
+            </div>
+        </div>
+
+        <div class="card mb-4">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-3 text-center mb-4 mb-md-0">
+                        <img src="https://s3-ap-southeast-1.amazonaws.com/timeauction.paperclip/auctions/images/000/000/123/display/Manav-Gupta_Founder-CEO_brinc_profilephoto.webp?1614188921" alt="Employee Photo" class="rounded-circle img-thumbnail mb-3" style="width: 150px; height: 150px; object-fit: cover;">
+                        <h4 id="employeeName">Manav Gupta</h4>
+                        <p class="text-muted mb-2" id="employeePosition">Founder & CEO</p>
+                        <span class="badge bg-success" id="employeeStatus">Active</span>
+                    </div>
+                    <div class="col-md-9">
+                        <!-- Personal Information -->
+                        <div class="form-section">
+                            <h5 class="mb-3">Personal Information</h5>
+                            <div class="row g-3">
+                                <div class="col-md-4">
+                                    <label class="form-label fw-bold">Employee ID</label>
+                                    <p id="employeeId">EMP-002</p>
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label fw-bold">Full Name</label>
+                                    <p id="fullName">Manav Gupta</p>
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label fw-bold">Date of Birth</label>
+                                    <p id="dateOfBirth">15 Apr 1985</p>
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label fw-bold">Gender</label>
+                                    <p id="gender">Male</p>
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label fw-bold">Nationality</label>
+                                    <p id="nationality">Hong Kong</p>
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label fw-bold">Email Address</label>
+                                    <p id="email">castor.hui@brinc.io</p>
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label fw-bold">Phone Number</label>
+                                    <p id="phone">+852 9123 4567</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Employment Details -->
+                        <div class="form-section">
+                            <h5 class="mb-3">Employment Details</h5>
+                            <div class="row g-3">
+                                <div class="col-md-4">
+                                    <label class="form-label fw-bold">Join Date</label>
+                                    <p id="joinDate">01 Mar 2019</p>
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label fw-bold">Employment Type</label>
+                                    <p id="employmentType">Full-time</p>
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label fw-bold">Department</label>
+                                    <p id="department">Innovation</p>
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label fw-bold">Position</label>
+                                    <p id="position">Corporate Innovation Director</p>
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label fw-bold">Entity</label>
+                                    <p id="entity">Brinc Hong Kong Ltd.</p>
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label fw-bold">Reporting Manager</label>
+                                    <p id="manager">Manav Gupta</p>
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label fw-bold">Work Location</label>
+                                    <p id="workLocation">Hong Kong</p>
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label fw-bold">Work Arrangement</label>
+                                    <p id="workArrangement">Hybrid</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Compensation Details -->
+                        <div class="form-section">
+                            <h5 class="mb-3">Compensation Details</h5>
+                            <div class="row g-3">
+                                <div class="col-md-4">
+                                    <label class="form-label fw-bold">Currency</label>
+                                    <p id="currency">HKD - Hong Kong Dollar</p>
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label fw-bold">Base Salary</label>
+                                    <p id="baseSalary">14,500.00</p>
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label fw-bold">Pay Frequency</label>
+                                    <p id="payFrequency">Monthly</p>
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label fw-bold">Bonus (%)</label>
+                                    <p id="bonus">5%</p>
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label fw-bold">Allowance</label>
+                                    <p id="allowance">1,000.00</p>
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label fw-bold">Allowance Type</label>
+                                    <p id="allowanceType">Transportation</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Bank Details -->
+                        <div class="form-section">
+                            <h5 class="mb-3">Bank Details</h5>
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label class="form-label fw-bold">Bank Name</label>
+                                    <p id="bankName">HSBC Hong Kong</p>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label fw-bold">Account Holder Name</label>
+                                    <p id="accountName">Castor Hui</p>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label fw-bold">Account Number</label>
+                                    <p id="accountNumber">••••••••1234</p>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label fw-bold">SWIFT/BIC Code</label>
+                                    <p id="swiftCode">HSBCHKHH</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Documents -->
+                        <div class="form-section">
+                            <h5 class="mb-3">Documents</h5>
+                            <div class="row g-3">
+                                <div class="col-12">
+                                    <ul class="list-group">
+                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                            <div>
+                                                <i class="fas fa-id-card me-2 text-primary"></i> ID Document
+                                            </div>
+                                            <a href="#" class="btn btn-sm btn-outline-primary">
+                                                <i class="fas fa-download"></i> Download
+                                            </a>
+                                        </li>
+                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                            <div>
+                                                <i class="fas fa-file-alt me-2 text-success"></i> Resume/CV
+                                            </div>
+                                            <a href="#" class="btn btn-sm btn-outline-primary">
+                                                <i class="fas fa-download"></i> Download
+                                            </a>
+                                        </li>
+                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                            <div>
+                                                <i class="fas fa-file-contract me-2 text-danger"></i> Employment Contract
+                                            </div>
+                                            <a href="#" class="btn btn-sm btn-outline-primary">
+                                                <i class="fas fa-download"></i> Download
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Emergency Contact -->
+                        <div class="form-section">
+                            <h5 class="mb-3">Emergency Contact</h5>
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label class="form-label fw-bold">Contact Name</label>
+                                    <p id="emergencyName">Jane Hui</p>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label fw-bold">Relationship</label>
+                                    <p id="emergencyRelationship">Spouse</p>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label fw-bold">Phone Number</label>
+                                    <p id="emergencyPhone">+852 9876 5432</p>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label fw-bold">Email Address</label>
+                                    <p id="emergencyEmail">jane.hui@example.com</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Payroll History Section -->
+        <div class="card mb-4">
+            <div class="card-header bg-light">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">Payroll History</h5>
+                    <div>
+                        <a href="payroll_batch_show.html" class="btn btn-sm btn-outline-secondary me-2">
+                            <i class="fas fa-history me-1"></i> View Batch Details
+                        </a>
+                        <button class="btn btn-sm btn-outline-primary" id="exportPayrollHistoryBtn">
+                            <i class="fas fa-file-export me-1"></i> Export History
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Payroll Period</th>
+                                <th>Payment Date</th>
+                                <th>Base Salary</th>
+                                <th>Bonus/Commission</th>
+                                <th>Allowances</th>
+                                <th>Deductions</th>
+                                <th>MPF Contribution</th>
+                                <th>Net Pay</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>May 2023</td>
+                                <td>31 May 2023</td>
+                                <td>14,500.00 <span class="currency-badge">HKD</span></td>
+                                <td>0.00</td>
+                                <td>600.00</td>
+                                <td>450.00</td>
+                                <td>725.00</td>
+                                <td>13,925.00</td>
+                                <td><span class="badge bg-success">Paid</span></td>
+                                <td>
+                                    <a href="#" class="btn btn-sm btn-outline-primary" data-bs-toggle="tooltip" title="View Payslip">
+                                        <i class="fas fa-file-invoice-dollar"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>April 2023</td>
+                                <td>30 Apr 2023</td>
+                                <td>14,500.00 <span class="currency-badge">HKD</span></td>
+                                <td>1,000.00</td>
+                                <td>600.00</td>
+                                <td>450.00</td>
+                                <td>725.00</td>
+                                <td>14,925.00</td>
+                                <td><span class="badge bg-success">Paid</span></td>
+                                <td>
+                                    <a href="#" class="btn btn-sm btn-outline-primary" data-bs-toggle="tooltip" title="View Payslip">
+                                        <i class="fas fa-file-invoice-dollar"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>March 2023</td>
+                                <td>31 Mar 2023</td>
+                                <td>14,500.00 <span class="currency-badge">HKD</span></td>
+                                <td>0.00</td>
+                                <td>600.00</td>
+                                <td>450.00</td>
+                                <td>725.00</td>
+                                <td>13,925.00</td>
+                                <td><span class="badge bg-success">Paid</span></td>
+                                <td>
+                                    <a href="#" class="btn btn-sm btn-outline-primary" data-bs-toggle="tooltip" title="View Payslip">
+                                        <i class="fas fa-file-invoice-dollar"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>February 2023</td>
+                                <td>28 Feb 2023</td>
+                                <td>14,500.00 <span class="currency-badge">HKD</span></td>
+                                <td>0.00</td>
+                                <td>600.00</td>
+                                <td>450.00</td>
+                                <td>725.00</td>
+                                <td>13,925.00</td>
+                                <td><span class="badge bg-success">Paid</span></td>
+                                <td>
+                                    <a href="#" class="btn btn-sm btn-outline-primary" data-bs-toggle="tooltip" title="View Payslip">
+                                        <i class="fas fa-file-invoice-dollar"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>January 2023</td>
+                                <td>31 Jan 2023</td>
+                                <td>14,500.00 <span class="currency-badge">HKD</span></td>
+                                <td>2,500.00</td>
+                                <td>600.00</td>
+                                <td>450.00</td>
+                                <td>725.00</td>
+                                <td>16,425.00</td>
+                                <td><span class="badge bg-success">Paid</span></td>
+                                <td>
+                                    <a href="#" class="btn btn-sm btn-outline-primary" data-bs-toggle="tooltip" title="View Payslip">
+                                        <i class="fas fa-file-invoice-dollar"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <nav aria-label="Payroll history pagination">
+                    <ul class="pagination justify-content-center mt-4">
+                        <li class="page-item disabled">
+                            <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+                        </li>
+                        <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                        <li class="page-item"><a class="page-link" href="#">2</a></li>
+                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+                        <li class="page-item">
+                            <a class="page-link" href="#">Next</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+
+        <!-- Payroll Statistics -->
+        <div class="card mb-4">
+            <div class="card-header bg-light">
+                <h5 class="mb-0">Payroll Statistics</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <div class="card h-100 border-0 shadow-sm">
+                            <div class="card-body text-center">
+                                <h6 class="text-muted mb-2">Average Monthly Salary</h6>
+                                <h3 class="mb-0">HKD 14,625.00</h3>
+                                <small class="text-muted">Last 12 months</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <div class="card h-100 border-0 shadow-sm">
+                            <div class="card-body text-center">
+                                <h6 class="text-muted mb-2">Total Bonus Received</h6>
+                                <h3 class="mb-0">HKD 3,500.00</h3>
+                                <small class="text-muted">Year to date</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <div class="card h-100 border-0 shadow-sm">
+                            <div class="card-body text-center">
+                                <h6 class="text-muted mb-2">Total MPF Contribution</h6>
+                                <h3 class="mb-0">HKD 3,625.00</h3>
+                                <small class="text-muted">Year to date</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="d-flex justify-content-between mb-5">
+            <a href="payroll_employee_index.html" class="btn btn-outline-secondary">
+                <i class="fas fa-arrow-left me-1"></i> Back to Employees
+            </a>
+            <div>
+                <button type="button" class="btn btn-outline-danger me-2" data-bs-toggle="modal" data-bs-target="#deactivateEmployeeModal">
+                    <i class="fas fa-user-slash me-1"></i> Deactivate Employee
+                </button>
+                <a href="payroll_employee_edit.html" class="btn btn-primary">
+                    <i class="fas fa-edit me-1"></i> Edit Employee
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Deactivate Employee Modal -->
+    <div class="modal fade" id="deactivateEmployeeModal" tabindex="-1" aria-labelledby="deactivateEmployeeModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deactivateEmployeeModalLabel">Deactivate Employee</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to deactivate Castor Hui (EMP-002)?</p>
+                    <p class="text-danger">This action will mark the employee as inactive in the system. The employee will no longer receive payroll payments.</p>
+                    <div class="mb-3">
+                        <label for="deactivationReason" class="form-label">Reason for Deactivation</label>
+                        <select class="form-select" id="deactivationReason" required>
+                            <option value="" selected disabled>Select Reason</option>
+                            <option value="resignation">Resignation</option>
+                            <option value="termination">Termination</option>
+                            <option value="retirement">Retirement</option>
+                            <option value="contract-end">Contract End</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="lastWorkingDate" class="form-label">Last Working Date</label>
+                        <input type="date" class="form-control" id="lastWorkingDate" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="deactivationNotes" class="form-label">Additional Notes</label>
+                        <textarea class="form-control" id="deactivationNotes" rows="3"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-danger">Confirm Deactivation</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add script to initialize tooltips -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize tooltips
+            var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+            var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+                return new bootstrap.Tooltip(tooltipTriggerEl)
+            });
+            
+            // Export payroll history button
+            document.getElementById('exportPayrollHistoryBtn').addEventListener('click', function() {
+                alert('Exporting payroll history... This would download a file in a real application.');
+            });
+        });
+    </script>
+
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html> 

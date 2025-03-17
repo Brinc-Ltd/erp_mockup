@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Management - Brinc Payroll System</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .logo {
+            max-height: 40px;
+        }
+        .filter-badge {
+            cursor: pointer;
+        }
+        .card-header {
+            background-color: #f8f9fa;
+        }
+        .search-container {
+            position: relative;
+        }
+        .search-container .fa-search {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            color: #6c757d;
+        }
+        .search-input {
+            padding-left: 35px;
+        }
+        .entity-select {
+            max-width: 300px;
+        }
+        .status-active {
+            color: #198754;
+        }
+        .status-inactive {
+            color: #dc3545;
+        }
+        .status-onleave {
+            color: #fd7e14;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <img src="https://storage.googleapis.com/clean-finder-353810/$Dd5BJMS3vYBf7ZOld70TQI6BwJGDbX0AROpvZc0RexkhTUrPQZBO4S" alt="Brinc Logo" class="logo">
+                <span class="ms-2 fw-bold">Payroll System</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="projects.html">Projects</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="payroll_dashboard.html">Payroll System</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="token_dashboard.html">Digital Currency System</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
+                            <img src="https://s3-ap-southeast-1.amazonaws.com/timeauction.paperclip/auctions/images/000/000/123/display/Manav-Gupta_Founder-CEO_brinc_profilephoto.webp?1614188921" alt="Manav" class="rounded-circle" style="width: 24px; height: 24px; object-fit: cover;"> Manav
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="#">Profile</a></li>
+                            <li><a class="dropdown-item" href="#">Settings</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#">Logout</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container mt-4">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <h2>Employee Management</h2>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="payroll_dashboard.html">Dashboard</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Employee Management</li>
+                    </ol>
+                </nav>
+            </div>
+            <div class="d-flex gap-2">
+                <select class="form-select entity-select">
+                    <option selected>Select Company Entity</option>
+                    <option>Brinc Hong Kong Ltd.</option>
+                    <option>Brinc China</option>
+                    <option>Brinc India</option>
+                    <option>Brinc Japan</option>
+                    <option>Brinc MENA</option>
+                    <option>Brinc Korea</option>
+                    <option>Brinc US Inc.</option>
+                    <option>Brinc UK Ltd.</option>
+                    <option>Brinc Singapore Pte. Ltd.</option>
+                </select>
+                <a href="payroll_setting.html" class="btn btn-outline-secondary">
+                    <i class="fas fa-cog me-1"></i> Payroll Settings
+                </a>
+            </div>
+        </div>
+
+        <!-- Employee List -->
+        <div class="card mb-4">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">All Employees</h5>
+                <div class="d-flex align-items-center gap-3">
+                    <div class="search-container">
+                        <i class="fas fa-search"></i>
+                        <input type="text" class="form-control search-input" placeholder="Search employees...">
+                    </div>
+                    <a href="payroll_employee_new.html" class="btn btn-primary">
+                        <i class="fas fa-user-plus me-1"></i> Add New Employee
+                    </a>
+                    <button class="btn btn-outline-primary">
+                        <i class="fas fa-file-import me-1"></i> Import Employees
+                    </button>
+                </div>
+            </div>
+            <div class="card-body p-0">
+                <!-- Filter Section -->
+                <div class="p-3 bg-light border-bottom">
+                    <div class="row">
+                        <div class="col-md-9">
+                            <div class="d-flex flex-wrap gap-2">
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-sm btn-primary">All</button>
+                                    <button type="button" class="btn btn-sm btn-outline-primary">Active</button>
+                                    <button type="button" class="btn btn-sm btn-outline-primary">Inactive</button>
+                                </div>
+                                <select class="form-select form-select-sm" style="width: auto;">
+                                    <option selected>All Entities</option>
+                                    <option>Brinc Hong Kong Ltd.</option>
+                                    <option>Brinc China</option>
+                                    <option>Brinc India</option>
+                                    <option>Brinc Japan</option>
+                                    <option>Brinc MENA</option>
+                                    <option>Brinc Korea</option>
+                                    <option>Brinc US Inc.</option>
+                                    <option>Brinc UK Ltd.</option>
+                                    <option>Brinc Singapore Pte. Ltd.</option>
+                                </select>
+                                <select class="form-select form-select-sm" style="width: auto;">
+                                    <option selected>All Departments</option>
+                                    <option>Engineering</option>
+                                    <option>Marketing</option>
+                                    <option>Operations</option>
+                                    <option>Administration</option>
+                                    <option>Finance</option>
+                                    <option>Human Resources</option>
+                                    <option>Sales</option>
+                                    <option>Management</option>
+                                    <option>Innovation</option>
+                                </select>
+                                <select class="form-select form-select-sm" style="width: auto;">
+                                    <option selected>All Types</option>
+                                    <option>Full-time</option>
+                                    <option>Part-time</option>
+                                    <option>Contractor</option>
+                                    <option>Intern</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-3 text-end">
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-sm btn-outline-secondary">
+                                    <i class="fas fa-file-export"></i> Export
+                                </button>
+                                <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <span class="visually-hidden">Toggle Dropdown</span>
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    <li><a class="dropdown-item" href="#">Excel</a></li>
+                                    <li><a class="dropdown-item" href="#">CSV</a></li>
+                                    <li><a class="dropdown-item" href="#">PDF</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Table -->
+                <div class="table-responsive">
+                    <table class="table table-hover mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Employee ID</th>
+                                <th>Name</th>
+                                <th>Entity</th>
+                                <th>Department</th>
+                                <th>Title</th>
+                                <th>Type</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>EMP-001</td>
+                                <td>Aisling Gormley</td>
+                                <td>Brinc Hong Kong Ltd.</td>
+                                <td>Human Resources</td>
+                                <td>HR Director</td>
+                                <td><span class="badge bg-primary">Full-time</span></td>
+                                <td><span class="badge bg-success">Active</span></td>
+                                <td>
+                                    <div class="btn-group">
+                                        <a href="payroll_employee_show.html" class="btn btn-sm btn-outline-secondary">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                        <a href="payroll_employee_edit.html" class="btn btn-sm btn-outline-secondary">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                        
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>EMP-002</td>
+                                <td>Castor Hui</td>
+                                <td>Brinc Hong Kong Ltd.</td>
+                                <td>Innovation</td>
+                                <td>Corporate Innovation Director</td>
+                                <td><span class="badge bg-primary">Full-time</span></td>
+                                <td><span class="badge bg-success">Active</span></td>
+                                <td>
+                                    <div class="btn-group">
+                                        <a href="payroll_employee_show.html" class="btn btn-sm btn-outline-secondary">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                        <a href="payroll_employee_edit.html" class="btn btn-sm btn-outline-secondary">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                        
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>EMP-003</td>
+                                <td>Cheyelene Singh</td>
+                                <td>Brinc Singapore Pte. Ltd.</td>
+                                <td>Marketing</td>
+                                <td>Communications & Content Manager</td>
+                                <td><span class="badge bg-primary">Full-time</span></td>
+                                <td><span class="badge bg-success">Active</span></td>
+                                <td>
+                                    <div class="btn-group">
+                                        <a href="payroll_employee_show.html" class="btn btn-sm btn-outline-secondary">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                        <a href="payroll_employee_edit.html" class="btn btn-sm btn-outline-secondary">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                        
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>EMP-004</td>
+                                <td>Edwin Lee</td>
+                                <td>Brinc Hong Kong Ltd.</td>
+                                <td>Operations</td>
+                                <td>Head of Program Operations</td>
+                                <td><span class="badge bg-primary">Full-time</span></td>
+                                <td><span class="badge bg-success">Active</span></td>
+                                <td>
+                                    <div class="btn-group">
+                                        <a href="payroll_employee_show.html" class="btn btn-sm btn-outline-secondary">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                        <a href="payroll_employee_edit.html" class="btn btn-sm btn-outline-secondary">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                        
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>CON-001</td>
+                                <td>Einstein Rojas</td>
+                                <td>Brinc US Inc.</td>
+                                <td>Engineering</td>
+                                <td>Website Developer</td>
+                                <td><span class="badge bg-info">Contractor</span></td>
+                                <td><span class="badge bg-success">Active</span></td>
+                                <td>
+                                    <div class="btn-group">
+                                        <a href="payroll_employee_show.html" class="btn btn-sm btn-outline-secondary">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                        <a href="payroll_employee_edit.html" class="btn btn-sm btn-outline-secondary">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                        
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>EMP-005</td>
+                                <td>Guillermo Ginesta</td>
+                                <td>Brinc Hong Kong Ltd.</td>
+                                <td>Management</td>
+                                <td>Managing Director, HK</td>
+                                <td><span class="badge bg-primary">Full-time</span></td>
+                                <td><span class="badge bg-success">Active</span></td>
+                                <td>
+                                    <div class="btn-group">
+                                        <a href="payroll_employee_show.html" class="btn btn-sm btn-outline-secondary">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                        <a href="payroll_employee_edit.html" class="btn btn-sm btn-outline-secondary">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                        
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>EMP-006</td>
+                                <td>Jasmine Lau</td>
+                                <td>Brinc Hong Kong Ltd.</td>
+                                <td>Management</td>
+                                <td>Co-Founder & Managing Partner</td>
+                                <td><span class="badge bg-primary">Full-time</span></td>
+                                <td><span class="badge bg-success">Active</span></td>
+                                <td>
+                                    <div class="btn-group">
+                                        <a href="payroll_employee_show.html" class="btn btn-sm btn-outline-secondary">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                        <a href="payroll_employee_edit.html" class="btn btn-sm btn-outline-secondary">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                        
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>EMP-007</td>
+                                <td>Manav Gupta</td>
+                                <td>Brinc Hong Kong Ltd.</td>
+                                <td>Management</td>
+                                <td>Founder & CEO</td>
+                                <td><span class="badge bg-primary">Full-time</span></td>
+                                <td><span class="badge bg-success">Active</span></td>
+                                <td>
+                                    <div class="btn-group">
+                                        <a href="payroll_employee_show.html" class="btn btn-sm btn-outline-secondary">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                        <a href="payroll_employee_edit.html" class="btn btn-sm btn-outline-secondary">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                        
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>EMP-008</td>
+                                <td>Olivia Lai</td>
+                                <td>Brinc Hong Kong Ltd.</td>
+                                <td>Finance</td>
+                                <td>Finance Manager</td>
+                                <td><span class="badge bg-primary">Full-time</span></td>
+                                <td><span class="badge bg-warning text-dark">Inactive</span></td>
+                                <td>
+                                    <div class="btn-group">
+                                        <a href="payroll_employee_show.html" class="btn btn-sm btn-outline-secondary">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                        <a href="payroll_employee_edit.html" class="btn btn-sm btn-outline-secondary">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                        
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>EMP-009</td>
+                                <td>Yanik Nyberg</td>
+                                <td>Brinc MENA</td>
+                                <td>Program</td>
+                                <td>Program Director</td>
+                                <td><span class="badge bg-primary">Full-time</span></td>
+                                <td><span class="badge bg-success">Active</span></td>
+                                <td>
+                                    <div class="btn-group">
+                                        <a href="payroll_employee_show.html" class="btn btn-sm btn-outline-secondary">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                        <a href="payroll_employee_edit.html" class="btn btn-sm btn-outline-secondary">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                        
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="card-footer">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <span class="text-muted">Showing 1 to 10 of 124 entries</span>
+                    </div>
+                    <nav aria-label="Page navigation">
+                        <ul class="pagination mb-0">
+                            <li class="page-item disabled">
+                                <a class="page-link" href="#" aria-label="Previous">
+                                    <span aria-hidden="true">&laquo;</span>
+                                </a>
+                            </li>
+                            <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                            <li class="page-item"><a class="page-link" href="#">2</a></li>
+                            <li class="page-item"><a class="page-link" href="#">3</a></li>
+                            <li class="page-item"><a class="page-link" href="#">4</a></li>
+                            <li class="page-item"><a class="page-link" href="#">5</a></li>
+                            <li class="page-item">
+                                <a class="page-link" href="#" aria-label="Next">
+                                    <span aria-hidden="true">&raquo;</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-light py-3 mt-5">
+        <div class="container text-center">
+            <p class="text-muted mb-0">© 2023 Brinc Payroll System. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

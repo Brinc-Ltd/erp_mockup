@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Payroll Batch - Brinc Payroll System</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Handsontable CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/handsontable@12.3.3/dist/handsontable.full.min.css" rel="stylesheet">
+    <style>
+        .logo {
+            max-height: 40px;
+        }
+        .content-container {
+            margin-top: 20px;
+        }
+        .back-button {
+            margin-bottom: 20px;
+        }
+        .payroll-grid {
+            width: 100%;
+            height: auto;
+            margin-top: 10px;
+            overflow: hidden;
+        }
+        .total-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+            background-color: #f5f5f5;
+            border-radius: 4px;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+        .total-label {
+            font-weight: bold;
+        }
+        .total-value {
+            font-weight: bold;
+        }
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        .section-controls {
+            display: flex;
+            gap: 10px;
+        }
+        .add-row-btn {
+            background-color: #4a90e2;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+        .add-row-btn:hover {
+            background-color: #3a7bc8;
+        }
+        .currency-badge {
+            font-size: 0.8rem;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            background-color: #e9ecef;
+            color: #495057;
+            margin-left: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <img src="https://storage.googleapis.com/clean-finder-353810/$Dd5BJMS3vYBf7ZOld70TQI6BwJGDbX0AROpvZc0RexkhTUrPQZBO4S" alt="Brinc Logo" class="logo">
+                <span class="ms-2 fw-bold">Payroll System</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="projects.html">Projects</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="payroll_dashboard.html">Payroll System</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="token_dashboard.html">Digital Currency System</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
+                            <img src="https://s3-ap-southeast-1.amazonaws.com/timeauction.paperclip/auctions/images/000/000/123/display/Manav-Gupta_Founder-CEO_brinc_profilephoto.webp?1614188921" alt="Manav" class="rounded-circle" style="width: 24px; height: 24px; object-fit: cover;"> Manav
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="#">Profile</a></li>
+                            <li><a class="dropdown-item" href="#">Settings</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#">Logout</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container content-container">
+        <div class="back-button">
+            <a href="payroll_dashboard.html" class="btn btn-outline-secondary">
+                <i class="fas fa-arrow-left"></i> Back to Payroll Dashboard
+            </a>
+        </div>
+        
+        <h1>Create New Payroll Batch</h1>
+        
+        <form id="payrollBatchForm">
+            <div class="row mb-4">
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header bg-light">
+                            <h5 class="mb-0">Batch Information</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="mb-3">
+                                <label for="batchId" class="form-label">Batch ID</label>
+                                <input type="text" class="form-control" id="batchId" value="PR-2023-06" readonly>
+                                <small class="text-muted">Auto-generated batch ID</small>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="templateSelect" class="form-label">Payroll Template</label>
+                                <select class="form-select" id="templateSelect" required>
+                                    <option value="">Select Template</option>
+                                    <option value="hongkong">Hong Kong Template</option>
+                                    <option value="bahrain">Bahrain Template</option>
+                                    <option value="india">India Template</option>
+                                    <option value="singapore">Singapore Template</option>
+                                    <option value="us">US Template</option>
+                                    <option value="uk">UK Template</option>
+                                </select>
+                                <small class="text-muted">Select a template to define the payroll structure</small>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="payrollPeriod" class="form-label">Payroll Period</label>
+                                <select class="form-select" id="payrollPeriod" required>
+                                    <option value="">Select Period</option>
+                                    <option value="Jun 2023" selected>June 2023</option>
+                                    <option value="Jul 2023">July 2023</option>
+                                    <option value="Aug 2023">August 2023</option>
+                                </select>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="paymentDate" class="form-label">Payment Date</label>
+                                <input type="date" class="form-control" id="paymentDate" required>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header bg-light">
+                            <h5 class="mb-0">Entity Information</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="mb-3">
+                                <label for="entity" class="form-label">Company Entity</label>
+                                <select class="form-select" id="entity" required>
+                                    <option value="">Select Entity</option>
+                                    <option value="Brinc Hong Kong Ltd.">Brinc Hong Kong Ltd.</option>
+                                    <option value="Brinc China">Brinc China</option>
+                                    <option value="Brinc India">Brinc India</option>
+                                    <option value="Brinc Japan">Brinc Japan</option>
+                                    <option value="Brinc MENA">Brinc MENA</option>
+                                    <option value="Brinc Korea">Brinc Korea</option>
+                                    <option value="Brinc US Inc.">Brinc US Inc.</option>
+                                    <option value="Brinc UK Ltd.">Brinc UK Ltd.</option>
+                                    <option value="Brinc Singapore Pte. Ltd.">Brinc Singapore Pte. Ltd.</option>
+                                </select>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="currency" class="form-label">Currency</label>
+                                <select class="form-select" id="currency" required>
+                                    <option value="">Select Currency</option>
+                                    <option value="HKD">HKD - Hong Kong Dollar</option>
+                                    <option value="USD">USD - US Dollar</option>
+                                    <option value="CNY">CNY - Chinese Yuan</option>
+                                    <option value="INR">INR - Indian Rupee</option>
+                                    <option value="JPY">JPY - Japanese Yen</option>
+                                    <option value="AED">AED - UAE Dirham</option>
+                                    <option value="KRW">KRW - Korean Won</option>
+                                    <option value="GBP">GBP - British Pound</option>
+                                    <option value="SGD">SGD - Singapore Dollar</option>
+                                </select>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="approver" class="form-label">Approver</label>
+                                <select class="form-select" id="approver" required>
+                                    <option value="">Select Approver</option>
+                                    <option value="Manav Gupta">Manav Gupta</option>
+                                    <option value="Guillermo Ginesta">Guillermo Ginesta</option>
+                                    <option value="Aisling Gormley">Aisling Gormley</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card mb-4">
+                <div class="card-header bg-light">
+                    <div class="section-header">
+                        <h5 class="mb-0">Payroll Details</h5>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="alert alert-info">
+                        <i class="fas fa-info-circle me-2"></i> Review the payroll details for each employee below. You can edit the values as needed.
+                    </div>
+                    
+                    <div id="payrollGrid" class="payroll-grid"></div>
+                    
+                    <div id="payrollTotal" class="total-row mt-3">
+                        <div class="total-label">Total:</div>
+                        <div class="total-value" id="totalAmount">0.00</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card mb-4">
+                <div class="card-header bg-light">
+                    <h5 class="mb-0">Notes & Attachments</h5>
+                </div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <label for="notes" class="form-label">Notes</label>
+                        <textarea class="form-control" id="notes" rows="3" placeholder="Add any notes or special instructions for this payroll batch..."></textarea>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="attachments" class="form-label">Attachments</label>
+                        <input class="form-control" type="file" id="attachments" multiple>
+                        <small class="text-muted">Upload any supporting documents (optional)</small>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="d-flex justify-content-between mb-5">
+                <a href="payroll_dashboard.html" class="btn btn-outline-secondary">Cancel</a>
+                <div>
+                    <button type="button" class="btn btn-outline-primary me-2" id="saveAsDraftBtn">
+                        <i class="fas fa-save me-1"></i> Save as Draft
+                    </button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-paper-plane me-1"></i> Submit for Approval
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-light py-3 mt-5">
+        <div class="container text-center">
+            <p class="text-muted mb-0">© 2023 Brinc Payroll System. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Handsontable JS -->
+    <script src="https://cdn.jsdelivr.net/npm/handsontable@12.3.3/dist/handsontable.full.min.js"></script>
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Sample employee data
+            const employeeData = [
+                { id: 'EMP-001', name: 'Aisling Gormley', department: 'Human Resources', title: 'HR Director', baseSalary: 15000, bonus: 1500, allowance: 800, overtime: 0, deductions: 500, tax: 1650, netPay: 15150 },
+                { id: 'EMP-002', name: 'Castor Hui', department: 'Innovation', title: 'Corporate Innovation Director', baseSalary: 14500, bonus: 0, allowance: 600, overtime: 0, deductions: 450, tax: 1465, netPay: 13185 },
+                { id: 'EMP-003', name: 'Cheyelene Singh', department: 'Marketing', title: 'Communications & Content Manager', baseSalary: 12000, bonus: 800, allowance: 500, overtime: 0, deductions: 400, tax: 1290, netPay: 11610 },
+                { id: 'EMP-004', name: 'Edwin Lee', department: 'Operations', title: 'Head of Program Operations', baseSalary: 13500, bonus: 0, allowance: 700, overtime: 0, deductions: 425, tax: 1377.5, netPay: 12397.5 },
+                { id: 'CON-001', name: 'Einstein Rojas', department: 'Engineering', title: 'Website Developer', baseSalary: 9000, bonus: 0, allowance: 0, overtime: 1200, deductions: 0, tax: 1020, netPay: 9180 },
+                { id: 'EMP-005', name: 'Guillermo Ginesta', department: 'Management', title: 'Managing Director, HK', baseSalary: 18000, bonus: 2000, allowance: 1200, overtime: 0, deductions: 600, tax: 2060, netPay: 18540 }
+            ];
+            
+            // Create a map of employee data for quick lookup
+            const employeeMap = {};
+            employeeData.forEach(emp => {
+                employeeMap[emp.name] = emp;
+            });
+            
+            // Get all employee names for dropdown
+            const employeeNames = employeeData.map(emp => emp.name);
+            
+            // Initialize the payroll grid
+            const container = document.getElementById('payrollGrid');
+            let hot; // Declare hot outside to make it accessible
+            
+            // Template definitions
+            const templates = {
+                hongkong: {
+                    name: 'Hong Kong Template',
+                    columns: [
+                        { data: 'id', title: 'Employee ID', readOnly: true, width: 100 },
+                        { data: 'name', title: 'Name', type: 'dropdown', source: employeeNames, width: 150, allowInvalid: false },
+                        { data: 'department', title: 'Department', readOnly: true, width: 120 },
+                        { data: 'position', title: 'Position', readOnly: true, width: 150 },
+                        { data: 'monthly_salary', title: 'Monthly salary', type: 'numeric', numericFormat: { pattern: '0,0.00' }, width: 100 },
+                        { data: 'salary_pay', title: 'Salary pay', type: 'numeric', numericFormat: { pattern: '0,0.00' }, width: 100 },
+                        { data: 'bonus_commission', title: 'Bonus / Commission', type: 'numeric', numericFormat: { pattern: '0,0.00' }, width: 100 },
+                        { data: 'add_unused_al', title: 'Add (eg.unused AL)', type: 'numeric', numericFormat: { pattern: '0,0.00' }, width: 100 },
+                        { data: 'deduction', title: 'Deduction', type: 'numeric', numericFormat: { pattern: '0,0.00' }, width: 100 },
+                        { data: 'total', title: 'Total', type: 'numeric', numericFormat: { pattern: '0,0.00' }, readOnly: true, width: 100 },
+                        { data: 'er_mpf', title: 'ER MPF', type: 'numeric', numericFormat: { pattern: '0,0.00' }, width: 80 },
+                        { data: 'ee_mpf', title: 'EE MPF', type: 'numeric', numericFormat: { pattern: '0,0.00' }, width: 80 },
+                        { data: 'total_mpf', title: 'Total MPF', type: 'numeric', numericFormat: { pattern: '0,0.00' }, readOnly: true, width: 80 },
+                        { data: 'net_payroll', title: 'Net payroll', type: 'numeric', numericFormat: { pattern: '0,0.00' }, readOnly: true, width: 100 }
+                    ]
+                },
+                bahrain: {
+                    name: 'Bahrain Template',
+                    columns: [
+                        { data: 'id', title: 'Employee ID', readOnly: true, width: 100 },
+                        { data: 'name', title: 'Name', type: 'dropdown', source: employeeNames, width: 150, allowInvalid: false },
+                        { data: 'department', title: 'Department', readOnly: true, width: 120 },
+                        { data: 'position', title: 'Position', readOnly: true, width: 150 },
+                        { data: 'basic_salary', title: 'Basic Salary', type: 'numeric', numericFormat: { pattern: '0,0.00' }, width: 100 },
+                        { data: 'allowance', title: 'Allowance', type: 'numeric', numericFormat: { pattern: '0,0.00' }, width: 90 },
+                        { data: 'prorated_salary', title: 'Pro-rated Salary', type: 'numeric', numericFormat: { pattern: '0,0.00' }, width: 100 },
+                        { data: 'additions', title: 'Additions', type: 'numeric', numericFormat: { pattern: '0,0.00' }, width: 90 },
+                        { data: 'deductions', title: 'Deductions', type: 'numeric', numericFormat: { pattern: '0,0.00' }, width: 100 },
+                        { data: 'bahraini_sio', title: 'Bahraini SIO', type: 'numeric', numericFormat: { pattern: '0,0.00' }, width: 100 },
+                        { data: 'gross_pay', title: 'Gross Pay', type: 'numeric', numericFormat: { pattern: '0,0.00' }, readOnly: true, width: 100 },
+                        { data: 'net_pay', title: 'Net Pay', type: 'numeric', numericFormat: { pattern: '0,0.00' }, readOnly: true, width: 100 }
+                    ]
+                },
+                // Add other templates as needed
+                // Default template (similar to the original one)
+                default: {
+                    name: 'Default Template',
+                    columns: [
+                        { data: 'id', title: 'Employee ID', readOnly: true, width: 100 },
+                        { data: 'name', title: 'Name', type: 'dropdown', source: employeeNames, width: 150, allowInvalid: false },
+                        { data: 'department', title: 'Department', readOnly: true, width: 120 },
+                        { data: 'title', title: 'Title', readOnly: true, width: 150 },
+                        { data: 'baseSalary', title: 'Base Salary', type: 'numeric', numericFormat: { pattern: '0,0.00' }, width: 100 },
+                        { data: 'bonus', title: 'Bonus', type: 'numeric', numericFormat: { pattern: '0,0.00' }, width: 80 },
+                        { data: 'allowance', title: 'Allowance', type: 'numeric', numericFormat: { pattern: '0,0.00' }, width: 90 },
+                        { data: 'overtime', title: 'Overtime', type: 'numeric', numericFormat: { pattern: '0,0.00' }, width: 80 },
+                        { data: 'deductions', title: 'Deductions', type: 'numeric', numericFormat: { pattern: '0,0.00' }, width: 100 },
+                        { data: 'tax', title: 'Tax', type: 'numeric', numericFormat: { pattern: '0,0.00' }, width: 80 },
+                        { data: 'netPay', title: 'Net Pay', type: 'numeric', numericFormat: { pattern: '0,0.00' }, readOnly: true, width: 100 }
+                    ]
+                }
+            };
+            
+            // Function to initialize the grid with a template
+            function initializeGrid(templateId) {
+                // Get template, default to 'default' if not found
+                const template = templates[templateId] || templates.default;
+                
+                // Create initial data with empty rows
+                const initialData = [];
+                for (let i = 0; i < 10; i++) {
+                    initialData.push({
+                        id: '',
+                        name: '',
+                        department: '',
+                        title: '',
+                        baseSalary: 0,
+                        bonus: 0,
+                        allowance: 0,
+                        overtime: 0,
+                        deductions: 0,
+                        tax: 0,
+                        netPay: 0
+                        // Other fields will be added as needed
+                    });
+                }
+                
+                // Destroy existing instance if it exists
+                if (hot) {
+                    hot.destroy();
+                }
+                
+                // Initialize Handsontable with the selected template
+                hot = new Handsontable(container, {
+                    data: initialData,
+                    columns: template.columns,
+                    rowHeaders: true,
+                    colHeaders: true,
+                    height: 'auto',
+                    minRows: 5,
+                    licenseKey: 'non-commercial-and-evaluation',
+                    contextMenu: true,
+                    afterChange: function(changes, source) {
+                        if (!changes) return;
+                        
+                        changes.forEach(([row, prop, oldValue, newValue]) => {
+                            // If name changed, update other fields
+                            if (prop === 'name' && newValue && newValue !== oldValue) {
+                                const employee = employeeMap[newValue];
+                                if (employee) {
+                                    // Update employee details
+                                    this.setDataAtRowProp(row, 'id', employee.id);
+                                    this.setDataAtRowProp(row, 'department', employee.department);
+                                    
+                                    // Handle different column names based on template
+                                    if (template.columns.find(col => col.data === 'title')) {
+                                        this.setDataAtRowProp(row, 'title', employee.title);
+                                    } else if (template.columns.find(col => col.data === 'position')) {
+                                        this.setDataAtRowProp(row, 'position', employee.title);
+                                    }
+                                    
+                                    // Handle salary fields based on template
+                                    if (template.columns.find(col => col.data === 'baseSalary')) {
+                                        this.setDataAtRowProp(row, 'baseSalary', employee.baseSalary);
+                                    } else if (template.columns.find(col => col.data === 'monthly_salary')) {
+                                        this.setDataAtRowProp(row, 'monthly_salary', employee.baseSalary);
+                                    } else if (template.columns.find(col => col.data === 'basic_salary')) {
+                                        this.setDataAtRowProp(row, 'basic_salary', employee.baseSalary);
+                                    }
+                                    
+                                    // Calculate net pay based on template
+                                    calculateNetPay(this, row, template);
+                                }
+                            }
+                            
+                            // If any numeric value changed, recalculate net pay
+                            if (prop !== 'name' && prop !== 'id' && prop !== 'department' && prop !== 'title' && prop !== 'position') {
+                                calculateNetPay(this, row, template);
+                            }
+                        });
+                        
+                        // Calculate total
+                        calculateTotal();
+                    }
+                });
+            }
+            
+            // Function to calculate net pay based on template
+            function calculateNetPay(hotInstance, row, template) {
+                // Different calculation logic based on template
+                if (template === templates.hongkong) {
+                    const monthlySalary = parseFloat(hotInstance.getDataAtRowProp(row, 'monthly_salary')) || 0;
+                    const salaryPay = parseFloat(hotInstance.getDataAtRowProp(row, 'salary_pay')) || 0;
+                    const bonus = parseFloat(hotInstance.getDataAtRowProp(row, 'bonus_commission')) || 0;
+                    const addUnusedAL = parseFloat(hotInstance.getDataAtRowProp(row, 'add_unused_al')) || 0;
+                    const deduction = parseFloat(hotInstance.getDataAtRowProp(row, 'deduction')) || 0;
+                    
+                    const total = salaryPay + bonus + addUnusedAL - deduction;
+                    hotInstance.setDataAtRowProp(row, 'total', total);
+                    
+                    const erMpf = parseFloat(hotInstance.getDataAtRowProp(row, 'er_mpf')) || 0;
+                    const eeMpf = parseFloat(hotInstance.getDataAtRowProp(row, 'ee_mpf')) || 0;
+                    
+                    hotInstance.setDataAtRowProp(row, 'total_mpf', erMpf + eeMpf);
+                    hotInstance.setDataAtRowProp(row, 'net_payroll', total - eeMpf);
+                } 
+                else if (template === templates.bahrain) {
+                    const basicSalary = parseFloat(hotInstance.getDataAtRowProp(row, 'basic_salary')) || 0;
+                    const allowance = parseFloat(hotInstance.getDataAtRowProp(row, 'allowance')) || 0;
+                    const proratedSalary = parseFloat(hotInstance.getDataAtRowProp(row, 'prorated_salary')) || 0;
+                    const additions = parseFloat(hotInstance.getDataAtRowProp(row, 'additions')) || 0;
+                    const deductions = parseFloat(hotInstance.getDataAtRowProp(row, 'deductions')) || 0;
+                    const bahrainiSio = parseFloat(hotInstance.getDataAtRowProp(row, 'bahraini_sio')) || 0;
+                    
+                    const grossPay = basicSalary + allowance + proratedSalary + additions;
+                    const netPay = grossPay - deductions - bahrainiSio;
+                    
+                    hotInstance.setDataAtRowProp(row, 'gross_pay', grossPay);
+                    hotInstance.setDataAtRowProp(row, 'net_pay', netPay);
+                }
+                else {
+                    // Default calculation (original logic)
+                    const baseSalary = parseFloat(hotInstance.getDataAtRowProp(row, 'baseSalary')) || 0;
+                    const bonus = parseFloat(hotInstance.getDataAtRowProp(row, 'bonus')) || 0;
+                    const allowance = parseFloat(hotInstance.getDataAtRowProp(row, 'allowance')) || 0;
+                    const overtime = parseFloat(hotInstance.getDataAtRowProp(row, 'overtime')) || 0;
+                    const deductions = parseFloat(hotInstance.getDataAtRowProp(row, 'deductions')) || 0;
+                    const tax = parseFloat(hotInstance.getDataAtRowProp(row, 'tax')) || 0;
+                    
+                    const netPay = baseSalary + bonus + allowance + overtime - deductions - tax;
+                    hotInstance.setDataAtRowProp(row, 'netPay', netPay);
+                }
+            }
+            
+            // Calculate total
+            const calculateTotal = () => {
+                const data = hot.getSourceData();
+                let total = 0;
+                
+                // Get the current template
+                const templateId = document.getElementById('templateSelect').value || 'default';
+                const template = templates[templateId] || templates.default;
+                
+                for (let row = 0; row < data.length; row++) {
+                    if (data[row].name) { // If name is not empty
+                        // Get net pay based on template
+                        let netPay = 0;
+                        if (template === templates.hongkong) {
+                            netPay = parseFloat(data[row].net_payroll) || 0;
+                        } else if (template === templates.bahrain) {
+                            netPay = parseFloat(data[row].net_pay) || 0;
+                        } else {
+                            netPay = parseFloat(data[row].netPay) || 0;
+                        }
+                        total += netPay;
+                    }
+                }
+                
+                const currencySelect = document.getElementById('currency').value || 'HKD';
+                document.getElementById('totalAmount').textContent = currencySelect + ' ' + total.toLocaleString('en-US', {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2
+                });
+            };
+            
+            // Initialize with default template
+            initializeGrid('default');
+            
+            // Template change event
+            document.getElementById('templateSelect').addEventListener('change', function() {
+                const templateId = this.value || 'default';
+                initializeGrid(templateId);
+            });
+            
+            // Currency change event
+            document.getElementById('currency').addEventListener('change', function() {
+                calculateTotal();
+            });
+            
+            // Form submission
+            document.getElementById('payrollBatchForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const entity = document.getElementById('entity').value;
+                const period = document.getElementById('payrollPeriod').value;
+                const templateId = document.getElementById('templateSelect').value;
+                
+                if (!entity || !period) {
+                    alert('Please fill in all required fields.');
+                    return;
+                }
+                
+                // Get payroll data
+                const payrollData = hot.getSourceData().filter(row => row.name); // Filter rows with names
+                
+                if (payrollData.length === 0) {
+                    alert('Please add at least one employee to the payroll batch.');
+                    return;
+                }
+                
+                // In a real app, you would send this data to the server
+                console.log('Payroll Batch Data:', {
+                    batchId: document.getElementById('batchId').value,
+                    period: period,
+                    entity: entity,
+                    templateId: templateId,
+                    currency: document.getElementById('currency').value,
+                    paymentDate: document.getElementById('paymentDate').value,
+                    approver: document.getElementById('approver').value,
+                    notes: document.getElementById('notes').value,
+                    payrollData: payrollData
+                });
+                
+                alert('Payroll batch submitted for approval!');
+                window.location.href = 'payroll_dashboard.html';
+            });
+            
+            // Save as draft button
+            document.getElementById('saveAsDraftBtn').addEventListener('click', function() {
+                alert('Payroll batch saved as draft!');
+            });
+        });
+    </script>
+</body>
+</html>

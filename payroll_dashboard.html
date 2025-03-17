@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brinc Payroll System</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .logo {
+            max-height: 40px;
+        }
+        .filter-badge {
+            cursor: pointer;
+        }
+        .card-header {
+            background-color: #f8f9fa;
+        }
+        .search-container {
+            position: relative;
+        }
+        .search-container .fa-search {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            color: #6c757d;
+        }
+        .search-input {
+            padding-left: 35px;
+        }
+        .dashboard-card {
+            transition: transform 0.2s;
+        }
+        .dashboard-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        .entity-select {
+            max-width: 300px;
+        }
+        .status-pending {
+            color: #fd7e14;
+        }
+        .status-approved {
+            color: #198754;
+        }
+        .status-rejected {
+            color: #dc3545;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <img src="https://storage.googleapis.com/clean-finder-353810/$Dd5BJMS3vYBf7ZOld70TQI6BwJGDbX0AROpvZc0RexkhTUrPQZBO4S" alt="Brinc Logo" class="logo">
+                <span class="ms-2 fw-bold">Payroll System</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="projects.html">Projects</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#">Payroll System</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="token_dashboard.html">Digital Currency System</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
+                            <img src="https://s3-ap-southeast-1.amazonaws.com/timeauction.paperclip/auctions/images/000/000/123/display/Manav-Gupta_Founder-CEO_brinc_profilephoto.webp?1614188921" alt="Manav" class="rounded-circle" style="width: 24px; height: 24px; object-fit: cover;"> Manav
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="#">Profile</a></li>
+                            <li><a class="dropdown-item" href="#">Settings</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#">Logout</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container mt-4">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2>Payroll Dashboard</h2>
+            <div class="d-flex gap-2">
+                <select class="form-select entity-select">
+                    <option selected>Select Company Entity</option>
+                    <option>Brinc Hong Kong Ltd.</option>
+                    <option>Brinc China</option>
+                    <option>Brinc India</option>
+                    <option>Brinc Japan</option>
+                    <option>Brinc MENA</option>
+                    <option>Brinc Korea</option>
+                    <option>Brinc US Inc.</option>
+                    <option>Brinc UK Ltd.</option>
+                    <option>Brinc Singapore Pte. Ltd.</option>
+                </select>
+                <a href="payroll_setting.html" class="btn btn-outline-secondary">
+                    <i class="fas fa-cog me-1"></i> Payroll Settings
+                </a>
+            </div>
+        </div>
+
+        <!-- Quick Stats -->
+        <div class="row mb-4">
+            <div class="col-md-3">
+                <div class="card dashboard-card h-100">
+                    <div class="card-body text-center">
+                        <a href="payroll_employee_index.html" class="text-decoration-none">
+                            <i class="fas fa-users fa-3x text-primary mb-3"></i>
+                            <h5 class="card-title">Total Employees</h5>
+                            <h3 class="mb-0">124</h3>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card dashboard-card h-100">
+                    <div class="card-body text-center">
+                        <a href="payroll_batch_index.html" class="text-decoration-none">
+                            <i class="fas fa-file-invoice-dollar fa-3x text-success mb-3"></i>
+                            <h5 class="card-title">Monthly Payroll</h5>
+                            <h3 class="mb-0">$245,780</h3>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card dashboard-card h-100">
+                    <div class="card-body text-center">
+                        <a href="payroll_employee_index.html" class="text-decoration-none">
+                            <i class="fas fa-user-tie fa-3x text-info mb-3"></i>
+                            <h5 class="card-title">Contractors</h5>
+                            <h3 class="mb-0">18</h3>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card dashboard-card h-100">
+                    <div class="card-body text-center">
+                        <a href="payroll_batch_index.html" class="text-decoration-none">
+                            <i class="fas fa-sync-alt fa-3x text-warning mb-3"></i>
+                            <h5 class="card-title">Pending Approvals</h5>
+                            <h3 class="mb-0">3</h3>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Payroll Actions -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">Recent Payroll Batches</h5>
+                        <div class="d-flex align-items-center gap-3">
+                        </div>
+                    </div>
+                    <div class="card-body p-0">
+                        <div class="table-responsive">
+                            <table class="table table-hover mb-0">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Batch ID</th>
+                                        <th>Period</th>
+                                        <th>Entity</th>
+                                        <th>Amount</th>
+                                        <th>Status</th>
+                                        <th>Submit to Xero</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>PR-2023-05</td>
+                                        <td>May 2023</td>
+                                        <td>Brinc Hong Kong Ltd.</td>
+                                        <td>HKD 1,245,000</td>
+                                        <td><span class="status-pending"><i class="fas fa-clock"></i> Pending Approval</span></td>
+                                        <td>-</td>
+                                        <td>
+                                            <div class="btn-group">
+                                                <a href="payroll_batch_show.html" class="btn btn-sm btn-outline-secondary">
+                                                    <i class="fas fa-eye"></i>
+                                                </a>
+                                                <a href="payroll_batch_edit.html" class="btn btn-sm btn-outline-secondary">
+                                                    <i class="fas fa-edit"></i>
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>PR-2023-04</td>
+                                        <td>April 2023</td>
+                                        <td>Brinc Hong Kong Ltd.</td>
+                                        <td>HKD 1,230,000</td>
+                                        <td><span class="status-approved"><i class="fas fa-check-circle"></i> Approved</span></td>
+                                        <td><span class="badge bg-success">Submitted</span></td>
+                                        <td>
+                                            <div class="btn-group">
+                                                <a href="payroll_batch_show.html" class="btn btn-sm btn-outline-secondary">
+                                                    <i class="fas fa-eye"></i>
+                                                </a>
+                                                <a href="#" class="btn btn-sm btn-outline-secondary">
+                                                    <i class="fas fa-file-pdf"></i>
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>PR-2023-05</td>
+                                        <td>May 2023</td>
+                                        <td>Brinc US Inc.</td>
+                                        <td>USD 185,000</td>
+                                        <td><span class="status-pending"><i class="fas fa-clock"></i> Pending Approval</span></td>
+                                        <td>-</td>
+                                        <td>
+                                            <div class="btn-group">
+                                                <a href="payroll_batch_show.html" class="btn btn-sm btn-outline-secondary">
+                                                    <i class="fas fa-eye"></i>
+                                                </a>
+                                                <a href="payroll_batch_edit.html" class="btn btn-sm btn-outline-secondary">
+                                                    <i class="fas fa-edit"></i>
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>PR-2023-04</td>
+                                        <td>April 2023</td>
+                                        <td>Brinc US Inc.</td>
+                                        <td>USD 180,000</td>
+                                        <td><span class="status-approved"><i class="fas fa-check-circle"></i> Approved</span></td>
+                                        <td><span class="badge bg-success">Submitted</span></td>
+                                        <td>
+                                            <div class="btn-group">
+                                                <a href="payroll_batch_show.html" class="btn btn-sm btn-outline-secondary">
+                                                    <i class="fas fa-eye"></i>
+                                                </a>
+                                                <a href="#" class="btn btn-sm btn-outline-secondary">
+                                                    <i class="fas fa-file-pdf"></i>
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>PR-2023-05</td>
+                                        <td>May 2023</td>
+                                        <td>Brinc UK Ltd.</td>
+                                        <td>GBP 95,000</td>
+                                        <td><span class="status-pending"><i class="fas fa-clock"></i> Pending Approval</span></td>
+                                        <td>-</td>
+                                        <td>
+                                            <div class="btn-group">
+                                                <a href="payroll_batch_show.html" class="btn btn-sm btn-outline-secondary">
+                                                    <i class="fas fa-eye"></i>
+                                                </a>
+                                                <a href="payroll_batch_edit.html" class="btn btn-sm btn-outline-secondary">
+                                                    <i class="fas fa-edit"></i>
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="card-footer text-end">
+                        <a href="payroll_batch_index.html" class="btn btn-outline-secondary">
+                            <i class="fas fa-history me-1"></i> View All History
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Cost Allocation -->
+        <div class="card mb-4">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">Cost Allocation Overview</h5>
+                <div class="d-flex align-items-center">
+                    <label for="monthFilter" class="me-2">Filter by month:</label>
+                    <select id="monthFilter" class="form-select form-select-sm" style="width: auto;">
+                        <option selected>May 2023</option>
+                        <option>April 2023</option>
+                        <option>March 2023</option>
+                        <option>February 2023</option>
+                        <option>January 2023</option>
+                        <option>December 2022</option>
+                    </select>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h6>Project Allocation</h6>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="table-responsive">
+                                    <table class="table table-sm">
+                                        <thead>
+                                            <tr>
+                                                <th>Project</th>
+                                                <th>Allocation %</th>
+                                                <th>Amount (USD)</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>XDC</td>
+                                                <td>30%</td>
+                                                <td>$73,734</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Climate Tech</td>
+                                                <td>25%</td>
+                                                <td>$61,445</td>
+                                            </tr>
+                                            <tr>
+                                                <td>VentureVerse</td>
+                                                <td>20%</td>
+                                                <td>$49,156</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Boda</td>
+                                                <td>15%</td>
+                                                <td>$36,867</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Other Projects</td>
+                                                <td>10%</td>
+                                                <td>$24,578</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="chart-container" style="position: relative; height: 200px;">
+                                    <canvas id="projectAllocationChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <h6>Department Allocation</h6>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="table-responsive">
+                                    <table class="table table-sm">
+                                        <thead>
+                                            <tr>
+                                                <th>Department</th>
+                                                <th>Allocation %</th>
+                                                <th>Amount (USD)</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>Program</td>
+                                                <td>45%</td>
+                                                <td>$110,601</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Engineering</td>
+                                                <td>20%</td>
+                                                <td>$49,156</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Marketing</td>
+                                                <td>15%</td>
+                                                <td>$36,867</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Operations</td>
+                                                <td>10%</td>
+                                                <td>$24,578</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Administration</td>
+                                                <td>10%</td>
+                                                <td>$24,578</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="chart-container" style="position: relative; height: 200px;">
+                                    <canvas id="departmentAllocationChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Employee Management -->
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">Recently Updated Employees</h5>
+                <div class="d-flex gap-2">
+                    
+                </div>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Employee ID</th>
+                                <th>Name</th>
+                                <th>Entity</th>
+                                <th>Department</th>
+                                <th>Title</th>
+                                <th>Type</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>EMP-001</td>
+                                <td>Aisling Gormley</td>
+                                <td>Brinc Hong Kong Ltd.</td>
+                                <td>Human Resources</td>
+                                <td>HR Director</td>
+                                <td><span class="badge bg-primary">Full-time</span></td>
+                                <td><span class="badge bg-success">Active</span></td>
+                                <td>
+                                    <div class="btn-group">
+                                        <a href="payroll_employee_show.html" class="btn btn-sm btn-outline-secondary">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                        <a href="payroll_employee_edit.html" class="btn btn-sm btn-outline-secondary">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>EMP-002</td>
+                                <td>Castor Hui</td>
+                                <td>Brinc Hong Kong Ltd.</td>
+                                <td>Innovation</td>
+                                <td>Corporate Innovation Director</td>
+                                <td><span class="badge bg-primary">Full-time</span></td>
+                                <td><span class="badge bg-success">Active</span></td>
+                                <td>
+                                    <div class="btn-group">
+                                        <a href="payroll_employee_show.html" class="btn btn-sm btn-outline-secondary">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                        <a href="payroll_employee_edit.html" class="btn btn-sm btn-outline-secondary">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>EMP-003</td>
+                                <td>Cheyelene Singh</td>
+                                <td>Brinc Singapore Pte. Ltd.</td>
+                                <td>Marketing</td>
+                                <td>Communications & Content Manager</td>
+                                <td><span class="badge bg-primary">Full-time</span></td>
+                                <td><span class="badge bg-success">Active</span></td>
+                                <td>
+                                    <div class="btn-group">
+                                        <a href="payroll_employee_show.html" class="btn btn-sm btn-outline-secondary">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                        <a href="payroll_employee_edit.html" class="btn btn-sm btn-outline-secondary">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>EMP-004</td>
+                                <td>Edwin Lee</td>
+                                <td>Brinc Hong Kong Ltd.</td>
+                                <td>Operations</td>
+                                <td>Head of Program Operations</td>
+                                <td><span class="badge bg-primary">Full-time</span></td>
+                                <td><span class="badge bg-success">Active</span></td>
+                                <td>
+                                    <div class="btn-group">
+                                        <a href="payroll_employee_show.html" class="btn btn-sm btn-outline-secondary">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                        <a href="payroll_employee_edit.html" class="btn btn-sm btn-outline-secondary">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>CON-001</td>
+                                <td>Einstein Rojas</td>
+                                <td>Brinc US Inc.</td>
+                                <td>Engineering</td>
+                                <td>Website Developer</td>
+                                <td><span class="badge bg-info">Contractor</span></td>
+                                <td><span class="badge bg-success">Active</span></td>
+                                <td>
+                                    <div class="btn-group">
+                                        <a href="payroll_employee_show.html" class="btn btn-sm btn-outline-secondary">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                        <a href="payroll_employee_edit.html" class="btn btn-sm btn-outline-secondary">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="card-footer text-end">
+                <a href="payroll_employee_index.html" class="btn btn-outline-secondary">
+                    <i class="fas fa-history me-1"></i> View All Employees
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-light py-3 mt-5">
+        <div class="container text-center">
+            <p class="text-muted mb-0">© 2023 Brinc Payroll System. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Add Chart.js before the closing body tag -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Project Allocation Chart
+            const projectCtx = document.getElementById('projectAllocationChart').getContext('2d');
+            const projectChart = new Chart(projectCtx, {
+                type: 'pie',
+                data: {
+                    labels: ['XDC', 'Climate Tech', 'VentureVerse', 'Boda', 'Other Projects'],
+                    datasets: [{
+                        data: [30, 25, 20, 15, 10],
+                        backgroundColor: [
+                            '#4e73df',
+                            '#1cc88a',
+                            '#36b9cc',
+                            '#f6c23e',
+                            '#e74a3b'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'right',
+                            labels: {
+                                boxWidth: 12
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Department Allocation Chart
+            const deptCtx = document.getElementById('departmentAllocationChart').getContext('2d');
+            const deptChart = new Chart(deptCtx, {
+                type: 'pie',
+                data: {
+                    labels: ['Program', 'Engineering', 'Marketing', 'Operations', 'Administration'],
+                    datasets: [{
+                        data: [45, 20, 15, 10, 10],
+                        backgroundColor: [
+                            '#4e73df',
+                            '#1cc88a',
+                            '#36b9cc',
+                            '#f6c23e',
+                            '#e74a3b'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'right',
+                            labels: {
+                                boxWidth: 12
+                            }
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
