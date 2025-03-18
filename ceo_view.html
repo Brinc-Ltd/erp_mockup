@@ -1,0 +1,1182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brinc CEO Dashboard</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .logo {
+            max-height: 40px;
+        }
+        .filter-badge {
+            cursor: pointer;
+        }
+        .card-header {
+            background-color: #f8f9fa;
+        }
+        .search-container {
+            position: relative;
+        }
+        .search-container .fa-search {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            color: #6c757d;
+        }
+        .search-input {
+            padding-left: 35px;
+        }
+        .text-overbudget {
+            color: #dc3545;
+            font-weight: 500;
+        }
+        .metric-card {
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s;
+            height: 100%;
+        }
+        .metric-card:hover {
+            transform: translateY(-5px);
+        }
+        .metric-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+        .metric-currency {
+            font-size: 1rem;
+            font-weight: 500;
+        }
+        .metric-change {
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+        .metric-change.positive {
+            color: #198754;
+        }
+        .metric-change.negative {
+            color: #dc3545;
+        }
+        .metric-subtitle {
+            font-size: 0.85rem;
+            color: #6c757d;
+        }
+        .chat-container {
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .progress {
+            height: 8px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <img src="https://storage.googleapis.com/clean-finder-353810/$Dd5BJMS3vYBf7ZOld70TQI6BwJGDbX0AROpvZc0RexkhTUrPQZBO4S" alt="Brinc Logo" class="logo">
+                <span class="ms-2 fw-bold">CEO Dashboard</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="projects.html">Projects</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="payroll_dashboard.html">Payroll System</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="token_dashboard.html">Digital Currency System</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
+                            <img src="https://s3-ap-southeast-1.amazonaws.com/timeauction.paperclip/auctions/images/000/000/123/display/Manav-Gupta_Founder-CEO_brinc_profilephoto.webp?1614188921" alt="Manav" class="rounded-circle" style="width: 24px; height: 24px; object-fit: cover;"> Manav
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="#">Profile</a></li>
+                            <li><a class="dropdown-item" href="#">Settings</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#">Logout</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container mt-4">
+        <!-- AI Chat Bot -->
+        <div class="chat-container card mb-4">
+            <div class="card-body">
+                <h5 class="card-title mb-3"><i class="fas fa-robot me-2"></i>AI Assistant</h5>
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Ask anything about your business metrics...">
+                    <button class="btn btn-primary" type="button">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Filters -->
+        <div class="card mb-4">
+            <div class="card-body">
+                <div class="row g-3">
+                    <div class="col-md-3">
+                        <div class="dropdown">
+                            <button class="btn btn-outline-secondary dropdown-toggle w-100" type="button" data-bs-toggle="dropdown">
+                                <i class="fas fa-globe me-2"></i> Location
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#">All Locations</a></li>
+                                <li><a class="dropdown-item" href="#">Hong Kong</a></li>
+                                <li><a class="dropdown-item" href="#">United States</a></li>
+                                <li><a class="dropdown-item" href="#">United Kingdom</a></li>
+                                <li><a class="dropdown-item" href="#">Singapore</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="dropdown">
+                            <button class="btn btn-outline-secondary dropdown-toggle w-100" type="button" data-bs-toggle="dropdown">
+                                <i class="fas fa-building me-2"></i> Entity
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#">All Entities</a></li>
+                                <li><a class="dropdown-item" href="#">Brinc Hong Kong Ltd.</a></li>
+                                <li><a class="dropdown-item" href="#">Brinc US Inc.</a></li>
+                                <li><a class="dropdown-item" href="#">Brinc UK Ltd.</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="dropdown">
+                            <button class="btn btn-outline-secondary dropdown-toggle w-100" type="button" data-bs-toggle="dropdown">
+                                <i class="fas fa-sitemap me-2"></i> Department
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#">All Departments</a></li>
+                                <li><a class="dropdown-item" href="#">Engineering</a></li>
+                                <li><a class="dropdown-item" href="#">Marketing</a></li>
+                                <li><a class="dropdown-item" href="#">Sales</a></li>
+                                <li><a class="dropdown-item" href="#">Operations</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="dropdown">
+                            <button class="btn btn-outline-secondary dropdown-toggle w-100" type="button" data-bs-toggle="dropdown">
+                                <i class="fas fa-project-diagram me-2"></i> Project
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#">All Projects</a></li>
+                                <li><a class="dropdown-item" href="#">XDC</a></li>
+                                <li><a class="dropdown-item" href="#">Boda</a></li>
+                                <li><a class="dropdown-item" href="#">Climate Tech</a></li>
+                                <li><a class="dropdown-item" href="#">VentureVerse</a></li>
+                                <li><a class="dropdown-item" href="#">Academy</a></li>
+                                <li><a class="dropdown-item" href="#">Callmi</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Active Filters -->
+        <div class="d-flex flex-wrap gap-2 mb-3">
+            <span class="badge bg-primary filter-badge">All Locations <i class="fas fa-times-circle"></i></span>
+            <span class="badge bg-primary filter-badge">All Entities <i class="fas fa-times-circle"></i></span>
+            <!-- More filters would appear here when selected -->
+        </div>
+
+        <!-- First Row: Value Metrics -->
+        <h4 class="mb-3">Value Metrics</h4>
+        <div class="row g-3 mb-4">
+            <!-- Revenue -->
+            <div class="col-md-4 col-lg">
+                <div class="card metric-card">
+                    <div class="card-body">
+                        <a href="projects.html" class="text-decoration-none text-dark">
+                            <h6 class="card-subtitle mb-2 text-muted">Revenue YoY</h6>
+                            <div class="metric-change positive mb-1">
+                                <i class="fas fa-arrow-up me-1"></i>+193.5%
+                            </div>
+                            <div class="d-flex align-items-baseline">
+                                <div class="metric-value me-2">1.07M</div>
+                                <div class="metric-currency">EUR</div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Profit -->
+            <div class="col-md-4 col-lg">
+                <div class="card metric-card">
+                    <div class="card-body">
+                        <a href="projects.html" class="text-decoration-none text-dark">
+                            <h6 class="card-subtitle mb-2 text-muted">Profit YoY</h6>
+                            <div class="metric-change positive mb-1">
+                                <i class="fas fa-arrow-up me-1"></i>+126.7%
+                            </div>
+                            <div class="d-flex align-items-baseline">
+                                <div class="metric-value me-2">823K</div>
+                                <div class="metric-currency">EUR</div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Burn Rate -->
+            <div class="col-md-4 col-lg">
+                <div class="card metric-card">
+                    <div class="card-body">
+                        <a href="projects.html" class="text-decoration-none text-dark">
+                            <h6 class="card-subtitle mb-2 text-muted">Burn Rate YoY</h6>
+                            <div class="metric-change negative mb-1">
+                                <i class="fas fa-arrow-down me-1"></i>-45.78%
+                            </div>
+                            <div class="d-flex align-items-baseline">
+                                <div class="metric-value me-2">94.03K</div>
+                                <div class="metric-currency">EUR</div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Tokens -->
+            <div class="col-md-6 col-lg">
+                <div class="card metric-card">
+                    <div class="card-body">
+                        <a href="token_dashboard.html" class="text-decoration-none text-dark">
+                            <h6 class="card-subtitle mb-2 text-muted">Tokens YoY</h6>
+                            <div class="metric-change positive mb-1">
+                                <i class="fas fa-arrow-up me-1"></i>+266.9%
+                            </div>
+                            <div class="d-flex align-items-baseline">
+                                <div class="metric-value me-2">183.5K</div>
+                                <div class="metric-currency">EUR</div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Equity Holding -->
+            <div class="col-md-6 col-lg">
+                <div class="card metric-card">
+                    <div class="card-body">
+                        <h6 class="card-subtitle mb-2 text-muted">Equity Holding</h6>
+                        <div class="metric-change positive mb-1">
+                            <i class="fas fa-arrow-up me-1"></i>+234.7%
+                        </div>
+                        <div class="d-flex align-items-baseline">
+                            <div class="metric-value me-2">167.4K</div>
+                            <div class="metric-currency">EUR</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Second Row: Plan vs Actual -->
+        <h4 class="mb-3">Plan vs Actual</h4>
+        <div class="row g-3 mb-4">
+            <!-- Target vs Actual Revenue -->
+            <div class="col-md-6 col-lg-3">
+                <div class="card metric-card">
+                    <div class="card-body">
+                        <a href="projects.html" class="text-decoration-none text-dark">
+                            <h6 class="card-subtitle mb-2 text-muted">Target vs Actual Revenue</h6>
+                            <div class="d-flex justify-content-between align-items-center mb-1">
+                                <div class="metric-value">74%</div>
+                                <div class="metric-subtitle">1.44M / 1.07M</div>
+                            </div>
+                            <div class="progress">
+                                <div class="progress-bar bg-success" role="progressbar" style="width: 74%" aria-valuenow="74" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Revenue Forecast -->
+            <div class="col-md-6 col-lg-3">
+                <div class="card metric-card">
+                    <div class="card-body">
+                        <h6 class="card-subtitle mb-2 text-muted">Revenue Forecast This Year</h6>
+                        <div class="d-flex align-items-baseline">
+                            <div class="metric-value me-2">199.4K</div>
+                            <div class="metric-currency">EUR</div>
+                        </div>
+                        <div class="metric-subtitle mt-1">Sum (Excl tax)</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Budget vs Actual Cost -->
+            <div class="col-md-6 col-lg-3">
+                <div class="card metric-card">
+                    <div class="card-body">
+                        <a href="projects.html" class="text-decoration-none text-dark">
+                            <h6 class="card-subtitle mb-2 text-muted">Budget vs Actual Cost</h6>
+                            <div class="d-flex justify-content-between align-items-center mb-1">
+                                <div class="metric-value">51%</div>
+                                <div class="metric-subtitle">2.1M / 1.15M</div>
+                            </div>
+                            <div class="progress">
+                                <div class="progress-bar bg-info" role="progressbar" style="width: 51%" aria-valuenow="51" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- CIB MoM -->
+            <div class="col-md-6 col-lg-3">
+                <div class="card metric-card">
+                    <div class="card-body">
+                        <h6 class="card-subtitle mb-2 text-muted">CIB MoM</h6>
+                        <div class="metric-value mb-1">40.9%</div>
+                        <div class="metric-subtitle">266.3K / 108.9K</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Third Row: Outstanding -->
+        <h4 class="mb-3">Outstanding Items</h4>
+        <div class="row g-3 mb-4">
+            <!-- Outstanding Invoices -->
+            <div class="col-md-6">
+                <div class="card metric-card">
+                    <div class="card-body">
+                        <h6 class="card-subtitle mb-2 text-muted">Outstanding Invoices</h6>
+                        <div class="d-flex justify-content-between align-items-center mb-1">
+                            <div class="metric-value">85%</div>
+                            <div class="d-flex align-items-baseline">
+                                <div class="metric-value me-2">255.1K</div>
+                                <div class="metric-currency">EUR</div>
+                            </div>
+                        </div>
+                        <div class="progress mb-2">
+                            <div class="progress-bar bg-warning" role="progressbar" style="width: 85%" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                        <div class="metric-subtitle">Excl tax, 11 invoices</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Outstanding Bills -->
+            <div class="col-md-6">
+                <div class="card metric-card">
+                    <div class="card-body">
+                        <h6 class="card-subtitle mb-2 text-muted">Outstanding Bills</h6>
+                        <div class="d-flex justify-content-between align-items-center mb-1">
+                            <div class="metric-value">69%</div>
+                            <div class="d-flex align-items-baseline">
+                                <div class="metric-value me-2">62.13K</div>
+                                <div class="metric-currency">EUR</div>
+                            </div>
+                        </div>
+                        <div class="progress mb-2">
+                            <div class="progress-bar bg-danger" role="progressbar" style="width: 69%" aria-valuenow="69" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Fourth Row: Performance Graphs -->
+        <h4 class="mb-3">Performance Analysis</h4>
+        <div class="row g-3 mb-4">
+            <!-- Employee Cost vs Sales -->
+            <div class="col-md-4">
+                <div class="card metric-card">
+                    <div class="card-body">
+                        <h6 class="card-subtitle mb-2 text-muted">Employee Cost vs Sales</h6>
+                        <div class="chart-container" style="position: relative; height:200px;">
+                            <canvas id="employeeCostChart"></canvas>
+                        </div>
+                        <div class="metric-subtitle mt-2 text-center">Employee costs represent 42% of total sales</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Revenue: Actual VS Planning -->
+            <div class="col-md-4">
+                <div class="card metric-card">
+                    <div class="card-body">
+                        <h6 class="card-subtitle mb-2 text-muted">Revenue: Actual VS Planning</h6>
+                        <div class="chart-container" style="position: relative; height:200px;">
+                            <canvas id="revenueComparisonChart"></canvas>
+                        </div>
+                        <div class="metric-subtitle mt-2 text-center">Q3 revenue exceeded plan by 12%</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Cost: Actual VS Planning -->
+            <div class="col-md-4">
+                <div class="card metric-card">
+                    <div class="card-body">
+                        <h6 class="card-subtitle mb-2 text-muted">Cost: Actual VS Planning</h6>
+                        <div class="chart-container" style="position: relative; height:200px;">
+                            <canvas id="costComparisonChart"></canvas>
+                        </div>
+                        <div class="metric-subtitle mt-2 text-center">Costs 8% below budget YTD</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Fifth Row: Budgeted Income -->
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h4 class="mb-0">Budgeted Income</h4>
+            <div class="btn-group">
+                <button type="button" class="btn btn-outline-secondary btn-sm active">Last 3 Months</button>
+                <button type="button" class="btn btn-outline-secondary btn-sm">Last 6 Months</button>
+                <button type="button" class="btn btn-outline-secondary btn-sm">Last 4 Quarters</button>
+                <button type="button" class="btn btn-outline-secondary btn-sm">Year to Date</button>
+            </div>
+        </div>
+        <div class="card mb-4">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Period</th>
+                                <th>Actual</th>
+                                <th>Budget</th>
+                                <th>Status</th>
+                                <th>Difference</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Latest 3 Months -->
+                            <tr>
+                                <td>Dec 2024</td>
+                                <td>$183,456</td>
+                                <td>$165,000</td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <div class="progress flex-grow-1 me-2" style="height: 6px;">
+                                            <div class="progress-bar bg-success" role="progressbar" style="width: 111%"></div>
+                                        </div>
+                                        <span>111%</span>
+                                    </div>
+                                </td>
+                                <td class="text-success">+$18,456</td>
+                            </tr>
+                            <tr>
+                                <td>Nov 2024</td>
+                                <td>$172,890</td>
+                                <td>$160,000</td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <div class="progress flex-grow-1 me-2" style="height: 6px;">
+                                            <div class="progress-bar bg-success" role="progressbar" style="width: 108%"></div>
+                                        </div>
+                                        <span>108%</span>
+                                    </div>
+                                </td>
+                                <td class="text-success">+$12,890</td>
+                            </tr>
+                            <tr>
+                                <td>Oct 2024</td>
+                                <td>$165,320</td>
+                                <td>$155,000</td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <div class="progress flex-grow-1 me-2" style="height: 6px;">
+                                            <div class="progress-bar bg-success" role="progressbar" style="width: 107%"></div>
+                                        </div>
+                                        <span>107%</span>
+                                    </div>
+                                </td>
+                                <td class="text-success">+$10,320</td>
+                            </tr>
+                            
+                            <!-- Quarterly Data -->
+                            <tr class="table-light">
+                                <td colspan="5" class="fw-bold">Quarterly Performance</td>
+                            </tr>
+                            <tr>
+                                <td>Q4 2024</td>
+                                <td>$521,666</td>
+                                <td>$480,000</td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <div class="progress flex-grow-1 me-2" style="height: 6px;">
+                                            <div class="progress-bar bg-success" role="progressbar" style="width: 109%"></div>
+                                        </div>
+                                        <span>109%</span>
+                                    </div>
+                                </td>
+                                <td class="text-success">+$41,666</td>
+                            </tr>
+                            <tr>
+                                <td>Q3 2024</td>
+                                <td>$387,016</td>
+                                <td>$475,000</td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <div class="progress flex-grow-1 me-2" style="height: 6px;">
+                                            <div class="progress-bar bg-warning" role="progressbar" style="width: 81%"></div>
+                                        </div>
+                                        <span>81%</span>
+                                    </div>
+                                </td>
+                                <td class="text-danger">-$87,984</td>
+                            </tr>
+                            <tr>
+                                <td>Q2 2024</td>
+                                <td>$412,350</td>
+                                <td>$425,000</td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <div class="progress flex-grow-1 me-2" style="height: 6px;">
+                                            <div class="progress-bar bg-warning" role="progressbar" style="width: 97%"></div>
+                                        </div>
+                                        <span>97%</span>
+                                    </div>
+                                </td>
+                                <td class="text-danger">-$12,650</td>
+                            </tr>
+                            <tr>
+                                <td>Q1 2024</td>
+                                <td>$395,875</td>
+                                <td>$390,000</td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <div class="progress flex-grow-1 me-2" style="height: 6px;">
+                                            <div class="progress-bar bg-success" role="progressbar" style="width: 102%"></div>
+                                        </div>
+                                        <span>102%</span>
+                                    </div>
+                                </td>
+                                <td class="text-success">+$5,875</td>
+                            </tr>
+                            <tr class="table-light">
+                                <td>2024 YTD</td>
+                                <td>$1,716,907</td>
+                                <td>$1,770,000</td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <div class="progress flex-grow-1 me-2" style="height: 6px;">
+                                            <div class="progress-bar bg-warning" role="progressbar" style="width: 97%"></div>
+                                        </div>
+                                        <span>97%</span>
+                                    </div>
+                                </td>
+                                <td class="text-danger">-$53,093</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sixth Row: Deals Closing This Month -->
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h4 class="mb-0">Deals Closing This Month</h4>
+            <div>
+                <span class="badge bg-secondary me-2">Last synced: Today, 09:45 AM</span>
+                <button class="btn btn-outline-primary btn-sm" id="syncHubspotBtn">
+                    <i class="fas fa-sync me-1"></i> Sync from HubSpot
+                </button>
+            </div>
+        </div>
+        <div class="card mb-4">
+            <div class="card-body">
+                <div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 1050">
+                    <div id="hubspotSyncToast" class="toast align-items-center text-white bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
+                        <div class="d-flex">
+                            <div class="toast-body">
+                                <i class="fas fa-check-circle me-2"></i> Successfully synced deals from HubSpot!
+                            </div>
+                            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Location</th>
+                                <th>Owner</th>
+                                <th>Client | Project</th>
+                                <th>Status</th>
+                                <th>Sum USD</th>
+                                <th>Margin USD</th>
+                                <th>Cost USD</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>JP</td>
+                                <td>Castor Hui</td>
+                                <td>
+                                    <div>Hatcher | XDC</div>
+                                </td>
+                                <td>
+                                    <span class="badge bg-warning">Negotiation</span>
+                                </td>
+                                <td>$17,831.82</td>
+                                <td>$6,569.62</td>
+                                <td>$11,262.20</td>
+                            </tr>
+                            <tr>
+                                <td>HK</td>
+                                <td>Cheyelene Singh</td>
+                                <td>
+                                    <div>Artesian | Climate Tech</div>
+                                </td>
+                                <td>
+                                    <span class="badge bg-success">Closing</span>
+                                </td>
+                                <td>$30,369.50</td>
+                                <td>$15,184.75</td>
+                                <td>$15,184.75</td>
+                            </tr>
+                            <tr class="table-light">
+                                <td colspan="4" class="fw-bold text-end">Total</td>
+                                <td class="fw-bold">$48,201.32</td>
+                                <td class="fw-bold">$21,754.37</td>
+                                <td class="fw-bold">$26,446.95</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Seventh Row: Sales Pipeline -->
+        <h4 class="mb-3">Sales Pipeline</h4>
+        <div class="row g-3 mb-4">
+            <!-- Lead Stage -->
+            <div class="col-md-6 col-lg-2">
+                <div class="card h-100">
+                    <div class="card-header bg-light">
+                        <div class="d-flex justify-content-between align-items-center mb-1">
+                            <h6 class="mb-0">Lead</h6>
+                            <span class="badge bg-primary rounded-pill">8</span>
+                        </div>
+                        <div class="small text-muted text-end">$90,500</div>
+                    </div>
+                    <div class="card-body p-0">
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">
+                                <h6 class="mb-1">EcoSense Technologies</h6>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span>$25,000</span>
+                                    <small class="text-muted">Jan 15</small>
+                                </div>
+                            </li>
+                            <li class="list-group-item">
+                                <h6 class="mb-1">Quantum Robotics</h6>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span>$18,500</span>
+                                    <small class="text-muted">Jan 18</small>
+                                </div>
+                            </li>
+                            <li class="list-group-item">
+                                <h6 class="mb-1">AgriTech Solutions</h6>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span>$32,000</span>
+                                    <small class="text-muted">Jan 20</small>
+                                </div>
+                            </li>
+                            <li class="list-group-item">
+                                <h6 class="mb-1">NanoHealth</h6>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span>$15,000</span>
+                                    <small class="text-muted">Jan 22</small>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Initial Meeting Stage -->
+            <div class="col-md-6 col-lg-2">
+                <div class="card h-100">
+                    <div class="card-header bg-light">
+                        <div class="d-flex justify-content-between align-items-center mb-1">
+                            <h6 class="mb-0">Initial Meeting</h6>
+                            <span class="badge bg-primary rounded-pill">6</span>
+                        </div>
+                        <div class="small text-muted text-end">$105,500</div>
+                    </div>
+                    <div class="card-body p-0">
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">
+                                <h6 class="mb-1">SmartWater Systems</h6>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span>$42,000</span>
+                                    <small class="text-muted">Jan 17</small>
+                                </div>
+                            </li>
+                            <li class="list-group-item">
+                                <h6 class="mb-1">Urban Mobility</h6>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span>$28,500</span>
+                                    <small class="text-muted">Jan 19</small>
+                                </div>
+                            </li>
+                            <li class="list-group-item">
+                                <h6 class="mb-1">FoodTech Innovations</h6>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span>$35,000</span>
+                                    <small class="text-muted">Jan 21</small>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Qualification Stage -->
+            <div class="col-md-6 col-lg-2">
+                <div class="card h-100">
+                    <div class="card-header bg-light">
+                        <div class="d-flex justify-content-between align-items-center mb-1">
+                            <h6 class="mb-0">Qualification</h6>
+                            <span class="badge bg-primary rounded-pill">5</span>
+                        </div>
+                        <div class="small text-muted text-end">$140,500</div>
+                    </div>
+                    <div class="card-body p-0">
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">
+                                <h6 class="mb-1">CleanEnergy Corp</h6>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span>$55,000</span>
+                                    <small class="text-muted">Jan 16</small>
+                                </div>
+                            </li>
+                            <li class="list-group-item">
+                                <h6 class="mb-1">Sustainable Packaging</h6>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span>$38,000</span>
+                                    <small class="text-muted">Jan 18</small>
+                                </div>
+                            </li>
+                            <li class="list-group-item">
+                                <h6 class="mb-1">AI Healthcare</h6>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span>$47,500</span>
+                                    <small class="text-muted">Jan 20</small>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Due Diligence Stage -->
+            <div class="col-md-6 col-lg-2">
+                <div class="card h-100">
+                    <div class="card-header bg-light">
+                        <div class="d-flex justify-content-between align-items-center mb-1">
+                            <h6 class="mb-0">Due Diligence</h6>
+                            <span class="badge bg-primary rounded-pill">4</span>
+                        </div>
+                        <div class="small text-muted text-end">$195,500</div>
+                    </div>
+                    <div class="card-body p-0">
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">
+                                <h6 class="mb-1">Circular Economy</h6>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span>$62,000</span>
+                                    <small class="text-muted">Jan 15</small>
+                                </div>
+                            </li>
+                            <li class="list-group-item">
+                                <h6 class="mb-1">BioTech Solutions</h6>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span>$58,500</span>
+                                    <small class="text-muted">Jan 17</small>
+                                </div>
+                            </li>
+                            <li class="list-group-item">
+                                <h6 class="mb-1">Smart Cities Tech</h6>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span>$75,000</span>
+                                    <small class="text-muted">Jan 19</small>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Negotiation Stage -->
+            <div class="col-md-6 col-lg-2">
+                <div class="card h-100">
+                    <div class="card-header bg-light">
+                        <div class="d-flex justify-content-between align-items-center mb-1">
+                            <h6 class="mb-0">Negotiation</h6>
+                            <span class="badge bg-primary rounded-pill">3</span>
+                        </div>
+                        <div class="small text-muted text-end">$171,332</div>
+                    </div>
+                    <div class="card-body p-0">
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">
+                                <h6 class="mb-1">Hatcher | XDC</h6>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span>$17,832</span>
+                                    <small class="text-muted">Jan 22</small>
+                                </div>
+                            </li>
+                            <li class="list-group-item">
+                                <h6 class="mb-1">Renewable Materials</h6>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span>$85,000</span>
+                                    <small class="text-muted">Jan 18</small>
+                                </div>
+                            </li>
+                            <li class="list-group-item">
+                                <h6 class="mb-1">Ocean Cleanup Tech</h6>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span>$68,500</span>
+                                    <small class="text-muted">Jan 20</small>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Closed Won Stage -->
+            <div class="col-md-6 col-lg-2">
+                <div class="card h-100">
+                    <div class="card-header bg-light">
+                        <div class="d-flex justify-content-between align-items-center mb-1">
+                            <h6 class="mb-0">Closed Won</h6>
+                            <span class="badge bg-primary rounded-pill">2</span>
+                        </div>
+                        <div class="small text-muted text-end">$125,370</div>
+                    </div>
+                    <div class="card-body p-0">
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">
+                                <h6 class="mb-1">Artesian | Climate Tech</h6>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span>$30,370</span>
+                                    <small class="text-muted">Jan 21</small>
+                                </div>
+                            </li>
+                            <li class="list-group-item">
+                                <h6 class="mb-1">Sustainable Logistics</h6>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span>$95,000</span>
+                                    <small class="text-muted">Jan 19</small>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Eighth Row: Accelerator Revenue Streams -->
+        <h4 class="mb-3">Accelerator Revenue Streams</h4>
+        <div class="card mb-4">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Revenue Stream</th>
+                                <th>Count</th>
+                                <th>Amount</th>
+                                <th>%</th>
+                                <th>Visualization</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Program Fees</td>
+                                <td>15 startups</td>
+                                <td>$750,000</td>
+                                <td>25.8%</td>
+                                <td>
+                                    <div class="progress" style="height: 8px;">
+                                        <div class="progress-bar bg-primary" role="progressbar" style="width: 25.8%"></div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Equity Returns</td>
+                                <td>3 exits</td>
+                                <td>$1,200,000</td>
+                                <td>41.4%</td>
+                                <td>
+                                    <div class="progress" style="height: 8px;">
+                                        <div class="progress-bar bg-success" role="progressbar" style="width: 41.4%"></div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Corporate Partnerships</td>
+                                <td>8 partners</td>
+                                <td>$600,000</td>
+                                <td>20.7%</td>
+                                <td>
+                                    <div class="progress" style="height: 8px;">
+                                        <div class="progress-bar bg-info" role="progressbar" style="width: 20.7%"></div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Mentorship Services</td>
+                                <td>25 sessions</td>
+                                <td>$250,000</td>
+                                <td>8.6%</td>
+                                <td>
+                                    <div class="progress" style="height: 8px;">
+                                        <div class="progress-bar bg-warning" role="progressbar" style="width: 8.6%"></div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Events & Workshops</td>
+                                <td>12 events</td>
+                                <td>$100,000</td>
+                                <td>3.5%</td>
+                                <td>
+                                    <div class="progress" style="height: 8px;">
+                                        <div class="progress-bar bg-danger" role="progressbar" style="width: 3.5%"></div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="table-light">
+                                <td colspan="2" class="fw-bold">Total</td>
+                                <td class="fw-bold">$2,900,000</td>
+                                <td class="fw-bold">100%</td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-light py-3 mt-5">
+        <div class="container text-center">
+            <p class="text-muted mb-0">© 2023 Brinc CEO Dashboard. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Success Toast Notification -->
+    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+        <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header bg-success text-white">
+                <i class="fas fa-check-circle me-2"></i>
+                <strong class="me-auto">Success</strong>
+                <small>Just now</small>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body">
+                Dashboard data has been refreshed with the latest metrics.
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- Demo JS for showing toast and charts -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Show toast on page load for demo purposes
+            setTimeout(function() {
+                const toastEl = document.getElementById('liveToast');
+                if (toastEl) {
+                    const toast = new bootstrap.Toast(toastEl);
+                    toast.show();
+                }
+            }, 1500);
+            
+            // HubSpot sync button functionality
+            const syncHubspotBtn = document.getElementById('syncHubspotBtn');
+            const hubspotSyncToast = document.getElementById('hubspotSyncToast');
+            
+            if (syncHubspotBtn && hubspotSyncToast) {
+                syncHubspotBtn.addEventListener('click', function() {
+                    // Show loading state
+                    syncHubspotBtn.disabled = true;
+                    syncHubspotBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span> Syncing...';
+                    
+                    // Simulate API call delay
+                    setTimeout(function() {
+                        // Reset button
+                        syncHubspotBtn.disabled = false;
+                        syncHubspotBtn.innerHTML = '<i class="fas fa-sync me-1"></i> Sync from HubSpot';
+                        
+                        // Show success toast
+                        const toast = new bootstrap.Toast(hubspotSyncToast);
+                        toast.show();
+                    }, 1500);
+                });
+            }
+            
+            // Employee Cost vs Sales Chart
+            const employeeCtx = document.getElementById('employeeCostChart').getContext('2d');
+            const employeeCostChart = new Chart(employeeCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Employee Cost', 'Other Costs', 'Profit'],
+                    datasets: [{
+                        data: [42, 28, 30],
+                        backgroundColor: [
+                            'rgba(54, 162, 235, 0.7)',
+                            'rgba(255, 206, 86, 0.7)',
+                            'rgba(75, 192, 192, 0.7)'
+                        ],
+                        borderColor: [
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                boxWidth: 12
+                            }
+                        }
+                    }
+                }
+            });
+            
+            // Revenue: Actual VS Planning Chart
+            const revenueCtx = document.getElementById('revenueComparisonChart').getContext('2d');
+            const revenueChart = new Chart(revenueCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Q1', 'Q2', 'Q3', 'Q4'],
+                    datasets: [
+                        {
+                            label: 'Actual',
+                            data: [245, 320, 380, 290],
+                            backgroundColor: 'rgba(75, 192, 192, 0.7)',
+                            borderColor: 'rgba(75, 192, 192, 1)',
+                            borderWidth: 1
+                        },
+                        {
+                            label: 'Planned',
+                            data: [230, 310, 340, 320],
+                            backgroundColor: 'rgba(153, 102, 255, 0.7)',
+                            borderColor: 'rgba(153, 102, 255, 1)',
+                            borderWidth: 1
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: function(value) {
+                                    return value + 'K';
+                                }
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                boxWidth: 12
+                            }
+                        }
+                    }
+                }
+            });
+            
+            // Cost: Actual VS Planning Chart
+            const costCtx = document.getElementById('costComparisonChart').getContext('2d');
+            const costChart = new Chart(costCtx, {
+                type: 'line',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'],
+                    datasets: [
+                        {
+                            label: 'Actual Cost',
+                            data: [85, 92, 88, 94, 90, 96, 92, 89, 91],
+                            borderColor: 'rgba(255, 99, 132, 1)',
+                            backgroundColor: 'rgba(255, 99, 132, 0.1)',
+                            borderWidth: 2,
+                            fill: true,
+                            tension: 0.3
+                        },
+                        {
+                            label: 'Planned Cost',
+                            data: [90, 95, 93, 98, 97, 102, 100, 98, 99],
+                            borderColor: 'rgba(54, 162, 235, 1)',
+                            backgroundColor: 'rgba(54, 162, 235, 0.1)',
+                            borderWidth: 2,
+                            fill: true,
+                            tension: 0.3
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: false,
+                            min: 80,
+                            ticks: {
+                                callback: function(value) {
+                                    return value + 'K';
+                                }
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                boxWidth: 12
+                            }
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
