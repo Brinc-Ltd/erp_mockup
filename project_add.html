@@ -139,7 +139,7 @@
         }
         .total-row {
             display: flex;
-            justify-content: space-between;
+            justify-content: flex-start;
             padding: 10px;
             background-color: #f5f5f5;
             border-radius: 4px;
@@ -148,21 +148,9 @@
         }
         .total-label {
             font-weight: bold;
+            margin-right: 10px;
         }
         .total-values {
-            display: flex;
-            gap: 20px;
-        }
-        .total-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        .total-month {
-            font-size: 12px;
-            color: #666;
-        }
-        .total-value {
             font-weight: bold;
         }
         .team-input-container {
@@ -269,14 +257,67 @@
                 <input type="hidden" id="projectType" name="projectType" value="internal">
             </div>
             
+            <!-- New Asset Section for External Projects -->
+            <div id="assetSection" class="form-group" style="display: none;">
+                <h3 class="mt-3 mb-3">Asset Information</h3>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label for="targetEquity">Target Equity Holding (USD)</label>
+                        <input type="number" id="targetEquity" name="targetEquity" class="form-control" placeholder="Enter amount in USD">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="targetToken">Target Token Holding (USD)</label>
+                        <input type="number" id="targetToken" name="targetToken" class="form-control" placeholder="Enter amount in USD">
+                    </div>
+                </div>
+            </div>
+            
             <div class="form-group">
                 <label for="department">Department</label>
                 <select id="department" name="department" class="form-control">
                     <option value="">Select Department</option>
-                    <option value="Programs">Programs</option>
-                    <option value="Cooperate">Cooperate</option>
-                    <option value="Transform">Transform</option>
+                    <option value="Business Management">Business Management</option>
+                    <option value="Legal">Legal</option>
+                    <option value="Marketing">Marketing</option>
                     <option value="Finance">Finance</option>
+                    <option value="Transformation">Transformation</option>
+                    <option value="Accelerator">Accelerator</option>
+                    <option value="Portfolio">Portfolio</option>
+                    <option value="HR">HR</option>
+                    <option value="Cooperate Innovation">Cooperate Innovation</option>
+                    <option value="Fund">Fund</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="companyEntity">Company Entity</label>
+                <select id="companyEntity" name="companyEntity" class="form-control">
+                    <option value="">Select Company Entity</option>
+                    <option value="Brinc Hong Kong Ltd.">Brinc Hong Kong Ltd.</option>
+                    <option value="Brinc China">Brinc China</option>
+                    <option value="Brinc India">Brinc India</option>
+                    <option value="Brinc Japan">Brinc Japan</option>
+                    <option value="Brinc MENA">Brinc MENA</option>
+                    <option value="Brinc Korea">Brinc Korea</option>
+                    <option value="Brinc US Inc.">Brinc US Inc.</option>
+                    <option value="Brinc UK Ltd.">Brinc UK Ltd.</option>
+                    <option value="Brinc Singapore Pte. Ltd.">Brinc Singapore Pte. Ltd.</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="office">Office</label>
+                <select id="office" name="office" class="form-control">
+                    <option value="">Select Office</option>
+                    <option value="HK">HK</option>
+                    <option value="GZ">GZ</option>
+                    <option value="MENA">MENA</option>
+                    <option value="JP">JP</option>
+                    <option value="KR">KR</option>
+                    <option value="INDIA">INDIA</option>
+                    <option value="US">US</option>
+                    <option value="UK">UK</option>
+                    <option value="SG">SG</option>
                 </select>
             </div>
             
@@ -389,6 +430,32 @@
                 <div id="hardCostsTotal" class="total-row">
                     <div class="total-label">Total:</div>
                     <div class="total-values"></div>
+                </div>
+            </div>
+            
+            <!-- New Corporate Fees Section -->
+            <div class="budget-section">
+                <div class="section-header">
+                    <h3>Corporate Fees</h3>
+                </div>
+                <div class="form-group mt-3">
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="corporateFeeType" id="corporateFeeFixed" value="fixed">
+                        <label class="form-check-label" for="corporateFeeFixed">
+                            Fixed Value
+                        </label>
+                        <input type="number" id="corporateFeeFixedValue" class="form-control mt-2 mb-3" placeholder="Enter fixed amount" disabled>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="corporateFeeType" id="corporateFeePercentage" value="percentage" checked>
+                        <label class="form-check-label" for="corporateFeePercentage">
+                            20% of Received Revenue
+                        </label>
+                    </div>
+                </div>
+                <div id="corporateFeesTotal" class="total-row mt-3">
+                    <div class="total-label">Total Corporate Fees:</div>
+                    <div class="total-values" id="corporateFeesAmount">0.00</div>
                 </div>
             </div>
             
@@ -522,12 +589,21 @@
             // 项目类型切换
             const toggleBtns = document.querySelectorAll('.toggle-btn');
             const projectTypeInput = document.getElementById('projectType');
+            const assetSection = document.getElementById('assetSection');
             
             toggleBtns.forEach(btn => {
                 btn.addEventListener('click', function() {
                     toggleBtns.forEach(b => b.classList.remove('active'));
                     this.classList.add('active');
-                    projectTypeInput.value = this.getAttribute('data-type');
+                    const projectType = this.getAttribute('data-type');
+                    projectTypeInput.value = projectType;
+                    
+                    // Show/hide asset section based on project type
+                    if (projectType === 'external') {
+                        assetSection.style.display = 'block';
+                    } else {
+                        assetSection.style.display = 'none';
+                    }
                 });
             });
             
@@ -859,6 +935,7 @@
             function calculateTotals(hot, elementId) {
                 const data = hot.getData();
                 const totals = [];
+                let grandTotal = 0;
                 
                 // 计算每列的总和
                 const startCol = elementId === 'hrCosts' ? 2 : 1;
@@ -869,6 +946,7 @@
                         sum += value;
                     }
                     totals.push(sum);
+                    grandTotal += sum;
                 }
                 
                 // 更新总计显示
@@ -876,27 +954,10 @@
                 const totalValuesElement = totalElement.querySelector('.total-values');
                 totalValuesElement.innerHTML = '';
                 
-                totals.forEach((total, index) => {
-                    const monthIndex = elementId === 'hrCosts' ? index : index;
-                    const month = monthColumns[monthIndex];
-                    
-                    const totalItem = document.createElement('div');
-                    totalItem.className = 'total-item';
-                    
-                    const totalMonth = document.createElement('div');
-                    totalMonth.className = 'total-month';
-                    totalMonth.textContent = month;
-                    
-                    const totalValue = document.createElement('div');
-                    totalValue.className = 'total-value';
-                    totalValue.textContent = total.toLocaleString('en-US', {
-                        minimumFractionDigits: 2,
-                        maximumFractionDigits: 2
-                    });
-                    
-                    totalItem.appendChild(totalMonth);
-                    totalItem.appendChild(totalValue);
-                    totalValuesElement.appendChild(totalItem);
+                // Display only the grand total instead of monthly breakdown
+                totalValuesElement.textContent = grandTotal.toLocaleString('en-US', {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2
                 });
             }
             
@@ -985,6 +1046,72 @@
                 });
             });
             
+            // Corporate Fees functionality
+            const corporateFeeFixed = document.getElementById('corporateFeeFixed');
+            const corporateFeePercentage = document.getElementById('corporateFeePercentage');
+            const corporateFeeFixedValue = document.getElementById('corporateFeeFixedValue');
+            const corporateFeesAmount = document.getElementById('corporateFeesAmount');
+            
+            // Toggle fixed value input based on radio selection
+            corporateFeeFixed.addEventListener('change', function() {
+                if (this.checked) {
+                    corporateFeeFixedValue.disabled = false;
+                    updateCorporateFees();
+                }
+            });
+            
+            corporateFeePercentage.addEventListener('change', function() {
+                if (this.checked) {
+                    corporateFeeFixedValue.disabled = true;
+                    updateCorporateFees();
+                }
+            });
+            
+            corporateFeeFixedValue.addEventListener('input', updateCorporateFees);
+            
+            // Update corporate fees calculation
+            function updateCorporateFees() {
+                let fees = 0;
+                
+                if (corporateFeeFixed.checked) {
+                    fees = parseFloat(corporateFeeFixedValue.value) || 0;
+                } else {
+                    // Calculate 20% of received revenue
+                    const receivedRevenueData = receivedRevenueGrid.getData();
+                    let totalReceivedRevenue = 0;
+                    
+                    // Start from column 1 (skipping the name column)
+                    for (let col = 1; col < receivedRevenueGrid.countCols(); col++) {
+                        for (let row = 0; row < receivedRevenueData.length; row++) {
+                            const value = parseFloat(receivedRevenueData[row][col]) || 0;
+                            totalReceivedRevenue += value;
+                        }
+                    }
+                    
+                    fees = totalReceivedRevenue * 0.2; // 20% of received revenue
+                }
+                
+                // Update the display
+                corporateFeesAmount.textContent = fees.toLocaleString('en-US', {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2
+                });
+            }
+            
+            // Add corporate fees calculation to the existing calculation functions
+            const originalCalculateTotals = calculateTotals;
+            calculateTotals = function(hot, elementId) {
+                originalCalculateTotals(hot, elementId);
+                
+                // If this is the received revenue grid, also update corporate fees
+                if (elementId === 'receivedRevenue') {
+                    updateCorporateFees();
+                }
+            };
+            
+            // Initial calculation
+            updateCorporateFees();
+            
             // 表单提交处理
             document.getElementById('projectForm').addEventListener('submit', function(e) {
                 e.preventDefault();
@@ -1002,8 +1129,23 @@
                     signedRevenue: signedRevenueGrid.getData(),
                     receivedRevenue: receivedRevenueGrid.getData(),
                     hrCosts: hrCostsGrid.getData(),
-                    hardCosts: hardCostsGrid.getData()
+                    hardCosts: hardCostsGrid.getData(),
+                    corporateFees: {
+                        type: corporateFeeFixed.checked ? 'fixed' : 'percentage',
+                        value: corporateFeeFixed.checked ? 
+                            (parseFloat(corporateFeeFixedValue.value) || 0) : 
+                            'receivedRevenue20Percent',
+                        total: parseFloat(corporateFeesAmount.textContent.replace(/,/g, '')) || 0
+                    }
                 };
+                
+                // Add asset data for external projects
+                if (projectData.projectType === 'external') {
+                    projectData.assets = {
+                        targetEquity: parseFloat(document.getElementById('targetEquity').value) || 0,
+                        targetToken: parseFloat(document.getElementById('targetToken').value) || 0
+                    };
+                }
                 
                 console.log('Project Data:', projectData);
                 alert('Project created successfully!');
