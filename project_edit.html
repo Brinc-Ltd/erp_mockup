@@ -139,7 +139,7 @@
         }
         .total-row {
             display: flex;
-            justify-content: space-between;
+            justify-content: flex-start;
             padding: 10px;
             background-color: #f5f5f5;
             border-radius: 4px;
@@ -148,21 +148,9 @@
         }
         .total-label {
             font-weight: bold;
+            margin-right: 10px;
         }
         .total-values {
-            display: flex;
-            gap: 20px;
-        }
-        .total-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        .total-month {
-            font-size: 12px;
-            color: #666;
-        }
-        .total-value {
             font-weight: bold;
         }
         .team-input-container {
@@ -253,11 +241,11 @@
             </a>
         </div>
         
-        <h1>Edit Project</h1>
+        <h1>Edit Project: 24 Summer Climate Tech</h1>
         <form id="projectForm">
             <div class="form-group">
                 <label for="projectName">Project Name</label>
-                <input type="text" id="projectName" name="projectName" value="Brinc Accelerator Program 2023" required>
+                <input type="text" id="projectName" name="projectName" value="24 Summer Climate Tech" required>
             </div>
             
             <div class="form-group">
@@ -269,43 +257,101 @@
                 <input type="hidden" id="projectType" name="projectType" value="external">
             </div>
             
+            <!-- Asset Section for External Projects -->
+            <div id="assetSection" class="form-group">
+                <h3 class="mt-3 mb-3">Asset Information</h3>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label for="targetEquity">Target Equity Holding (USD)</label>
+                        <input type="number" id="targetEquity" name="targetEquity" class="form-control" value="250000" placeholder="Enter amount in USD">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="targetToken">Target Token Holding (USD)</label>
+                        <input type="number" id="targetToken" name="targetToken" class="form-control" value="100000" placeholder="Enter amount in USD">
+                    </div>
+                </div>
+            </div>
+            
             <div class="form-group">
                 <label for="department">Department</label>
                 <select id="department" name="department" class="form-control">
                     <option value="">Select Department</option>
-                    <option value="Programs" selected>Programs</option>
-                    <option value="Cooperate">Cooperate</option>
-                    <option value="Transform">Transform</option>
+                    <option value="Business Management">Business Management</option>
+                    <option value="Legal">Legal</option>
+                    <option value="Marketing">Marketing</option>
                     <option value="Finance">Finance</option>
+                    <option value="Transformation">Transformation</option>
+                    <option value="Accelerator" selected>Accelerator</option>
+                    <option value="Portfolio">Portfolio</option>
+                    <option value="HR">HR</option>
+                    <option value="Cooperate Innovation">Cooperate Innovation</option>
+                    <option value="Fund">Fund</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="companyEntity">Company Entity</label>
+                <select id="companyEntity" name="companyEntity" class="form-control">
+                    <option value="">Select Company Entity</option>
+                    <option value="Brinc Hong Kong Ltd." selected>Brinc Hong Kong Ltd.</option>
+                    <option value="Brinc China">Brinc China</option>
+                    <option value="Brinc India">Brinc India</option>
+                    <option value="Brinc Japan">Brinc Japan</option>
+                    <option value="Brinc MENA">Brinc MENA</option>
+                    <option value="Brinc Korea">Brinc Korea</option>
+                    <option value="Brinc US Inc.">Brinc US Inc.</option>
+                    <option value="Brinc UK Ltd.">Brinc UK Ltd.</option>
+                    <option value="Brinc Singapore Pte. Ltd.">Brinc Singapore Pte. Ltd.</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="office">Office</label>
+                <select id="office" name="office" class="form-control">
+                    <option value="">Select Office</option>
+                    <option value="HK" selected>HK</option>
+                    <option value="GZ">GZ</option>
+                    <option value="MENA">MENA</option>
+                    <option value="JP">JP</option>
+                    <option value="KR">KR</option>
+                    <option value="INDIA">INDIA</option>
+                    <option value="US">US</option>
+                    <option value="UK">UK</option>
+                    <option value="SG">SG</option>
                 </select>
             </div>
             
             <div class="form-group">
                 <label for="client">Client</label>
-                <input type="text" id="client" name="client" value="MBRIF">
+                <input type="text" id="client" name="client" value="Brinc Climate Partners">
             </div>
             
             <div class="form-group">
                 <label for="startDate">Start Date</label>
-                <input type="date" id="startDate" name="startDate" value="2023-03-15">
+                <input type="date" id="startDate" name="startDate" value="2024-06-01">
             </div>
             
             <div class="form-group">
                 <label for="endDate">End Date (Estimated)</label>
-                <input type="date" id="endDate" name="endDate" value="2023-12-31">
+                <input type="date" id="endDate" name="endDate" value="2024-09-30">
             </div>
             
             <div class="form-group">
                 <label for="description">Project Description</label>
-                <textarea id="description" name="description">The Brinc Accelerator Program 2023 is a comprehensive 3-month program designed to help early-stage startups scale their businesses. This program includes mentorship, workshops, networking opportunities, and potential investment.</textarea>
+                <textarea id="description" name="description">The 24 Summer Climate Tech program is a 3-month accelerator program focused on supporting startups developing innovative solutions to address climate change. The program includes mentorship, workshops, networking opportunities, and potential investment for selected startups.</textarea>
             </div>
             
             <div class="form-group">
                 <label for="projectManager">Project Manager</label>
                 <div class="team-input-container">
-                    <div id="pmTags" class="team-tags"></div>
+                    <div id="pmTags" class="team-tags">
+                        <div class="team-tag">
+                            Edwin Lee
+                            <span class="team-tag-remove" data-name="Edwin Lee">&times;</span>
+                        </div>
+                    </div>
                     <input type="text" id="pmInput" placeholder="Type to search managers">
-                    <input type="hidden" id="projectManager" name="projectManager">
+                    <input type="hidden" id="projectManager" name="projectManager" value="Edwin Lee">
                 </div>
                 <small class="form-text text-muted">Project managers who can modify and update this project</small>
             </div>
@@ -313,9 +359,22 @@
             <div class="form-group">
                 <label for="team">Team Members</label>
                 <div class="team-input-container">
-                    <div id="teamTags" class="team-tags"></div>
+                    <div id="teamTags" class="team-tags">
+                        <div class="team-tag">
+                            Janina Motter
+                            <span class="team-tag-remove" data-name="Janina Motter">&times;</span>
+                        </div>
+                        <div class="team-tag">
+                            Kevin Leung
+                            <span class="team-tag-remove" data-name="Kevin Leung">&times;</span>
+                        </div>
+                        <div class="team-tag">
+                            Cheyelene Singh
+                            <span class="team-tag-remove" data-name="Cheyelene Singh">&times;</span>
+                        </div>
+                    </div>
                     <input type="text" id="teamInput" placeholder="Type to search members">
-                    <input type="hidden" id="team" name="team">
+                    <input type="hidden" id="team" name="team" value="Janina Motter, Kevin Leung, Cheyelene Singh">
                 </div>
                 <small class="form-text text-muted">Team members who can see the project details</small>
             </div>
@@ -392,6 +451,32 @@
                 </div>
             </div>
             
+            <!-- Corporate Fees Section -->
+            <div class="budget-section">
+                <div class="section-header">
+                    <h3>Corporate Fees</h3>
+                </div>
+                <div class="form-group mt-3">
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="corporateFeeType" id="corporateFeeFixed" value="fixed" checked>
+                        <label class="form-check-label" for="corporateFeeFixed">
+                            Fixed Value
+                        </label>
+                        <input type="number" id="corporateFeeFixedValue" class="form-control mt-2 mb-3" placeholder="Enter fixed amount" value="25000">
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="corporateFeeType" id="corporateFeePercentage" value="percentage">
+                        <label class="form-check-label" for="corporateFeePercentage">
+                            20% of Received Revenue
+                        </label>
+                    </div>
+                </div>
+                <div id="corporateFeesTotal" class="total-row mt-3">
+                    <div class="total-label">Total Corporate Fees:</div>
+                    <div class="total-values" id="corporateFeesAmount">25,000.00</div>
+                </div>
+            </div>
+            
             <div class="d-flex justify-content-between">
                 <a href="projects.html" class="btn btn-outline-secondary">Cancel</a>
                 <button type="submit" class="btn btn-success">Save Changes</button>
@@ -421,7 +506,7 @@
                 "Aisling Gormley", "Castor Hui", "Cheyelene Singh", "Denise Africano",
                 "Edwin Lee", "Einstein Rojas", "Guillermo Ginesta", "Janina Motter",
                 "Kevin Leung", "Michael Wong", "Natalie Lung", "Outpost Brinc",
-                "Suphansa Thesanok", "Aarif Kuang", "Bashar Aboudaoud", "Kit Yang",
+                "Suphansa Thesanok", "Aakansha Athakur", "Bashar Aboudaoud", "Kit Yang",
                 "Mafai Ma", "Manav Gupta", "Minal Mirpuri", "Olga Dontsova",
                 "Simon zhang", "Wayne Wang", "Milan Thakkar", "Deva Deepak",
                 "Harshit Joshi", "Karan Keswani", "Nikkhil Srinivaas", "Raghu Chandra",
@@ -432,20 +517,20 @@
                 "Tom Purdon", "Yasin Aboudaoud", "Yasmina Aridi", "Aleena Zacharia",
                 "Fatema Alhaddad", "May Marzooq", "Kareem Elmanawy", "Joseph Makhlouf",
                 "Mohamed Ferrekha", "Kyoya Okazawa", "Ryoya Hoshino", "Sachiyo Yoshida",
-                "Aakansha Athakur", "Jannat Al Barwani"
+                "Jannat Al Barwani"
             ];
             
             // Team members tag system
             const teamInput = document.getElementById('teamInput');
             const teamTags = document.getElementById('teamTags');
             const teamHiddenInput = document.getElementById('team');
-            let selectedTeamMembers = ["Castor Hui", "Cheyelene Singh", "Denise Africano", "Natalie Lung"];
+            let selectedTeamMembers = ["Janina Motter", "Kevin Leung", "Cheyelene Singh"];
             
             // Project Manager tag system
             const pmInput = document.getElementById('pmInput');
             const pmTags = document.getElementById('pmTags');
             const pmHiddenInput = document.getElementById('projectManager');
-            let selectedProjectManagers = ["Guillermo Ginesta", "Janina Motter"];
+            let selectedProjectManagers = ["Edwin Lee"];
             
             // Function to create a tag system
             function initializeTagSystem(inputElement, tagsContainer, hiddenInput, selectedArray) {
@@ -513,21 +598,6 @@
                         addTag(this.value.trim());
                     }
                 });
-                
-                // Initialize with existing tags
-                selectedArray.forEach(name => {
-                    const tag = document.createElement('div');
-                    tag.className = 'team-tag';
-                    tag.innerHTML = `
-                        ${name}
-                        <span class="team-tag-remove" data-name="${name}">&times;</span>
-                    `;
-                    
-                    tagsContainer.appendChild(tag);
-                });
-                
-                // Set initial value for hidden input
-                updateHiddenInput();
             }
             
             // Initialize both tag systems
@@ -537,12 +607,21 @@
             // 项目类型切换
             const toggleBtns = document.querySelectorAll('.toggle-btn');
             const projectTypeInput = document.getElementById('projectType');
+            const assetSection = document.getElementById('assetSection');
             
             toggleBtns.forEach(btn => {
                 btn.addEventListener('click', function() {
                     toggleBtns.forEach(b => b.classList.remove('active'));
                     this.classList.add('active');
-                    projectTypeInput.value = this.getAttribute('data-type');
+                    const projectType = this.getAttribute('data-type');
+                    projectTypeInput.value = projectType;
+                    
+                    // Show/hide asset section based on project type
+                    if (projectType === 'external') {
+                        assetSection.style.display = 'block';
+                    } else {
+                        assetSection.style.display = 'none';
+                    }
                 });
             });
             
@@ -574,7 +653,8 @@
                 'Einstein Rojas': 7500,
                 'Guillermo Ginesta': 9000,
                 'Janina Motter': 8200,
-                'Kevin Leung': 7800
+                'Kevin Leung': 7800,
+                'Cheyelene Singh': 6500
             };
             
             // 创建共享成本表格
@@ -685,7 +765,8 @@
                             'Einstein Rojas',
                             'Guillermo Ginesta',
                             'Janina Motter',
-                            'Kevin Leung'
+                            'Kevin Leung',
+                            'Cheyelene Singh'
                         ]
                     });
                 } else if (elementId === 'hardCosts') {
@@ -743,37 +824,52 @@
                     });
                 });
                 
-                // Create sample data based on grid type
+                // Create test data based on the grid type
                 let initialData = [];
                 
                 if (elementId === 'signedRevenue') {
                     initialData = [
-                        { name: 'Program Fee', month0: 50000, month1: 50000, month2: 50000, month3: 0, month4: 0, month5: 0, month6: 0, month7: 0, month8: 0, month9: 0, month10: 0, month11: 0, month12: 0 },
-                        { name: 'Sponsorship', month0: 0, month1: 25000, month2: 0, month3: 0, month4: 0, month5: 0, month6: 0, month7: 0, month8: 0, month9: 0, month10: 0, month11: 0, month12: 0 },
-                        { name: 'Event Revenue', month0: 0, month1: 0, month2: 15000, month3: 0, month4: 0, month5: 0, month6: 0, month7: 0, month8: 0, month9: 0, month10: 0, month11: 0, month12: 0 }
+                        { name: 'Program Fee - Brinc Climate Partners', month0: 50000, month1: 50000, month2: 50000, month3: 50000 },
+                        { name: 'Sponsorship - Corporate Partner', month0: 0, month1: 25000, month2: 0, month3: 0 }
                     ];
                 } else if (elementId === 'receivedRevenue') {
                     initialData = [
-                        { name: 'Program Fee', month0: 25000, month1: 25000, month2: 25000, month3: 0, month4: 0, month5: 0, month6: 0, month7: 0, month8: 0, month9: 0, month10: 0, month11: 0, month12: 0 },
-                        { name: 'Sponsorship', month0: 0, month1: 25000, month2: 0, month3: 0, month4: 0, month5: 0, month6: 0, month7: 0, month8: 0, month9: 0, month10: 0, month11: 0, month12: 0 }
+                        { name: 'Program Fee - Brinc Climate Partners', month0: 50000, month1: 50000, month2: 0, month3: 0 },
+                        { name: 'Sponsorship - Corporate Partner', month0: 0, month1: 25000, month2: 0, month3: 0 }
                     ];
                 } else if (elementId === 'hrCosts') {
                     initialData = [
-                        { name: 'Guillermo Ginesta', utilization: 50, month0: 4500, month1: 4500, month2: 4500, month3: 4500, month4: 4500, month5: 4500, month6: 4500, month7: 4500, month8: 4500, month9: 4500, month10: 4500, month11: 4500, month12: 4500 },
-                        { name: 'Janina Motter', utilization: 75, month0: 6150, month1: 6150, month2: 6150, month3: 6150, month4: 6150, month5: 6150, month6: 6150, month7: 6150, month8: 6150, month9: 6150, month10: 6150, month11: 6150, month12: 6150 },
-                        { name: 'Einstein Rojas', utilization: 40, month0: 3000, month1: 3000, month2: 3000, month3: 3000, month4: 3000, month5: 3000, month6: 3000, month7: 3000, month8: 3000, month9: 3000, month10: 3000, month11: 3000, month12: 3000 }
+                        { name: 'Edwin Lee', utilization: 30, month0: 2400, month1: 2400, month2: 2400, month3: 2400 },
+                        { name: 'Janina Motter', utilization: 80, month0: 6560, month1: 6560, month2: 6560, month3: 6560 },
+                        { name: 'Kevin Leung', utilization: 50, month0: 3900, month1: 3900, month2: 3900, month3: 3900 },
+                        { name: 'Cheyelene Singh', utilization: 20, month0: 1300, month1: 1300, month2: 1300, month3: 1300 }
                     ];
                 } else if (elementId === 'hardCosts') {
                     initialData = [
-                        { name: 'Office lease', month0: 2000, month1: 2000, month2: 2000, month3: 2000, month4: 2000, month5: 2000, month6: 2000, month7: 2000, month8: 2000, month9: 2000, month10: 2000, month11: 2000, month12: 2000 },
-                        { name: 'Marketing events', month0: 0, month1: 5000, month2: 0, month3: 0, month4: 0, month5: 0, month6: 0, month7: 0, month8: 0, month9: 0, month10: 0, month11: 0, month12: 0 },
-                        { name: 'Software/tools costs', month0: 500, month1: 500, month2: 500, month3: 500, month4: 500, month5: 500, month6: 500, month7: 500, month8: 500, month9: 500, month10: 500, month11: 500, month12: 500 },
-                        { name: 'Collateral preparation', month0: 1500, month1: 0, month2: 0, month3: 0, month4: 0, month5: 0, month6: 0, month7: 0, month8: 0, month9: 0, month10: 0, month11: 0, month12: 0 },
-                        { name: 'BD-related travel costs', month0: 0, month1: 3000, month2: 0, month3: 3000, month4: 0, month5: 0, month6: 0, month7: 0, month8: 0, month9: 0, month10: 0, month11: 0, month12: 0 }
+                        { name: 'Office lease', month0: 2000, month1: 2000, month2: 2000, month3: 2000 },
+                        { name: 'Marketing events', month0: 0, month1: 5000, month2: 0, month3: 0 },
+                        { name: 'Digital ads', month0: 1000, month1: 1000, month2: 1000, month3: 0 },
+                        { name: 'Entertainment', month0: 500, month1: 500, month2: 500, month3: 500 },
+                        { name: 'Miscellaneous expenses', month0: 300, month1: 300, month2: 300, month3: 300 }
                     ];
+                } else {
+                    // Default empty data with 10 rows
+                    for (let i = 0; i < 10; i++) {
+                        const row = { name: '' };
+                        
+                        if (includeUtilization) {
+                            row.utilization = '';
+                        }
+                        
+                        for (let j = 0; j < 13; j++) {
+                            row['month' + j] = 0;
+                        }
+                        
+                        initialData.push(row);
+                    }
                 }
                 
-                // Fill in any missing month values with 0
+                // Fill in zeros for any missing month columns
                 initialData.forEach(row => {
                     for (let i = 0; i < 13; i++) {
                         if (row['month' + i] === undefined) {
@@ -781,18 +877,6 @@
                         }
                     }
                 });
-                
-                // Add empty rows to reach 10 rows total
-                while (initialData.length < 10) {
-                    const emptyRow = { name: '' };
-                    if (includeUtilization) {
-                        emptyRow.utilization = '';
-                    }
-                    for (let i = 0; i < 13; i++) {
-                        emptyRow['month' + i] = 0;
-                    }
-                    initialData.push(emptyRow);
-                }
                 
                 // 创建表格
                 const hot = new Handsontable(container, {
@@ -848,6 +932,7 @@
             function calculateTotals(hot, elementId) {
                 const data = hot.getData();
                 const totals = [];
+                let grandTotal = 0;
                 
                 // 计算每列的总和
                 const startCol = elementId === 'hrCosts' ? 2 : 1;
@@ -858,6 +943,7 @@
                         sum += value;
                     }
                     totals.push(sum);
+                    grandTotal += sum;
                 }
                 
                 // 更新总计显示
@@ -865,27 +951,10 @@
                 const totalValuesElement = totalElement.querySelector('.total-values');
                 totalValuesElement.innerHTML = '';
                 
-                totals.forEach((total, index) => {
-                    const monthIndex = elementId === 'hrCosts' ? index : index;
-                    const month = monthColumns[monthIndex];
-                    
-                    const totalItem = document.createElement('div');
-                    totalItem.className = 'total-item';
-                    
-                    const totalMonth = document.createElement('div');
-                    totalMonth.className = 'total-month';
-                    totalMonth.textContent = month;
-                    
-                    const totalValue = document.createElement('div');
-                    totalValue.className = 'total-value';
-                    totalValue.textContent = total.toLocaleString('en-US', {
-                        minimumFractionDigits: 2,
-                        maximumFractionDigits: 2
-                    });
-                    
-                    totalItem.appendChild(totalMonth);
-                    totalItem.appendChild(totalValue);
-                    totalValuesElement.appendChild(totalItem);
+                // Display only the grand total instead of monthly breakdown
+                totalValuesElement.textContent = grandTotal.toLocaleString('en-US', {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2
                 });
             }
             
@@ -903,7 +972,6 @@
                 
                 // 更新显示的人数
                 document.getElementById('currentHeadcount').textContent = headcount;
-                console.log('Updated headcount to:', headcount); // 添加调试日志
                 
                 // 更新共享成本
                 const sharedData = sharedCostsGrid.getSourceData();
@@ -932,7 +1000,6 @@
             // 确保在所有表格初始化后再更新人数
             setTimeout(function() {
                 updateHeadcount();
-                console.log('Initial headcount update called'); // 添加调试日志
             }, 100);
             
             // 添加行按钮
@@ -974,6 +1041,72 @@
                 });
             });
             
+            // Corporate Fees functionality
+            const corporateFeeFixed = document.getElementById('corporateFeeFixed');
+            const corporateFeePercentage = document.getElementById('corporateFeePercentage');
+            const corporateFeeFixedValue = document.getElementById('corporateFeeFixedValue');
+            const corporateFeesAmount = document.getElementById('corporateFeesAmount');
+            
+            // Toggle fixed value input based on radio selection
+            corporateFeeFixed.addEventListener('change', function() {
+                if (this.checked) {
+                    corporateFeeFixedValue.disabled = false;
+                    updateCorporateFees();
+                }
+            });
+            
+            corporateFeePercentage.addEventListener('change', function() {
+                if (this.checked) {
+                    corporateFeeFixedValue.disabled = true;
+                    updateCorporateFees();
+                }
+            });
+            
+            corporateFeeFixedValue.addEventListener('input', updateCorporateFees);
+            
+            // Update corporate fees calculation
+            function updateCorporateFees() {
+                let fees = 0;
+                
+                if (corporateFeeFixed.checked) {
+                    fees = parseFloat(corporateFeeFixedValue.value) || 0;
+                } else {
+                    // Calculate 20% of received revenue
+                    const receivedRevenueData = receivedRevenueGrid.getData();
+                    let totalReceivedRevenue = 0;
+                    
+                    // Start from column 1 (skipping the name column)
+                    for (let col = 1; col < receivedRevenueGrid.countCols(); col++) {
+                        for (let row = 0; row < receivedRevenueData.length; row++) {
+                            const value = parseFloat(receivedRevenueData[row][col]) || 0;
+                            totalReceivedRevenue += value;
+                        }
+                    }
+                    
+                    fees = totalReceivedRevenue * 0.2; // 20% of received revenue
+                }
+                
+                // Update the display
+                corporateFeesAmount.textContent = fees.toLocaleString('en-US', {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2
+                });
+            }
+            
+            // Add corporate fees calculation to the existing calculation functions
+            const originalCalculateTotals = calculateTotals;
+            calculateTotals = function(hot, elementId) {
+                originalCalculateTotals(hot, elementId);
+                
+                // If this is the received revenue grid, also update corporate fees
+                if (elementId === 'receivedRevenue') {
+                    updateCorporateFees();
+                }
+            };
+            
+            // Initial calculation
+            updateCorporateFees();
+            
             // 表单提交处理
             document.getElementById('projectForm').addEventListener('submit', function(e) {
                 e.preventDefault();
@@ -991,14 +1124,27 @@
                     signedRevenue: signedRevenueGrid.getData(),
                     receivedRevenue: receivedRevenueGrid.getData(),
                     hrCosts: hrCostsGrid.getData(),
-                    hardCosts: hardCostsGrid.getData()
+                    hardCosts: hardCostsGrid.getData(),
+                    corporateFees: {
+                        type: corporateFeeFixed.checked ? 'fixed' : 'percentage',
+                        value: corporateFeeFixed.checked ? 
+                            (parseFloat(corporateFeeFixedValue.value) || 0) : 
+                            'receivedRevenue20Percent',
+                        total: parseFloat(corporateFeesAmount.textContent.replace(/,/g, '')) || 0
+                    }
                 };
+                
+                // Add asset data for external projects
+                if (projectData.projectType === 'external') {
+                    projectData.assets = {
+                        targetEquity: parseFloat(document.getElementById('targetEquity').value) || 0,
+                        targetToken: parseFloat(document.getElementById('targetToken').value) || 0
+                    };
+                }
                 
                 console.log('Project Data:', projectData);
                 alert('Project updated successfully!');
-                
-                // Redirect back to projects page
-                // window.location.href = 'projects.html';
+                window.location.href = 'projects.html';
             });
         });
     </script>
