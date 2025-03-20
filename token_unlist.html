@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brinc Unlisted Token Management</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .logo {
+            max-height: 40px;
+        }
+        .token-icon {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background-color: #e9ecef;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+        }
+        .history-item {
+            border-left: 3px solid #6c757d;
+            padding-left: 15px;
+            margin-bottom: 15px;
+            position: relative;
+        }
+        .history-item::before {
+            content: '';
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #6c757d;
+            left: -7.5px;
+            top: 0;
+        }
+        .history-date {
+            color: #6c757d;
+            font-size: 0.85rem;
+        }
+        .status-early {
+            background-color: #6610f2;
+        }
+        .status-seed {
+            background-color: #fd7e14;
+        }
+        .status-series-a {
+            background-color: #20c997;
+        }
+        .status-series-b {
+            background-color: #0d6efd;
+        }
+        .status-pre-ido {
+            background-color: #6f42c1;
+        }
+        .status-launched {
+            background-color: #198754;
+        }
+        .status-failed {
+            background-color: #dc3545;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <img src="https://storage.googleapis.com/clean-finder-353810/$Dd5BJMS3vYBf7ZOld70TQI6BwJGDbX0AROpvZc0RexkhTUrPQZBO4S" alt="Brinc Logo" class="logo">
+                <span class="ms-2 fw-bold">Unlisted Token Tracker</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="projects.html">Projects</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="token_dashboard.html">Token Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#">Unlisted Tokens</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
+                            <img src="https://s3-ap-southeast-1.amazonaws.com/timeauction.paperclip/auctions/images/000/000/123/display/Manav-Gupta_Founder-CEO_brinc_profilephoto.webp?1614188921" alt="Manav" class="rounded-circle" style="width: 24px; height: 24px; object-fit: cover;"> Manav
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="#">Profile</a></li>
+                            <li><a class="dropdown-item" href="#">Settings</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#">Logout</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container mt-4">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <h2>Startup Token Portfolio</h2>
+                <p class="text-muted">Track and manage unlisted tokens promised by startups</p>
+            </div>
+            <div>
+                <a href="token_dashboard.html" class="btn btn-outline-primary">
+                    <i class="fas fa-arrow-left"></i> Back to Dashboard
+                </a>
+                <a href="token_unlist_add.html" class="btn btn-primary ms-2">
+                    <i class="fas fa-plus"></i> Add New Token
+                </a>
+            </div>
+        </div>
+
+        <!-- Summary Card -->
+        <div class="row mb-4">
+            <div class="col-md-3">
+                <div class="card text-white bg-primary h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">Total Tokens</h5>
+                        <h2 class="display-6" id="summaryTotalTokens">44,000</h2>
+                        <p class="card-text">Across all projects</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card text-white bg-success h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">Estimated Value</h5>
+                        <h2 class="display-6" id="summaryTotalValue">$150,500</h2>
+                        <p class="card-text">Based on latest valuations</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card text-white bg-info h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">Active Projects</h5>
+                        <h2 class="display-6" id="summaryActiveProjects">5</h2>
+                        <p class="card-text">Still in development</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card text-white bg-warning h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">Avg. Potential ROI</h5>
+                        <h2 class="display-6" id="summaryAvgROI">3.2x</h2>
+                        <p class="card-text">Based on projections</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Token List Card -->
+        <div class="card mb-4">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">Unlisted Token Portfolio</h5>
+                <div>
+                    <button class="btn btn-success btn-sm" id="exportBtn">
+                        <i class="fas fa-file-export"></i> Export Data
+                    </button>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="alert alert-info">
+                    <i class="fas fa-info-circle"></i> These are tokens promised by startups that haven't launched yet. Track their development stage, promised amounts, and estimated values.
+                </div>
+                
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Token</th>
+                                <th>Project</th>
+                                <th>Stage</th>
+                                <th>Promised Amount</th>
+                                <th>Est. Value (USD)</th>
+                                <th>Acquisition Date</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr data-token-id="1">
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <div class="token-icon">
+                                            <img src="https://cryptologos.cc/logos/algorand-algo-logo.png" alt="QFIN" style="width: 100%; height: 100%; object-fit: contain;">
+                                        </div>
+                                        <div class="fw-bold">QFIN</div>
+                                    </div>
+                                </td>
+                                <td>Quantum Finance</td>
+                                <td>
+                                    <span class="badge status-seed">Seed</span>
+                                </td>
+                                <td>5,000</td>
+                                <td>$25,000</td>
+                                <td>May 15, 2022</td>
+                                <td>
+                                    <a href="token_unlist_edit.html?id=1" class="btn btn-sm btn-outline-primary">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <button class="btn btn-sm btn-outline-info view-history" data-bs-toggle="modal" data-bs-target="#historyModal" data-token-id="1">
+                                        <i class="fas fa-history"></i>
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-primary edit-notes" data-bs-toggle="modal" data-bs-target="#notesModal" data-token-id="1">
+                                        <i class="fas fa-sticky-note"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr data-token-id="2">
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <div class="token-icon">
+                                            <img src="https://cryptologos.cc/logos/algorand-algo-logo.png" alt="AIP" style="width: 100%; height: 100%; object-fit: contain;">
+                                        </div>
+                                        <div class="fw-bold">AIP</div>
+                                    </div>
+                                </td>
+                                <td>AI Protocol</td>
+                                <td>
+                                    <span class="badge status-series-a">Series A</span>
+                                </td>
+                                <td>12,500</td>
+                                <td>$37,500</td>
+                                <td>Aug 23, 2022</td>
+                                <td>
+                                    <a href="token_unlist_edit.html?id=2" class="btn btn-sm btn-outline-primary">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <button class="btn btn-sm btn-outline-info view-history" data-bs-toggle="modal" data-bs-target="#historyModal" data-token-id="2">
+                                        <i class="fas fa-history"></i>
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-primary edit-notes" data-bs-toggle="modal" data-bs-target="#notesModal" data-token-id="2">
+                                        <i class="fas fa-sticky-note"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr data-token-id="3">
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <div class="token-icon">
+                                            <img src="https://cryptologos.cc/logos/polygon-matic-logo.png" alt="MVX" style="width: 100%; height: 100%; object-fit: contain;">
+                                        </div>
+                                        <div class="fw-bold">MVX</div>
+                                    </div>
+                                </td>
+                                <td>MetaVerse X</td>
+                                <td>
+                                    <span class="badge status-pre-ido">Pre-IDO</span>
+                                </td>
+                                <td>8,000</td>
+                                <td>$16,000</td>
+                                <td>Nov 5, 2021</td>
+                                <td>
+                                    <a href="token_unlist_edit.html?id=3" class="btn btn-sm btn-outline-primary">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <button class="btn btn-sm btn-outline-info view-history" data-bs-toggle="modal" data-bs-target="#historyModal" data-token-id="3">
+                                        <i class="fas fa-history"></i>
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-primary edit-notes" data-bs-toggle="modal" data-bs-target="#notesModal" data-token-id="3">
+                                        <i class="fas fa-sticky-note"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr data-token-id="4">
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <div class="token-icon">
+                                            <img src="https://cryptologos.cc/logos/cosmos-atom-logo.png" alt="COSMIC" style="width: 100%; height: 100%; object-fit: contain;">
+                                        </div>
+                                        <div class="fw-bold">COSMIC</div>
+                                    </div>
+                                </td>
+                                <td>Cosmic Chain</td>
+                                <td>
+                                    <span class="badge status-series-b">Series B</span>
+                                </td>
+                                <td>3,500</td>
+                                <td>$42,000</td>
+                                <td>Feb 18, 2022</td>
+                                <td>
+                                    <a href="token_unlist_edit.html?id=4" class="btn btn-sm btn-outline-primary">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <button class="btn btn-sm btn-outline-info view-history" data-bs-toggle="modal" data-bs-target="#historyModal" data-token-id="4">
+                                        <i class="fas fa-history"></i>
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-primary edit-notes" data-bs-toggle="modal" data-bs-target="#notesModal" data-token-id="4">
+                                        <i class="fas fa-sticky-note"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr data-token-id="5">
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <div class="token-icon">
+                                            <img src="https://cryptologos.cc/logos/near-protocol-near-logo.png" alt="NOVA" style="width: 100%; height: 100%; object-fit: contain;">
+                                        </div>
+                                        <div class="fw-bold">NOVA</div>
+                                    </div>
+                                </td>
+                                <td>DeFi Nova</td>
+                                <td>
+                                    <span class="badge status-failed">Failed</span>
+                                </td>
+                                <td>15,000</td>
+                                <td>$30,000</td>
+                                <td>Jun 30, 2021</td>
+                                <td>
+                                    <a href="token_unlist_edit.html?id=5" class="btn btn-sm btn-outline-primary">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <button class="btn btn-sm btn-outline-info view-history" data-bs-toggle="modal" data-bs-target="#historyModal" data-token-id="5">
+                                        <i class="fas fa-history"></i>
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-primary edit-notes" data-bs-toggle="modal" data-bs-target="#notesModal" data-token-id="5">
+                                        <i class="fas fa-sticky-note"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr class="table-light">
+                                <td colspan="3" class="fw-bold text-end">Total:</td>
+                                <td id="totalTokens">44,000</td>
+                                <td id="totalValue" class="fw-bold">$150,500</td>
+                                <td colspan="2"></td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- History Modal -->
+    <div class="modal fade" id="historyModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Token Update History</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="d-flex align-items-center mb-4">
+                        <div class="token-icon me-2" style="width: 40px; height: 40px;">
+                            <img src="https://cryptologos.cc/logos/algorand-algo-logo.png" alt="QFIN" style="width: 100%; height: 100%; object-fit: contain;" id="historyTokenIcon">
+                        </div>
+                        <div>
+                            <h4 class="mb-0" id="historyTokenName">QFIN - Quantum Finance</h4>
+                            <p class="text-muted mb-0" id="historyTokenInfo">5,000 tokens, $25,000 estimated value</p>
+                        </div>
+                    </div>
+                    
+                    <div class="history-timeline">
+                        <div class="history-item">
+                            <div class="history-date">March 15, 2023</div>
+                            <div class="mt-2">
+                                <strong>Value Updated</strong>
+                                <p>Estimated value changed from $20,000 to $25,000 due to new funding round.</p>
+                                <div class="d-flex">
+                                    <span class="badge bg-secondary me-2">Previous: $20,000</span>
+                                    <span class="badge bg-success">New: $25,000</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="history-item">
+                            <div class="history-date">January 10, 2023</div>
+                            <div class="mt-2">
+                                <strong>Stage Updated</strong>
+                                <p>Project advanced from Early Stage to Seed round.</p>
+                                <div class="d-flex">
+                                    <span class="badge status-early me-2">Previous: Early Stage</span>
+                                    <span class="badge status-seed">New: Seed</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="history-item">
+                            <div class="history-date">November 5, 2022</div>
+                            <div class="mt-2">
+                                <strong>Amount Updated</strong>
+                                <p>Token allocation increased from 3,000 to 5,000 tokens.</p>
+                                <div class="d-flex">
+                                    <span class="badge bg-secondary me-2">Previous: 3,000</span>
+                                    <span class="badge bg-success">New: 5,000</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="history-item">
+                            <div class="history-date">May 15, 2022</div>
+                            <div class="mt-2">
+                                <strong>Token Added</strong>
+                                <p>Initial record created with 3,000 tokens at $15,000 estimated value.</p>
+                                <div class="d-flex">
+                                    <span class="badge status-early">Stage: Early Stage</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notes Modal -->
+    <div class="modal fade" id="notesModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Token Notes</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="token-icon me-2">
+                            <img src="https://cryptologos.cc/logos/algorand-algo-logo.png" alt="QFIN" style="width: 100%; height: 100%; object-fit: contain;" id="notesTokenIcon">
+                        </div>
+                        <div class="fw-bold" id="notesTokenName">QFIN - Quantum Finance</div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="tokenNotes" class="form-label">Notes</label>
+                        <textarea class="form-control" id="tokenNotes" rows="6">
+- Team has strong technical background from Google and Meta
+- Using quantum computing for DeFi applications
+- Planning IDO in Q4 2023
+- Vesting schedule: 20% at TGE, 20% per quarter thereafter
+- Potential partnerships with major exchanges in discussion
+                        </textarea>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="vestingDetails" class="form-label">Vesting Details</label>
+                        <textarea class="form-control" id="vestingDetails" rows="3">
+20% at TGE, 20% per quarter thereafter
+Total vesting period: 15 months
+                        </textarea>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="riskAssessment" class="form-label">Risk Assessment</label>
+                        <select class="form-select" id="riskAssessment">
+                            <option value="low">Low Risk</option>
+                            <option value="medium" selected>Medium Risk</option>
+                            <option value="high">High Risk</option>
+                            <option value="very-high">Very High Risk</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary">Save Notes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Custom JavaScript -->
+    <script>
+        // History modal dynamic content
+        document.querySelectorAll('.view-history').forEach(button => {
+            button.addEventListener('click', function() {
+                const tokenId = this.getAttribute('data-token-id');
+                const row = document.querySelector(`tr[data-token-id="${tokenId}"]`);
+                
+                // Get token details from the row
+                const tokenSymbol = row.querySelector('.fw-bold').textContent;
+                const tokenProject = row.querySelector('td:nth-child(2)').textContent;
+                const tokenAmount = row.querySelector('td:nth-child(4)').textContent;
+                const tokenValue = row.querySelector('td:nth-child(5)').textContent;
+                const tokenIcon = row.querySelector('.token-icon img').src;
+                
+                // Update modal content
+                document.getElementById('historyTokenName').textContent = `${tokenSymbol} - ${tokenProject}`;
+                document.getElementById('historyTokenInfo').textContent = `${tokenAmount} tokens, ${tokenValue} estimated value`;
+                document.getElementById('historyTokenIcon').src = tokenIcon;
+                
+                // In a real application, you would fetch the history from a database
+                // For now, we're just showing static content
+            });
+        });
+        
+        // Notes modal dynamic content
+        document.querySelectorAll('.edit-notes').forEach(button => {
+            button.addEventListener('click', function() {
+                const tokenId = this.getAttribute('data-token-id');
+                const row = document.querySelector(`tr[data-token-id="${tokenId}"]`);
+                
+                // Get token details from the row
+                const tokenSymbol = row.querySelector('.fw-bold').textContent;
+                const tokenProject = row.querySelector('td:nth-child(2)').textContent;
+                const tokenIcon = row.querySelector('.token-icon img').src;
+                
+                // Update modal content
+                document.getElementById('notesTokenName').textContent = `${tokenSymbol} - ${tokenProject}`;
+                document.getElementById('notesTokenIcon').src = tokenIcon;
+                
+                // In a real application, you would fetch the notes from a database
+                // For now, we're just showing static content
+            });
+        });
+        
+        // Export button
+        document.getElementById('exportBtn').addEventListener('click', function() {
+            alert('Data would be exported to CSV/Excel in a real application');
+        });
+    </script>
+</body>
+</html>
+</rewritten_file>
+

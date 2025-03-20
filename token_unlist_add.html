@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Unlisted Token - Brinc</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .logo {
+            max-height: 40px;
+        }
+        .token-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background-color: #e9ecef;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+        }
+        .status-early {
+            background-color: #6610f2;
+        }
+        .status-seed {
+            background-color: #fd7e14;
+        }
+        .status-series-a {
+            background-color: #20c997;
+        }
+        .status-series-b {
+            background-color: #0d6efd;
+        }
+        .status-pre-ido {
+            background-color: #6f42c1;
+        }
+        .status-launched {
+            background-color: #198754;
+        }
+        .status-failed {
+            background-color: #dc3545;
+        }
+        .form-section {
+            border-left: 4px solid #0d6efd;
+            padding-left: 15px;
+            margin-bottom: 30px;
+        }
+        .preview-card {
+            border: 1px solid #dee2e6;
+            border-radius: 0.25rem;
+            padding: 15px;
+            background-color: #f8f9fa;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <img src="https://storage.googleapis.com/clean-finder-353810/$Dd5BJMS3vYBf7ZOld70TQI6BwJGDbX0AROpvZc0RexkhTUrPQZBO4S" alt="Brinc Logo" class="logo">
+                <span class="ms-2 fw-bold">Unlisted Token Tracker</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="projects.html">Projects</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="token_dashboard.html">Token Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="token_unlist_add.html">Unlisted Tokens</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
+                            <img src="https://s3-ap-southeast-1.amazonaws.com/timeauction.paperclip/auctions/images/000/000/123/display/Manav-Gupta_Founder-CEO_brinc_profilephoto.webp?1614188921" alt="Manav" class="rounded-circle" style="width: 24px; height: 24px; object-fit: cover;"> Manav
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="#">Profile</a></li>
+                            <li><a class="dropdown-item" href="#">Settings</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#">Logout</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container mt-4">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <h2>Add New Unlisted Token</h2>
+                <p class="text-muted">Record a new token promised by a startup</p>
+            </div>
+            <div>
+                <a href="token_unlist_add.html" class="btn btn-outline-primary">
+                    <i class="fas fa-arrow-left"></i> Back to Token List
+                </a>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-8">
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5 class="mb-0">Token Information</h5>
+                    </div>
+                    <div class="card-body">
+                        <form id="addTokenForm">
+                            <!-- Basic Token Information -->
+                            <div class="form-section">
+                                <h5 class="mb-3">Basic Information</h5>
+                                
+                                <div class="mb-3 row">
+                                    <label for="tokenSymbol" class="col-sm-3 col-form-label">Token Symbol*</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" id="tokenSymbol" placeholder="e.g., BTC, ETH" required>
+                                    </div>
+                                </div>
+                                
+                                <div class="mb-3 row">
+                                    <label for="tokenName" class="col-sm-3 col-form-label">Token Name*</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" id="tokenName" placeholder="e.g., Bitcoin, Ethereum" required>
+                                    </div>
+                                </div>
+                                
+                                <div class="mb-3 row">
+                                    <label for="projectName" class="col-sm-3 col-form-label">Project Name*</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" id="projectName" placeholder="e.g., Quantum Finance" required>
+                                    </div>
+                                </div>
+                                
+                                <div class="mb-3 row">
+                                    <label for="tokenIcon" class="col-sm-3 col-form-label">Token Icon URL</label>
+                                    <div class="col-sm-9">
+                                        <input type="url" class="form-control" id="tokenIcon" placeholder="https://example.com/icon.png">
+                                        <div class="form-text">URL to the token's logo image</div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Allocation Details -->
+                            <div class="form-section">
+                                <h5 class="mb-3">Allocation Details</h5>
+                                
+                                <div class="mb-3 row">
+                                    <label for="tokenAmount" class="col-sm-3 col-form-label">Token Amount*</label>
+                                    <div class="col-sm-9">
+                                        <input type="number" class="form-control" id="tokenAmount" placeholder="e.g., 5000" required>
+                                    </div>
+                                </div>
+                                
+                                <div class="mb-3 row">
+                                    <label for="estimatedValue" class="col-sm-3 col-form-label">Estimated Value (USD)*</label>
+                                    <div class="col-sm-9">
+                                        <div class="input-group">
+                                            <span class="input-group-text">$</span>
+                                            <input type="number" class="form-control" id="estimatedValue" placeholder="e.g., 25000" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="mb-3 row">
+                                    <label for="acquisitionDate" class="col-sm-3 col-form-label">Acquisition Date*</label>
+                                    <div class="col-sm-9">
+                                        <input type="date" class="form-control" id="acquisitionDate" required>
+                                    </div>
+                                </div>
+                                
+                                <div class="mb-3 row">
+                                    <label for="tokenStage" class="col-sm-3 col-form-label">Project Stage*</label>
+                                    <div class="col-sm-9">
+                                        <select class="form-select" id="tokenStage" required>
+                                            <option value="" selected disabled>Select stage</option>
+                                            <option value="early">Early Stage</option>
+                                            <option value="seed">Seed</option>
+                                            <option value="series-a">Series A</option>
+                                            <option value="series-b">Series B</option>
+                                            <option value="pre-ido">Pre-IDO</option>
+                                            <option value="launched">Launched</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Vesting & Additional Details -->
+                            <div class="form-section">
+                                <h5 class="mb-3">Vesting & Additional Details</h5>
+                                
+                                <div class="mb-3 row">
+                                    <label for="vestingSchedule" class="col-sm-3 col-form-label">Vesting Schedule</label>
+                                    <div class="col-sm-9">
+                                        <textarea class="form-control" id="vestingSchedule" rows="3" placeholder="e.g., 20% at TGE, 20% per quarter thereafter"></textarea>
+                                    </div>
+                                </div>
+                                
+                                <div class="mb-3 row">
+                                    <label for="expectedLaunch" class="col-sm-3 col-form-label">Expected Launch</label>
+                                    <div class="col-sm-9">
+                                        <input type="date" class="form-control" id="expectedLaunch">
+                                    </div>
+                                </div>
+                                
+                                <div class="mb-3 row">
+                                    <label for="riskAssessment" class="col-sm-3 col-form-label">Risk Assessment</label>
+                                    <div class="col-sm-9">
+                                        <select class="form-select" id="riskAssessment">
+                                            <option value="low">Low Risk</option>
+                                            <option value="medium" selected>Medium Risk</option>
+                                            <option value="high">High Risk</option>
+                                            <option value="very-high">Very High Risk</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                
+                                <div class="mb-3 row">
+                                    <label for="tokenNotes" class="col-sm-3 col-form-label">Notes</label>
+                                    <div class="col-sm-9">
+                                        <textarea class="form-control" id="tokenNotes" rows="5" placeholder="Additional notes about the token, team, or project"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="d-flex justify-content-end mt-4">
+                                <button type="button" class="btn btn-outline-secondary me-2" id="cancelBtn">Cancel</button>
+                                <button type="submit" class="btn btn-primary">Add Token</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5 class="mb-0">Token Preview</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="preview-card">
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="token-icon" id="previewTokenIcon">
+                                    <i class="fas fa-coins fa-2x text-muted"></i>
+                                </div>
+                                <div>
+                                    <h5 class="mb-0" id="previewTokenSymbol">TOKEN</h5>
+                                    <p class="text-muted mb-0" id="previewTokenName">Token Name</p>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-2">
+                                <strong>Project:</strong> <span id="previewProject">Project Name</span>
+                            </div>
+                            
+                            <div class="mb-2">
+                                <strong>Stage:</strong> <span id="previewStage" class="badge bg-secondary">Not Set</span>
+                            </div>
+                            
+                            <div class="mb-2">
+                                <strong>Amount:</strong> <span id="previewAmount">0</span> tokens
+                            </div>
+                            
+                            <div class="mb-2">
+                                <strong>Est. Value:</strong> $<span id="previewValue">0</span>
+                            </div>
+                            
+                            <div class="mb-2">
+                                <strong>Acquisition:</strong> <span id="previewDate">Not Set</span>
+                            </div>
+                            
+                            <div class="mb-2">
+                                <strong>Risk Level:</strong> <span id="previewRisk">Medium</span>
+                            </div>
+                        </div>
+                        
+                        <div class="alert alert-info mt-3">
+                            <i class="fas fa-info-circle"></i> This preview shows how the token will appear in your portfolio.
+                        </div>
+                        
+                        <div class="alert alert-warning mt-3">
+                            <i class="fas fa-exclamation-triangle"></i> Remember to keep track of any changes in token allocation or project status.
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0">Help & Tips</h5>
+                    </div>
+                    <div class="card-body">
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">
+                                <i class="fas fa-check-circle text-success"></i> Enter the token symbol as it will appear on exchanges
+                            </li>
+                            <li class="list-group-item">
+                                <i class="fas fa-check-circle text-success"></i> Estimated value should be based on latest valuation
+                            </li>
+                            <li class="list-group-item">
+                                <i class="fas fa-check-circle text-success"></i> Include vesting details for future reference
+                            </li>
+                            <li class="list-group-item">
+                                <i class="fas fa-check-circle text-success"></i> Update risk assessment as the project progresses
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Custom JavaScript -->
+    <script>
+        // Update preview as user inputs data
+        document.getElementById('tokenSymbol').addEventListener('input', function() {
+            document.getElementById('previewTokenSymbol').textContent = this.value || 'TOKEN';
+        });
+        
+        document.getElementById('tokenName').addEventListener('input', function() {
+            document.getElementById('previewTokenName').textContent = this.value || 'Token Name';
+        });
+        
+        document.getElementById('projectName').addEventListener('input', function() {
+            document.getElementById('previewProject').textContent = this.value || 'Project Name';
+        });
+        
+        document.getElementById('tokenAmount').addEventListener('input', function() {
+            document.getElementById('previewAmount').textContent = this.value || '0';
+        });
+        
+        document.getElementById('estimatedValue').addEventListener('input', function() {
+            document.getElementById('previewValue').textContent = this.value || '0';
+        });
+        
+        document.getElementById('acquisitionDate').addEventListener('input', function() {
+            const date = new Date(this.value);
+            const options = { year: 'numeric', month: 'short', day: 'numeric' };
+            document.getElementById('previewDate').textContent = date.toLocaleDateString('en-US', options);
+        });
+        
+        document.getElementById('tokenStage').addEventListener('change', function() {
+            const stage = this.value;
+            const stageElement = document.getElementById('previewStage');
+            
+            // Remove all existing status classes
+            stageElement.classList.remove('status-early', 'status-seed', 'status-series-a', 
+                'status-series-b', 'status-pre-ido', 'status-launched', 'status-failed');
+            
+            // Add the appropriate class and text
+            if (stage === 'early') {
+                stageElement.classList.add('status-early');
+                stageElement.textContent = 'Early Stage';
+            } else if (stage === 'seed') {
+                stageElement.classList.add('status-seed');
+                stageElement.textContent = 'Seed';
+            } else if (stage === 'series-a') {
+                stageElement.classList.add('status-series-a');
+                stageElement.textContent = 'Series A';
+            } else if (stage === 'series-b') {
+                stageElement.classList.add('status-series-b');
+                stageElement.textContent = 'Series B';
+            } else if (stage === 'pre-ido') {
+                stageElement.classList.add('status-pre-ido');
+                stageElement.textContent = 'Pre-IDO';
+            } else if (stage === 'launched') {
+                stageElement.classList.add('status-launched');
+                stageElement.textContent = 'Launched';
+            }
+        });
+        
+        document.getElementById('riskAssessment').addEventListener('change', function() {
+            const risk = this.value;
+            const riskText = {
+                'low': 'Low',
+                'medium': 'Medium',
+                'high': 'High',
+                'very-high': 'Very High'
+            };
+            document.getElementById('previewRisk').textContent = riskText[risk] || 'Medium';
+        });
+        
+        document.getElementById('tokenIcon').addEventListener('input', function() {
+            const iconUrl = this.value;
+            const previewIcon = document.getElementById('previewTokenIcon');
+            
+            if (iconUrl) {
+                // Clear the icon container
+                previewIcon.innerHTML = '';
+                
+                // Create and add the image
+                const img = document.createElement('img');
+                img.src = iconUrl;
+                img.alt = 'Token Icon';
+                img.style.width = '100%';
+                img.style.height = '100%';
+                img.style.objectFit = 'contain';
+                
+                previewIcon.appendChild(img);
+            } else {
+                // Reset to default icon
+                previewIcon.innerHTML = '<i class="fas fa-coins fa-2x text-muted"></i>';
+            }
+        });
+        
+        // Form submission
+        document.getElementById('addTokenForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // In a real application, you would send this data to your backend
+            alert('Token would be added to your portfolio in a real application');
+            
+            // Redirect back to the token list page
+            // window.location.href = 'token_unlist_add.html';
+        });
+        
+        // Cancel button
+        document.getElementById('cancelBtn').addEventListener('click', function() {
+            if (confirm('Are you sure you want to cancel? Any unsaved changes will be lost.')) {
+                window.location.href = 'token_unlist_add.html';
+            }
+        });
+    </script>
+</body>
+</html>
+
