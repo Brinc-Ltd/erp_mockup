@@ -1,0 +1,1309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brinc CEO Equity Dashboard</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
+    <style>
+        .logo {
+            max-height: 40px;
+        }
+        .card-header {
+            background-color: #f8f9fa;
+        }
+        .search-container {
+            position: relative;
+        }
+        .search-container .fa-search {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            color: #6c757d;
+        }
+        .search-input {
+            padding-left: 35px;
+        }
+        .metric-card {
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s;
+            height: 100%;
+        }
+        .metric-card:hover {
+            transform: translateY(-5px);
+        }
+        .metric-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+        .metric-currency {
+            font-size: 1rem;
+            font-weight: 500;
+        }
+        .metric-change {
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+        .metric-change.positive {
+            color: #198754;
+        }
+        .metric-change.negative {
+            color: #dc3545;
+        }
+        .metric-subtitle {
+            font-size: 0.85rem;
+            color: #6c757d;
+        }
+        .company-logo {
+            width: 40px;
+            height: 40px;
+            object-fit: contain;
+            border-radius: 4px;
+        }
+        .moic-badge {
+            font-weight: bold;
+            padding: 0.35em 0.65em;
+        }
+        .table-responsive {
+            overflow-x: auto;
+        }
+        .progress {
+            height: 8px;
+        }
+        .company-card {
+            transition: transform 0.2s;
+        }
+        .company-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        .company-logo-lg {
+            width: 80px;
+            height: 80px;
+            object-fit: contain;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <img src="https://storage.googleapis.com/clean-finder-353810/$Dd5BJMS3vYBf7ZOld70TQI6BwJGDbX0AROpvZc0RexkhTUrPQZBO4S" alt="Brinc Logo" class="logo">
+                <span class="ms-2 fw-bold">CEO Equity Dashboard</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="ceo_view.html">CEO Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="projects.html">Projects</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="payroll_dashboard.html">Payroll System</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="token_dashboard.html">Digital Currency System</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
+                            <img src="https://s3-ap-southeast-1.amazonaws.com/timeauction.paperclip/auctions/images/000/000/123/display/Manav-Gupta_Founder-CEO_brinc_profilephoto.webp?1614188921" alt="Manav" class="rounded-circle" style="width: 24px; height: 24px; object-fit: cover;"> Manav
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="#">Profile</a></li>
+                            <li><a class="dropdown-item" href="#">Settings</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#">Logout</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container mt-4">
+        <!-- Airtable Sync Message -->
+        <div id="syncMessage" class="alert alert-info alert-dismissible fade show d-flex align-items-center" role="alert">
+            <i class="fas fa-database me-2"></i>
+            <div class="flex-grow-1">
+                Data is synchronized from Airtable Master Database. Last sync: <span id="lastSyncTime">Today at 09:45 AM</span>
+            </div>
+            <button id="syncButton" class="btn btn-sm btn-outline-primary me-2">
+                <i class="fas fa-sync-alt me-1"></i> Sync Now
+            </button>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        
+        <!-- Success message (hidden by default) -->
+        <div id="syncSuccessMessage" class="alert alert-success alert-dismissible fade d-flex align-items-center" role="alert" style="display: none;">
+            <i class="fas fa-check-circle me-2"></i>
+            <div>Data successfully synchronized from Airtable!</div>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+
+        <!-- Page Header -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <h2 class="mb-1">Portfolio Equity Holdings</h2>
+                <p class="text-muted">Track and analyze your accelerator's equity investments</p>
+            </div>
+            <div>
+            </div>
+        </div>
+
+        <!-- Summary Cards -->
+        <div class="row g-3 mb-4">
+            <!-- Total Portfolio Value -->
+            <div class="col-md-6 col-lg-3">
+                <div class="card metric-card">
+                    <div class="card-body">
+                        <h6 class="card-subtitle mb-2 text-muted">Total Portfolio Value</h6>
+                        <div class="metric-change positive mb-1">
+                            <i class="fas fa-arrow-up me-1"></i>+234.7%
+                        </div>
+                        <div class="d-flex align-items-baseline">
+                            <div class="metric-value me-2">1.51M</div>
+                            <div class="metric-currency">EUR</div>
+                        </div>
+                        <div class="metric-subtitle mt-1">4 active companies</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Average MOIC -->
+            <div class="col-md-6 col-lg-3">
+                <div class="card metric-card">
+                    <div class="card-body">
+                        <h6 class="card-subtitle mb-2 text-muted">Average MOIC</h6>
+                        <div class="metric-change positive mb-1">
+                            <i class="fas fa-arrow-up me-1"></i>+45.2%
+                        </div>
+                        <div class="d-flex align-items-baseline">
+                            <div class="metric-value me-2">9.45x</div>
+                        </div>
+                        <div class="metric-subtitle mt-1">Multiple on Invested Capital</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Best Performer -->
+            <div class="col-md-6 col-lg-3">
+                <div class="card metric-card">
+                    <div class="card-body">
+                        <h6 class="card-subtitle mb-2 text-muted">Best Performer</h6>
+                        <div class="d-flex align-items-center mb-2">
+                            <img src="https://v5.airtableusercontent.com/v3/u/39/39/1742472000000/1ZyyfZtxGW3TOVZ099s9ZQ/jIAVVFzpBrBx15OZ2ACdUlklLNlwSZsnG6QCac82Gwhb90MS3RWjHkUtS7kA_XsWL_IgXG5gATDrmvRAwbgHknYYBe73FP_vKTh3kDDM4od8itOH37zF9z3VpD56G_2cc_T157pb6f8HwbEQ3gokddFxyB6BMxXrQzsV4i9413E/-I0dH63O5eECEvqWqMDcJ5VZTptdi-blWS-H8-ZAA4w" alt="CellX" class="company-logo me-2">
+                            <span>CellX</span>
+                        </div>
+                        <div class="d-flex align-items-baseline">
+                            <div class="metric-value me-2">11.5x</div>
+                            <div class="metric-currency">MOIC</div>
+                        </div>
+                        <div class="metric-subtitle mt-1">$483K current value</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Latest Investment -->
+            <div class="col-md-6 col-lg-3">
+                <div class="card metric-card">
+                    <div class="card-body">
+                        <h6 class="card-subtitle mb-2 text-muted">Latest Investment</h6>
+                        <div class="d-flex align-items-center mb-2">
+                            <img src="https://v5.airtableusercontent.com/v3/u/39/39/1742472000000/UUYG1-zWwpDRRteRTXAj2w/DKW7Z80jsfJeREQ0TPEjYmby7gdEJ1e1Dg8RcNdG3QzjxwrPd7V2imPas6DzQH4bwgWehLGrtBp8H_bzU-8RSBzPSNp4ebJ29LfRBWPctjtvg66peiCykYDKyCHvOvmUdl8qJHkDNYHiPCO6llJdTSpEmAUdGO_AOaLIQK0B6c8/g71eutbREcYBT6KAagFld9BI50M6RDuYZ5MtaoksB7k" alt="Haofood" class="company-logo me-2">
+                            <span>Haofood</span>
+                        </div>
+                        <div class="d-flex align-items-baseline">
+                            <div class="metric-value me-2">10.27x</div>
+                            <div class="metric-currency">MOIC</div>
+                        </div>
+                        <div class="metric-subtitle mt-1">$205.4K current value</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Portfolio Distribution -->
+        <div class="row mb-4">
+            <div class="col-md-6">
+                <div class="card h-100">
+                    <div class="card-header">
+                        <h5 class="mb-0">Portfolio by Vertical</h5>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="verticalChart" height="250"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card h-100">
+                    <div class="card-header">
+                        <h5 class="mb-0">Portfolio by Region</h5>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="regionChart" height="250"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Portfolio Companies Table -->
+        <div class="card mb-4">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">Portfolio Companies</h5>
+                <div>
+                    <a href="https://airtable.com/appXXXXXXXXXXXXXX/tblXXXXXXXXXXXXXX/viwXXXXXXXXXXXXXX" target="_blank" class="btn btn-sm btn-outline-secondary">
+                        <i class="fas fa-external-link-alt me-1"></i> View in Airtable
+                    </a>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover" id="portfolioTable">
+                        <thead>
+                            <tr>
+                                <th>Company</th>
+                                <th>Vertical</th>
+                                <th>Region</th>
+                                <th>Investment Year</th>
+                                <th>Initial Holding %</th>
+                                <th>Current Holding %</th>
+                                <th>Initial Valuation</th>
+                                <th>Current Valuation</th>
+                                <th>Current Value</th>
+                                <th>MOIC</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <img src="https://v5.airtableusercontent.com/v3/u/39/39/1742472000000/1ZyyfZtxGW3TOVZ099s9ZQ/jIAVVFzpBrBx15OZ2ACdUlklLNlwSZsnG6QCac82Gwhb90MS3RWjHkUtS7kA_XsWL_IgXG5gATDrmvRAwbgHknYYBe73FP_vKTh3kDDM4od8itOH37zF9z3VpD56G_2cc_T157pb6f8HwbEQ3gokddFxyB6BMxXrQzsV4i9413E/-I0dH63O5eECEvqWqMDcJ5VZTptdi-blWS-H8-ZAA4w" alt="CellX" class="company-logo me-2">
+                                        <div>
+                                            <div class="fw-bold">CellX</div>
+                                            <div class="small text-muted">Cellular Agriculture</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>Agrifood</td>
+                                <td>East Asia</td>
+                                <td>2020</td>
+                                <td>1.00%</td>
+                                <td>0.69%</td>
+                                <td>$3,000,000</td>
+                                <td>$70,000,000</td>
+                                <td>$483,000</td>
+                                <td><span class="badge bg-success moic-badge">11.5x</span></td>
+                                <td>
+                                    <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#companyDetailModal" data-company="CellX">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <img src="https://v5.airtableusercontent.com/v3/u/39/39/1742472000000/Bu-aIQ-xfDaqocTWDX4ncQ/o8W0DzqSv1Km-k-RH225bjfMGSxU-iKZscXDGO2j45A_ssJ5ZoBI0IcFfd75djCSGL0yz-596386OYkyi1prtwpjArmS7eaFW0nHEpaPWoRaApSH4umTfSe5hbQ0SvH_E3JbvK3CXqYHUDxwY2x0NQ/eQQ_W5J1AensT9ZBVFzKnh0HIGOOtBHqxn63E7KfKDo" alt="SkyeBrowse" class="company-logo me-2">
+                                        <div>
+                                            <div class="fw-bold">SkyeBrowse</div>
+                                            <div class="small text-muted">Smart/Safe City</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>Smart Cities, AI</td>
+                                <td>North America</td>
+                                <td>2018</td>
+                                <td>2.00%</td>
+                                <td>1.63%</td>
+                                <td>$1,625,000</td>
+                                <td>$25,000,000</td>
+                                <td>$407,500</td>
+                                <td><span class="badge bg-success moic-badge">6.27x</span></td>
+                                <td>
+                                    <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#companyDetailModal" data-company="SkyeBrowse">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <img src="https://v5.airtableusercontent.com/v3/u/39/39/1742472000000/pQawxBP20dSueyStjyYtag/kDYBnB-xHk4idluze_ladAFimqAQXFwbItUILE1Zqet6OiDmp14k9YB-naLC4CCj7Xr7cTqh1WDtCJnzUfNQi-hHTkwSox-jZi8i_BWGxDjFyZf7oiIMlD88PuZTlQUjXW8gYPf_6ZnYxYGt1qaFsA/l39C1kYe_KKIlWWZbyyUL_MMx-Q0VydLFSweHbM4rJ4" alt="Striga" class="company-logo me-2">
+                                        <div>
+                                            <div class="fw-bold">Striga</div>
+                                            <div class="small text-muted">Infrastructure</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>Web3</td>
+                                <td>Europe</td>
+                                <td>2018</td>
+                                <td>3.00%</td>
+                                <td>2.77%</td>
+                                <td>$1,250,000</td>
+                                <td>$15,000,000</td>
+                                <td>$415,200</td>
+                                <td><span class="badge bg-success moic-badge">9.76x</span></td>
+                                <td>
+                                    <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#companyDetailModal" data-company="Striga">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <img src="https://v5.airtableusercontent.com/v3/u/39/39/1742472000000/UUYG1-zWwpDRRteRTXAj2w/DKW7Z80jsfJeREQ0TPEjYmby7gdEJ1e1Dg8RcNdG3QzjxwrPd7V2imPas6DzQH4bwgWehLGrtBp8H_bzU-8RSBzPSNp4ebJ29LfRBWPctjtvg66peiCykYDKyCHvOvmUdl8qJHkDNYHiPCO6llJdTSpEmAUdGO_AOaLIQK0B6c8/g71eutbREcYBT6KAagFld9BI50M6RDuYZ5MtaoksB7k" alt="Haofood" class="company-logo me-2">
+                                        <div>
+                                            <div class="fw-bold">Haofood</div>
+                                            <div class="small text-muted">Plant-based</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>Agrifood</td>
+                                <td>East Asia</td>
+                                <td>2020</td>
+                                <td>2.50%</td>
+                                <td>1.58%</td>
+                                <td>$800,000</td>
+                                <td>$13,000,000</td>
+                                <td>$205,400</td>
+                                <td><span class="badge bg-success moic-badge">10.27x</span></td>
+                                <td>
+                                    <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#companyDetailModal" data-company="Haofood">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Portfolio Performance -->
+        <h4 class="mb-3">Portfolio Performance</h4>
+        <div class="card mb-4">
+            <div class="card-body">
+                <ul class="nav nav-tabs" id="performanceTab" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="valuation-tab" data-bs-toggle="tab" data-bs-target="#valuation" type="button" role="tab" aria-controls="valuation" aria-selected="true">Valuation Growth</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="moic-tab" data-bs-toggle="tab" data-bs-target="#moic" type="button" role="tab" aria-controls="moic" aria-selected="false">MOIC Trends</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="funding-tab" data-bs-toggle="tab" data-bs-target="#funding" type="button" role="tab" aria-controls="funding" aria-selected="false">Funding Rounds</button>
+                    </li>
+                </ul>
+                <div class="tab-content mt-3" id="performanceTabContent">
+                    <div class="tab-pane fade show active" id="valuation" role="tabpanel" aria-labelledby="valuation-tab">
+                        <canvas id="valuationChart" height="300"></canvas>
+                    </div>
+                    <div class="tab-pane fade" id="moic" role="tabpanel" aria-labelledby="moic-tab">
+                        <canvas id="moicChart" height="300"></canvas>
+                    </div>
+                    <div class="tab-pane fade" id="funding" role="tabpanel" aria-labelledby="funding-tab">
+                        <canvas id="fundingChart" height="300"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Featured Companies -->
+        <h4 class="mb-3">Featured Companies</h4>
+        <div class="row g-3 mb-4">
+            <!-- CellX -->
+            <div class="col-md-6 col-lg-3">
+                <div class="card company-card h-100">
+                    <div class="card-body text-center">
+                        <img src="https://v5.airtableusercontent.com/v3/u/39/39/1742472000000/1ZyyfZtxGW3TOVZ099s9ZQ/jIAVVFzpBrBx15OZ2ACdUlklLNlwSZsnG6QCac82Gwhb90MS3RWjHkUtS7kA_XsWL_IgXG5gATDrmvRAwbgHknYYBe73FP_vKTh3kDDM4od8itOH37zF9z3VpD56G_2cc_T157pb6f8HwbEQ3gokddFxyB6BMxXrQzsV4i9413E/-I0dH63O5eECEvqWqMDcJ5VZTptdi-blWS-H8-ZAA4w" alt="CellX" class="company-logo-lg mb-3">
+                        <h5>CellX</h5>
+                        <p class="text-muted small">Leader of Cellular Agriculture in China</p>
+                        <div class="d-flex justify-content-between mb-2">
+                            <span class="text-muted">Current Value:</span>
+                            <span class="fw-bold">$483,000</span>
+                        </div>
+                        <div class="d-flex justify-content-between mb-3">
+                            <span class="text-muted">MOIC:</span>
+                            <span class="badge bg-success moic-badge">11.5x</span>
+                        </div>
+                        <button class="btn btn-outline-primary btn-sm w-100" data-bs-toggle="modal" data-bs-target="#companyDetailModal" data-company="CellX">View Details</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- SkyeBrowse -->
+            <div class="col-md-6 col-lg-3">
+                <div class="card company-card h-100">
+                    <div class="card-body text-center">
+                        <img src="https://v5.airtableusercontent.com/v3/u/39/39/1742472000000/Bu-aIQ-xfDaqocTWDX4ncQ/o8W0DzqSv1Km-k-RH225bjfMGSxU-iKZscXDGO2j45A_ssJ5ZoBI0IcFfd75djCSGL0yz-596386OYkyi1prtwpjArmS7eaFW0nHEpaPWoRaApSH4umTfSe5hbQ0SvH_E3JbvK3CXqYHUDxwY2x0NQ/eQQ_W5J1AensT9ZBVFzKnh0HIGOOtBHqxn63E7KfKDo" alt="SkyeBrowse" class="company-logo-lg mb-3">
+                        <h5>SkyeBrowse</h5>
+                        <p class="text-muted small">Car crash forensics quicker than ever</p>
+                        <div class="d-flex justify-content-between mb-2">
+                            <span class="text-muted">Current Value:</span>
+                            <span class="fw-bold">$407,500</span>
+                        </div>
+                        <div class="d-flex justify-content-between mb-3">
+                            <span class="text-muted">MOIC:</span>
+                            <span class="badge bg-success moic-badge">6.27x</span>
+                        </div>
+                        <button class="btn btn-outline-primary btn-sm w-100" data-bs-toggle="modal" data-bs-target="#companyDetailModal" data-company="SkyeBrowse">View Details</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Striga -->
+            <div class="col-md-6 col-lg-3">
+                <div class="card company-card h-100">
+                  <div class="card-body text-center">
+                    <img src="https://v5.airtableusercontent.com/v3/u/39/39/1742472000000/pQawxBP20dSueyStjyYtag/kDYBnB-xHk4idluze_ladAFimqAQXFwbItUILE1Zqet6OiDmp14k9YB-naLC4CCj7Xr7cTqh1WDtCJnzUfNQi-hHTkwSox-jZi8i_BWGxDjFyZf7oiIMlD88PuZTlQUjXW8gYPf_6ZnYxYGt1qaFsA/l39C1kYe_KKIlWWZbyyUL_MMx-Q0VydLFSweHbM4rJ4" alt="Striga" class="company-logo-lg mb-3">
+                    <h5>Striga</h5>
+                    <p class="text-muted small">Crypto & Banking Infrastructure</p>
+                    <div class="d-flex justify-content-between mb-2">
+                        <span class="text-muted">Current Value:</span>
+                        <span class="fw-bold">$415,200</span>
+                    </div>
+                    <div class="d-flex justify-content-between mb-3">
+                        <span class="text-muted">MOIC:</span>
+                        <span class="badge bg-success moic-badge">9.76x</span>
+                    </div>
+                    <button class="btn btn-outline-primary btn-sm w-100" data-bs-toggle="modal" data-bs-target="#companyDetailModal" data-company="Striga">View Details</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Haofood -->
+        <div class="col-md-6 col-lg-3">
+            <div class="card company-card h-100">
+                <div class="card-body text-center">
+                    <img src="https://v5.airtableusercontent.com/v3/u/39/39/1742472000000/UUYG1-zWwpDRRteRTXAj2w/DKW7Z80jsfJeREQ0TPEjYmby7gdEJ1e1Dg8RcNdG3QzjxwrPd7V2imPas6DzQH4bwgWehLGrtBp8H_bzU-8RSBzPSNp4ebJ29LfRBWPctjtvg66peiCykYDKyCHvOvmUdl8qJHkDNYHiPCO6llJdTSpEmAUdGO_AOaLIQK0B6c8/g71eutbREcYBT6KAagFld9BI50M6RDuYZ5MtaoksB7k" alt="Haofood" class="company-logo-lg mb-3">
+                    <h5>Haofood</h5>
+                    <p class="text-muted small">Plant-based chicken</p>
+                    <div class="d-flex justify-content-between mb-2">
+                        <span class="text-muted">Current Value:</span>
+                        <span class="fw-bold">$205,400</span>
+                    </div>
+                    <div class="d-flex justify-content-between mb-3">
+                        <span class="text-muted">MOIC:</span>
+                        <span class="badge bg-success moic-badge">10.27x</span>
+                    </div>
+                    <button class="btn btn-outline-primary btn-sm w-100" data-bs-toggle="modal" data-bs-target="#companyDetailModal" data-company="Haofood">View Details</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Company Detail Modal -->
+<div class="modal fade" id="companyDetailModal" tabindex="-1" aria-labelledby="companyDetailModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="companyDetailModalLabel">Company Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row mb-4">
+                    <div class="col-md-3 text-center">
+                        <img src="https://v5.airtableusercontent.com/v3/u/39/39/1742472000000/1ZyyfZtxGW3TOVZ099s9ZQ/jIAVVFzpBrBx15OZ2ACdUlklLNlwSZsnG6QCac82Gwhb90MS3RWjHkUtS7kA_XsWL_IgXG5gATDrmvRAwbgHknYYBe73FP_vKTh3kDDM4od8itOH37zF9z3VpD56G_2cc_T157pb6f8HwbEQ3gokddFxyB6BMxXrQzsV4i9413E/-I0dH63O5eECEvqWqMDcJ5VZTptdi-blWS-H8-ZAA4w" alt="Company Logo" class="img-fluid mb-3" style="max-height: 100px;">
+                        <div class="d-grid gap-2">
+                            <a href="https://cellx.tech/" target="_blank" class="btn btn-sm btn-outline-primary">
+                                <i class="fas fa-globe me-1"></i> Website
+                            </a>
+                            <a href="https://www.linkedin.com/company/cellxtech/" target="_blank" class="btn btn-sm btn-outline-primary">
+                                <i class="fab fa-linkedin me-1"></i> LinkedIn
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-md-9">
+                        <h3 id="companyName">CellX</h3>
+                        <p class="text-muted" id="companyTagline">Leader of Cellular Agriculture in China</p>
+                        <p id="companyDescription">CellX is a cell culture meat technology and product development company that is bringing alternative protein products to consumers across China.</p>
+                        
+                        <div class="row g-3 mt-2">
+                            <div class="col-md-6">
+                                <div class="card bg-light">
+                                    <div class="card-body py-2">
+                                        <div class="d-flex justify-content-between">
+                                            <span class="text-muted">Initial Investment:</span>
+                                            <span class="fw-bold">2020</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="card bg-light">
+                                    <div class="card-body py-2">
+                                        <div class="d-flex justify-content-between">
+                                            <span class="text-muted">Program:</span>
+                                            <span class="fw-bold">20 Fall Alt Protein Lever VC</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="card bg-light">
+                                    <div class="card-body py-2">
+                                        <div class="d-flex justify-content-between">
+                                            <span class="text-muted">Region:</span>
+                                            <span class="fw-bold">East Asia</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="card bg-light">
+                                    <div class="card-body py-2">
+                                        <div class="d-flex justify-content-between">
+                                            <span class="text-muted">Vertical:</span>
+                                            <span class="fw-bold">Agrifood</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <ul class="nav nav-tabs" id="companyTab" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="investment-tab" data-bs-toggle="tab" data-bs-target="#investment" type="button" role="tab" aria-controls="investment" aria-selected="true">Investment Details</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="performance-tab" data-bs-toggle="tab" data-bs-target="#performance" type="button" role="tab" aria-controls="performance" aria-selected="false">Performance</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="documents-tab" data-bs-toggle="tab" data-bs-target="#documents" type="button" role="tab" aria-controls="documents" aria-selected="false">Documents</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="team-tab" data-bs-toggle="tab" data-bs-target="#team" type="button" role="tab" aria-controls="team" aria-selected="false">Team</button>
+                    </li>
+                </ul>
+                <div class="tab-content p-3 border border-top-0 rounded-bottom" id="companyTabContent">
+                    <div class="tab-pane fade show active" id="investment" role="tabpanel" aria-labelledby="investment-tab">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <h6>Investment Summary</h6>
+                                <table class="table table-sm">
+                                    <tbody>
+                                        <tr>
+                                            <td>Initial Holding %</td>
+                                            <td class="text-end fw-bold">1.00%</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Current Holding %</td>
+                                            <td class="text-end fw-bold">0.69%</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Valuation at Investment</td>
+                                            <td class="text-end fw-bold">$3,000,000</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Current Valuation</td>
+                                            <td class="text-end fw-bold">$70,000,000</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Valuation Multiple</td>
+                                            <td class="text-end fw-bold">23.33x</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Current Value</td>
+                                            <td class="text-end fw-bold">$483,000</td>
+                                        </tr>
+                                        <tr>
+                                            <td>MOIC</td>
+                                            <td class="text-end fw-bold">11.5x</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="col-md-6">
+                                <h6>Funding History</h6>
+                                <table class="table table-sm">
+                                    <tbody>
+                                        <tr>
+                                            <td>Pre-Brinc Investment</td>
+                                            <td class="text-end fw-bold">$0</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Post-Brinc Investment</td>
+                                            <td class="text-end fw-bold">$21,400,000</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Post-Brinc Non-Dilutive</td>
+                                            <td class="text-end fw-bold">$0</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Total Post-Brinc Funding</td>
+                                            <td class="text-end fw-bold">$21,400,000</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Current Funding Stage</td>
+                                            <td class="text-end fw-bold">Series A</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Co-Investors</td>
+                                            <td class="text-end fw-bold">Lever VC</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="col-12">
+                                <h6>Valuation Growth</h6>
+                                <canvas id="companyValuationChart" height="200"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="performance" role="tabpanel" aria-labelledby="performance-tab">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <div class="card h-100">
+                                    <div class="card-header">
+                                        <h6 class="mb-0">Key Metrics</h6>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="mb-3">
+                                            <label class="form-label small text-muted">Revenue Generating</label>
+                                            <div class="fw-bold">No</div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label small text-muted">Business Model</label>
+                                            <div class="fw-bold">B2B, B2C</div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label small text-muted">Business Stage</label>
+                                            <div class="fw-bold">Series A</div>
+                                        </div>
+                                        <div>
+                                            <label class="form-label small text-muted">Operating Status</label>
+                                            <div class="fw-bold">Alive</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="card h-100">
+                                    <div class="card-header">
+                                        <h6 class="mb-0">Company Information</h6>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="mb-3">
+                                            <label class="form-label small text-muted">Legal Name</label>
+                                            <div class="fw-bold">CELLX LIMITED (previously 'Like Foods Technologies Limited')</div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label small text-muted">Incorporation Location</label>
+                                            <div class="fw-bold">Hong Kong</div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label small text-muted">Founding Year</label>
+                                            <div class="fw-bold">2020</div>
+                                        </div>
+                                        <div>
+                                            <label class="form-label small text-muted">Principal Place of Business</label>
+                                            <div class="fw-bold">China</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h6 class="mb-0">Product Showcase</h6>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <img src="https://v5.airtableusercontent.com/v3/u/39/39/1742472000000/9sc4yI9-WXHVPzv1LnaZIQ/QeLQn6VE71OoSRlv89NOxTz4s6PYDKZWLo9b9ufm8O8J4sRggGnpaed8Yoahik3r01cXb-kTg9XF8ohp5RnKfkLAp_zDYLdcjg5KPl8jWmYO1hA129ZXrjQsb3gPGKiDI1kl2S4p_LiZ5DR-N8h-ESXIuC2mPn-paEZQHRsoNK0/Yi3hP20fcrguxDRsitC8HeZBmlNnOlpW-kELXWfYzgw" alt="Product Shot" class="img-fluid rounded">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="documents" role="tabpanel" aria-labelledby="documents-tab">
+                        <div class="list-group">
+                            <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                                <div>
+                                    <i class="fas fa-file-pdf text-danger me-2"></i>
+                                    Investment Agreement
+                                </div>
+                                <span class="badge bg-primary rounded-pill">PDF</span>
+                            </a>
+                            <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                                <div>
+                                    <i class="fas fa-file-excel text-success me-2"></i>
+                                    Cap Table
+                                </div>
+                                <span class="badge bg-primary rounded-pill">XLSX</span>
+                            </a>
+                            <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                                <div>
+                                    <i class="fas fa-file-powerpoint text-warning me-2"></i>
+                                    Pitch Deck
+                                </div>
+                                <span class="badge bg-primary rounded-pill">PPTX</span>
+                            </a>
+                            <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                                <div>
+                                    <i class="fas fa-file-alt text-info me-2"></i>
+                                    Due Diligence Report
+                                </div>
+                                <span class="badge bg-primary rounded-pill">DOCX</span>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="team" role="tabpanel" aria-labelledby="team-tab">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="d-flex">
+                                            <img src="https://v5.airtableusercontent.com/v3/u/39/39/1742472000000/CB8GxIYRit7Y29jcJF9ZsQ/VUd_oOex_oX3j0E1wdDoG0X0H1TkfBp4TPuXYsBq6qn9bdhFinEpICMoS09NLJ7mQwtyzqUTlLiCDo0n0-dE0Yzf0MqPDolG4BWlkFsow2aNcYcUejjQI6iv0CmFuFW1x_9MFYXtEq2CS_bjcUB30w/zmlM6EHAXV_P4BG05GMvP1hXXpp0TM-zlGgZJDzzW1Q" alt="Ziliang Yang" class="rounded-circle me-3" style="width: 64px; height: 64px; object-fit: cover;">
+                                            <div>
+                                                <h5 class="mb-1">Ziliang Yang</h5>
+                                                <p class="text-muted mb-2">Co-Founder & CEO</p>
+                                                <div class="d-flex">
+                                                    <a href="#" class="btn btn-sm btn-outline-primary me-2">
+                                                        <i class="fab fa-linkedin"></i>
+                                                    </a>
+                                                    <a href="mailto:yang.ziliang@cellx.tech" class="btn btn-sm btn-outline-primary">
+                                                        <i class="fas fa-envelope"></i>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="d-flex">
+                                            <img src="https://v5.airtableusercontent.com/v3/u/39/39/1742472000000/CB8GxIYRit7Y29jcJF9ZsQ/VUd_oOex_oX3j0E1wdDoG0X0H1TkfBp4TPuXYsBq6qn9bdhFinEpICMoS09NLJ7mQwtyzqUTlLiCDo0n0-dE0Yzf0MqPDolG4BWlkFsow2aNcYcUejjQI6iv0CmFuFW1x_9MFYXtEq2CS_bjcUB30w/zmlM6EHAXV_P4BG05GMvP1hXXpp0TM-zlGgZJDzzW1Q" alt="Felix Wang" class="rounded-circle me-3" style="width: 64px; height: 64px; object-fit: cover;">
+                                            <div>
+                                                <h5 class="mb-1">Felix Wang</h5>
+                                                <p class="text-muted mb-2">Co-Founder & CTO</p>
+                                                <div class="d-flex">
+                                                    <a href="#" class="btn btn-sm btn-outline-primary me-2">
+                                                        <i class="fab fa-linkedin"></i>
+                                                    </a>
+                                                    <a href="mailto:wang.wei@cellx.cn" class="btn btn-sm btn-outline-primary">
+                                                        <i class="fas fa-envelope"></i>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h6 class="mb-0">Team Information</h6>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="row g-3">
+                                            <div class="col-md-6">
+                                                <div class="mb-3">
+                                                    <label class="form-label small text-muted">Number of Female Founders</label>
+                                                    <div class="fw-bold">0</div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="mb-3">
+                                                    <label class="form-label small text-muted">Recommended Mentors</label>
+                                                    <div class="fw-bold">N/A</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Edit Company</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Footer -->
+<footer class="bg-light py-3 mt-5">
+    <div class="container text-center">
+        <p class="text-muted mb-0">© 2023 Brinc CEO Dashboard. All rights reserved.</p>
+    </div>
+</footer>
+
+<!-- Bootstrap JS Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- DataTables JS -->
+<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
+
+<!-- Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<!-- Custom JS -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Initialize DataTable
+        $('#portfolioTable').DataTable({
+            responsive: true,
+            order: [[9, 'desc']], // Sort by MOIC column descending
+            pageLength: 10,
+            language: {
+                search: "_INPUT_",
+                searchPlaceholder: "Search companies..."
+            }
+        });
+        
+        // Sync button functionality
+        document.getElementById('syncButton').addEventListener('click', function() {
+            // Show loading state
+            this.innerHTML = '<span class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span> Syncing...';
+            this.disabled = true;
+            
+            // Simulate sync process (replace with actual API call)
+            setTimeout(() => {
+                // Update last sync time
+                const now = new Date();
+                const timeString = now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+                document.getElementById('lastSyncTime').textContent = 'Today at ' + timeString;
+                
+                // Reset button
+                this.innerHTML = '<i class="fas fa-sync-alt me-1"></i> Sync Now';
+                this.disabled = false;
+                
+                // Show success message
+                const successMessage = document.getElementById('syncSuccessMessage');
+                successMessage.style.display = 'flex';
+                successMessage.classList.add('show');
+                
+                // Hide success message after 5 seconds
+                setTimeout(() => {
+                    successMessage.classList.remove('show');
+                    setTimeout(() => {
+                        successMessage.style.display = 'none';
+                    }, 150);
+                }, 5000);
+            }, 2000);
+        });
+        
+        // Portfolio by Vertical Chart
+        const verticalCtx = document.getElementById('verticalChart').getContext('2d');
+        const verticalChart = new Chart(verticalCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Agrifood', 'Web3', 'Smart Cities & AI'],
+                datasets: [{
+                    data: [688400, 415200, 407500],
+                    backgroundColor: [
+                        'rgba(75, 192, 192, 0.7)',
+                        'rgba(54, 162, 235, 0.7)',
+                        'rgba(255, 206, 86, 0.7)'
+                    ],
+                    borderColor: [
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            boxWidth: 12
+                        }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                const value = context.raw;
+                                const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                const percentage = Math.round((value / total) * 100);
+                                return `$${value.toLocaleString()} (${percentage}%)`;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+        
+        // Portfolio by Region Chart
+        const regionCtx = document.getElementById('regionChart').getContext('2d');
+        const regionChart = new Chart(regionCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['East Asia', 'North America', 'Europe'],
+                datasets: [{
+                    data: [688400, 407500, 415200],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.7)',
+                        'rgba(153, 102, 255, 0.7)',
+                        'rgba(255, 159, 64, 0.7)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            boxWidth: 12
+                        }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                const value = context.raw;
+                                const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                const percentage = Math.round((value / total) * 100);
+                                return `$${value.toLocaleString()} (${percentage}%)`;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+        
+        // Valuation Growth Chart
+        const valuationCtx = document.getElementById('valuationChart').getContext('2d');
+        const valuationChart = new Chart(valuationCtx, {
+            type: 'line',
+            data: {
+                labels: ['2018', '2019', '2020', '2021', '2022', '2023'],
+                datasets: [
+                    {
+                        label: 'CellX',
+                        data: [null, null, 3000000, 15000000, 40000000, 70000000],
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        backgroundColor: 'rgba(75, 192, 192, 0.1)',
+                        tension: 0.4,
+                        fill: false
+                    },
+                    {
+                        label: 'SkyeBrowse',
+                        data: [1625000, 5000000, 10000000, 15000000, 20000000, 25000000],
+                        borderColor: 'rgba(255, 206, 86, 1)',
+                        backgroundColor: 'rgba(255, 206, 86, 0.1)',
+                        tension: 0.4,
+                        fill: false
+                    },
+                    {
+                        label: 'Striga',
+                        data: [1250000, 3000000, 5000000, 8000000, 12000000, 15000000],
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        backgroundColor: 'rgba(54, 162, 235, 0.1)',
+                        tension: 0.4,
+                        fill: false
+                    },
+                    {
+                        label: 'Haofood',
+                        data: [null, null, 800000, 3000000, 8000000, 13000000],
+                        borderColor: 'rgba(255, 99, 132, 1)',
+                        backgroundColor: 'rgba(255, 99, 132, 0.1)',
+                        tension: 0.4,
+                        fill: false
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            callback: function(value) {
+                                if (value >= 1000000) {
+                                    return '$' + value / 1000000 + 'M';
+                                }
+                                return '$' + value;
+                            }
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        position: 'bottom'
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                let label = context.dataset.label || '';
+                                if (label) {
+                                    label += ': ';
+                                }
+                                if (context.parsed.y !== null) {
+                                    label += new Intl.NumberFormat('en-US', { 
+                                        style: 'currency', 
+                                        currency: 'USD',
+                                        minimumFractionDigits: 0,
+                                        maximumFractionDigits: 0
+                                    }).format(context.parsed.y);
+                                }
+                                return label;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+        
+        // MOIC Trends Chart
+        const moicCtx = document.getElementById('moicChart').getContext('2d');
+        const moicChart = new Chart(moicCtx, {
+            type: 'bar',
+            data: {
+                labels: ['CellX', 'SkyeBrowse', 'Striga', 'Haofood'],
+                datasets: [
+                    {
+                        label: 'MOIC',
+                        data: [11.5, 6.27, 9.76, 10.27],
+                        backgroundColor: [
+                            'rgba(75, 192, 192, 0.7)',
+                            'rgba(255, 206, 86, 0.7)',
+                            'rgba(54, 162, 235, 0.7)',
+                            'rgba(255, 99, 132, 0.7)'
+                        ],
+                        borderColor: [
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 99, 132, 1)'
+                        ],
+                        borderWidth: 1
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Multiple on Invested Capital'
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                }
+            }
+        });
+        
+        // Funding Rounds Chart
+        const fundingCtx = document.getElementById('fundingChart').getContext('2d');
+        const fundingChart = new Chart(fundingCtx, {
+            type: 'bar',
+            data: {
+                labels: ['CellX', 'SkyeBrowse', 'Striga', 'Haofood'],
+                datasets: [
+                    {
+                        label: 'Investment Funding',
+                        data: [21400000, 2750000, 2800000, 3500000],
+                        backgroundColor: 'rgba(54, 162, 235, 0.7)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        borderWidth: 1
+                    },
+                    {
+                        label: 'Non-Dilutive Funding',
+                        data: [0, 10213000, 19938.27, 0],
+                        backgroundColor: 'rgba(75, 192, 192, 0.7)',
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        borderWidth: 1
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            callback: function(value) {
+                                if (value >= 1000000) {
+                                    return '$' + value / 1000000 + 'M';
+                                } else if (value >= 1000) {
+                                    return '$' + value / 1000 + 'K';
+                                }
+                                return '$' + value;
+                            }
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        position: 'bottom'
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                let label = context.dataset.label || '';
+                                if (label) {
+                                    label += ': ';
+                                }
+                                if (context.parsed.y !== null) {
+                                    label += new Intl.NumberFormat('en-US', { 
+                                        style: 'currency', 
+                                        currency: 'USD',
+                                        minimumFractionDigits: 0,
+                                        maximumFractionDigits: 0
+                                    }).format(context.parsed.y);
+                                }
+                                return label;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+        
+        // Company Detail Modal
+        const companyDetailModal = document.getElementById('companyDetailModal');
+        if (companyDetailModal) {
+            companyDetailModal.addEventListener('show.bs.modal', function (event) {
+                // Button that triggered the modal
+                const button = event.relatedTarget;
+                // Extract company name from data-company attribute
+                const companyName = button.getAttribute('data-company');
+                
+                // Update the modal's content based on company
+                const modalTitle = companyDetailModal.querySelector('.modal-title');
+                modalTitle.textContent = companyName + ' Details';
+                
+                // Company Valuation Chart
+                const companyValCtx = document.getElementById('companyValuationChart').getContext('2d');
+                let valData = [];
+                let valColor = '';
+                
+                // Set data based on company
+                switch(companyName) {
+                    case 'CellX':
+                        valData = [null, null, 3000000, 15000000, 40000000, 70000000];
+                        valColor = 'rgba(75, 192, 192, 1)';
+                        break;
+                    case 'SkyeBrowse':
+                        valData = [1625000, 5000000, 10000000, 15000000, 20000000, 25000000];
+                        valColor = 'rgba(255, 206, 86, 1)';
+                        break;
+                    case 'Striga':
+                        valData = [1250000, 3000000, 5000000, 8000000, 12000000, 15000000];
+                        valColor = 'rgba(54, 162, 235, 1)';
+                        break;
+                    case 'Haofood':
+                        valData = [null, null, 800000, 3000000, 8000000, 13000000];
+                        valColor = 'rgba(255, 99, 132, 1)';
+                        break;
+                }
+                
+                // Create or update chart
+                if (window.companyValChart) {
+                    window.companyValChart.destroy();
+                }
+                
+                window.companyValChart = new Chart(companyValCtx, {
+                    type: 'line',
+                    data: {
+                        labels: ['2018', '2019', '2020', '2021', '2022', '2023'],
+                        datasets: [
+                            {
+                                label: 'Valuation',
+                                data: valData,
+                                borderColor: valColor,
+                                backgroundColor: valColor.replace('1)', '0.1)'),
+                                tension: 0.4,
+                                fill: true
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                ticks: {
+                                    callback: function(value) {
+                                        if (value >= 1000000) {
+                                            return '$' + value / 1000000 + 'M';
+                                        }
+                                        return '$' + value;
+                                    }
+                                }
+                            }
+                        },
+                        plugins: {
+                            legend: {
+                                display: false
+                            },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        let label = context.dataset.label || '';
+                                        if (label) {
+                                            label += ': ';
+                                        }
+                                        if (context.parsed.y !== null) {
+                                            label += new Intl.NumberFormat('en-US', { 
+                                                style: 'currency', 
+                                                currency: 'USD',
+                                                minimumFractionDigits: 0,
+                                                maximumFractionDigits: 0
+                                            }).format(context.parsed.y);
+                                        }
+                                        return label;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            });
+        }
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,1093 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brinc CEO Burn Rate Dashboard</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .logo {
+            max-height: 40px;
+        }
+        .filter-badge {
+            cursor: pointer;
+        }
+        .card-header {
+            background-color: #f8f9fa;
+        }
+        .search-container {
+            position: relative;
+        }
+        .search-container .fa-search {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            color: #6c757d;
+        }
+        .search-input {
+            padding-left: 35px;
+        }
+        .text-overbudget {
+            color: #dc3545;
+            font-weight: 500;
+        }
+        .metric-card {
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s;
+            height: 100%;
+        }
+        .metric-card:hover {
+            transform: translateY(-5px);
+        }
+        .metric-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+        .metric-currency {
+            font-size: 1rem;
+            font-weight: 500;
+        }
+        .metric-change {
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+        .metric-change.positive {
+            color: #198754;
+        }
+        .metric-change.negative {
+            color: #dc3545;
+        }
+        .metric-subtitle {
+            font-size: 0.85rem;
+            color: #6c757d;
+        }
+        .chat-container {
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .progress {
+            height: 8px;
+        }
+        .burn-rate-high {
+            background-color: rgba(220, 53, 69, 0.1);
+        }
+        .burn-rate-medium {
+            background-color: rgba(255, 193, 7, 0.1);
+        }
+        .burn-rate-low {
+            background-color: rgba(25, 135, 84, 0.1);
+        }
+        .entity-card {
+            transition: all 0.3s ease;
+        }
+        .entity-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        .sync-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <img src="https://storage.googleapis.com/clean-finder-353810/$Dd5BJMS3vYBf7ZOld70TQI6BwJGDbX0AROpvZc0RexkhTUrPQZBO4S" alt="Brinc Logo" class="logo">
+                <span class="ms-2 fw-bold">CEO Dashboard</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="projects.html">Projects</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="payroll_dashboard.html">Payroll System</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="token_dashboard.html">Digital Currency System</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
+                            <img src="https://s3-ap-southeast-1.amazonaws.com/timeauction.paperclip/auctions/images/000/000/123/display/Manav-Gupta_Founder-CEO_brinc_profilephoto.webp?1614188921" alt="Manav" class="rounded-circle" style="width: 24px; height: 24px; object-fit: cover;"> Manav
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="#">Profile</a></li>
+                            <li><a class="dropdown-item" href="#">Settings</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#">Logout</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container mt-4">
+        <!-- Page Header with Sync Button -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="mb-0">Burn Rate Analysis</h2>
+            <div>
+                <span class="badge bg-secondary me-2" id="lastSyncBadge">Last synced: Today, 09:45 AM</span>
+                <button class="btn btn-primary" id="syncXeroBtn">
+                    <i class="fas fa-sync me-1"></i> Sync from Xero
+                </button>
+            </div>
+        </div>
+
+        <!-- Sync Notification -->
+        <div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 1050">
+            <div id="syncToast" class="toast align-items-center text-white bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="d-flex">
+                    <div class="toast-body">
+                        <i class="fas fa-check-circle me-2"></i> Successfully synced financial data from Xero!
+                    </div>
+                    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Summary Cards -->
+        <div class="row g-3 mb-4">
+            <!-- Total Cash Balance -->
+            <div class="col-md-6 col-lg-3">
+                <div class="card metric-card">
+                    <div class="card-body">
+                        <h6 class="card-subtitle mb-2 text-muted">Total Cash Balance</h6>
+                        <div class="metric-change positive mb-1">
+                            <i class="fas fa-arrow-up me-1"></i>+5.2% from last month
+                        </div>
+                        <div class="d-flex align-items-baseline">
+                            <div class="metric-value me-2">3.42M</div>
+                            <div class="metric-currency">EUR</div>
+                        </div>
+                        <div class="metric-subtitle mt-2">Across all entities</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Average Monthly Burn -->
+            <div class="col-md-6 col-lg-3">
+                <div class="card metric-card">
+                    <div class="card-body">
+                        <h6 class="card-subtitle mb-2 text-muted">Average Monthly Burn</h6>
+                        <div class="metric-change negative mb-1">
+                            <i class="fas fa-arrow-down me-1"></i>-12.8% from last month
+                        </div>
+                        <div class="d-flex align-items-baseline">
+                            <div class="metric-value me-2">287.5K</div>
+                            <div class="metric-currency">EUR</div>
+                        </div>
+                        <div class="metric-subtitle mt-2">Last 6 months average</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Runway -->
+            <div class="col-md-6 col-lg-3">
+                <div class="card metric-card">
+                    <div class="card-body">
+                        <h6 class="card-subtitle mb-2 text-muted">Runway</h6>
+                        <div class="metric-change positive mb-1">
+                            <i class="fas fa-arrow-up me-1"></i>+2.1 months from last quarter
+                        </div>
+                        <div class="d-flex align-items-baseline">
+                            <div class="metric-value me-2">11.9</div>
+                            <div class="metric-currency">Months</div>
+                        </div>
+                        <div class="metric-subtitle mt-2">At current burn rate</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Burn Rate Trend -->
+            <div class="col-md-6 col-lg-3">
+                <div class="card metric-card">
+                    <div class="card-body">
+                        <h6 class="card-subtitle mb-2 text-muted">Burn Rate Trend</h6>
+                        <div class="metric-change positive mb-1">
+                            <i class="fas fa-arrow-down me-1"></i>Decreasing
+                        </div>
+                        <div class="chart-container" style="position: relative; height:60px;">
+                            <canvas id="burnRateTrendChart"></canvas>
+                        </div>
+                        <div class="metric-subtitle mt-2">Last 6 months trend</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Burn Rate by Entity Chart -->
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 class="mb-0">Burn Rate by Entity</h5>
+            </div>
+            <div class="card-body">
+                <div class="chart-container" style="position: relative; height:300px;">
+                    <canvas id="burnRateByEntityChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Cash Runway Forecast -->
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 class="mb-0">Cash Runway Forecast</h5>
+            </div>
+            <div class="card-body">
+                <div class="chart-container" style="position: relative; height:300px;">
+                    <canvas id="cashRunwayForecastChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Entity Details -->
+        <h4 class="mb-3">Entity Details</h4>
+        <div class="row g-3 mb-4">
+            <!-- Brinc Hong Kong Ltd. -->
+            <div class="col-md-6 col-lg-4">
+                <div class="card entity-card">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">Brinc Hong Kong Ltd.</h5>
+                        <span class="badge bg-success">Healthy</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between mb-3">
+                            <div>
+                                <div class="text-muted small">Cash Balance</div>
+                                <div class="fw-bold">1,245,320 EUR</div>
+                            </div>
+                            <div>
+                                <div class="text-muted small">Monthly Burn</div>
+                                <div class="fw-bold">87,450 EUR</div>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <div class="d-flex justify-content-between mb-1">
+                                <span class="text-muted small">Runway</span>
+                                <span class="small fw-bold">14.2 months</span>
+                            </div>
+                            <div class="progress">
+                                <div class="progress-bar bg-success" role="progressbar" style="width: 85%" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-between small">
+                            <div>
+                                <div class="text-muted">Burn Rate YoY</div>
+                                <div class="text-success"><i class="fas fa-arrow-down me-1"></i>-12.5%</div>
+                            </div>
+                            <div>
+                                <div class="text-muted">Cash Flow</div>
+                                <div class="text-success"><i class="fas fa-arrow-up me-1"></i>+8.3%</div>
+                            </div>
+                            <div>
+                                <div class="text-muted">Trend</div>
+                                <div class="text-success"><i class="fas fa-chart-line me-1"></i>Improving</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Brinc US Inc. -->
+            <div class="col-md-6 col-lg-4">
+                <div class="card entity-card">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">Brinc US Inc.</h5>
+                        <span class="badge bg-warning">Caution</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between mb-3">
+                            <div>
+                                <div class="text-muted small">Cash Balance</div>
+                                <div class="fw-bold">587,230 EUR</div>
+                            </div>
+                            <div>
+                                <div class="text-muted small">Monthly Burn</div>
+                                <div class="fw-bold">73,820 EUR</div>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <div class="d-flex justify-content-between mb-1">
+                                <span class="text-muted small">Runway</span>
+                                <span class="small fw-bold">7.9 months</span>
+                            </div>
+                            <div class="progress">
+                                <div class="progress-bar bg-warning" role="progressbar" style="width: 65%" aria-valuenow="65" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-between small">
+                            <div>
+                                <div class="text-muted">Burn Rate YoY</div>
+                                <div class="text-danger"><i class="fas fa-arrow-up me-1"></i>+5.2%</div>
+                            </div>
+                            <div>
+                                <div class="text-muted">Cash Flow</div>
+                                <div class="text-danger"><i class="fas fa-arrow-down me-1"></i>-3.7%</div>
+                            </div>
+                            <div>
+                                <div class="text-muted">Trend</div>
+                                <div class="text-warning"><i class="fas fa-chart-line me-1"></i>Stable</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Brinc UK Ltd. -->
+            <div class="col-md-6 col-lg-4">
+                <div class="card entity-card">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">Brinc UK Ltd.</h5>
+                        <span class="badge bg-success">Healthy</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between mb-3">
+                            <div>
+                                <div class="text-muted small">Cash Balance</div>
+                                <div class="fw-bold">432,150 EUR</div>
+                            </div>
+                            <div>
+                                <div class="text-muted small">Monthly Burn</div>
+                                <div class="fw-bold">35,780 EUR</div>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <div class="d-flex justify-content-between mb-1">
+                                <span class="text-muted small">Runway</span>
+                                <span class="small fw-bold">12.1 months</span>
+                            </div>
+                            <div class="progress">
+                                <div class="progress-bar bg-success" role="progressbar" style="width: 80%" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-between small">
+                            <div>
+                                <div class="text-muted">Burn Rate YoY</div>
+                                <div class="text-success"><i class="fas fa-arrow-down me-1"></i>-8.7%</div>
+                            </div>
+                            <div>
+                                <div class="text-muted">Cash Flow</div>
+                                <div class="text-success"><i class="fas fa-arrow-up me-1"></i>+6.2%</div>
+                            </div>
+                            <div>
+                                <div class="text-muted">Trend</div>
+                                <div class="text-success"><i class="fas fa-chart-line me-1"></i>Improving</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Brinc Singapore Pte. Ltd. -->
+            <div class="col-md-6 col-lg-4">
+                <div class="card entity-card">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">Brinc Singapore Pte. Ltd.</h5>
+                        <span class="badge bg-success">Healthy</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between mb-3">
+                            <div>
+                                <div class="text-muted small">Cash Balance</div>
+                                <div class="fw-bold">378,920 EUR</div>
+                            </div>
+                            <div>
+                                <div class="text-muted small">Monthly Burn</div>
+                                <div class="fw-bold">29,450 EUR</div>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <div class="d-flex justify-content-between mb-1">
+                                <span class="text-muted small">Runway</span>
+                                <span class="small fw-bold">12.9 months</span>
+                            </div>
+                            <div class="progress">
+                                <div class="progress-bar bg-success" role="progressbar" style="width: 82%" aria-valuenow="82" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-between small">
+                            <div>
+                                <div class="text-muted">Burn Rate YoY</div>
+                                <div class="text-success"><i class="fas fa-arrow-down me-1"></i>-10.3%</div>
+                            </div>
+                            <div>
+                                <div class="text-muted">Cash Flow</div>
+                                <div class="text-success"><i class="fas fa-arrow-up me-1"></i>+7.8%</div>
+                            </div>
+                            <div>
+                                <div class="text-muted">Trend</div>
+                                <div class="text-success"><i class="fas fa-chart-line me-1"></i>Improving</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Brinc China -->
+            <div class="col-md-6 col-lg-4">
+                <div class="card entity-card">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">Brinc China</h5>
+                        <span class="badge bg-warning">Caution</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between mb-3">
+                            <div>
+                                <div class="text-muted small">Cash Balance</div>
+                                <div class="fw-bold">245,780 EUR</div>
+                            </div>
+                            <div>
+                                <div class="text-muted small">Monthly Burn</div>
+                                <div class="fw-bold">32,150 EUR</div>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <div class="d-flex justify-content-between mb-1">
+                                <span class="text-muted small">Runway</span>
+                                <span class="small fw-bold">7.6 months</span>
+                            </div>
+                            <div class="progress">
+                                <div class="progress-bar bg-warning" role="progressbar" style="width: 63%" aria-valuenow="63" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-between small">
+                            <div>
+                                <div class="text-muted">Burn Rate YoY</div>
+                                <div class="text-warning"><i class="fas fa-arrow-down me-1"></i>-2.1%</div>
+                            </div>
+                            <div>
+                                <div class="text-muted">Cash Flow</div>
+                                <div class="text-warning"><i class="fas fa-arrow-up me-1"></i>+1.5%</div>
+                            </div>
+                            <div>
+                                <div class="text-muted">Trend</div>
+                                <div class="text-warning"><i class="fas fa-chart-line me-1"></i>Stable</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Brinc Japan -->
+            <div class="col-md-6 col-lg-4">
+                <div class="card entity-card">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">Brinc Japan</h5>
+                        <span class="badge bg-danger">Critical</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between mb-3">
+                            <div>
+                                <div class="text-muted small">Cash Balance</div>
+                                <div class="fw-bold">98,450 EUR</div>
+                            </div>
+                            <div>
+                                <div class="text-muted small">Monthly Burn</div>
+                                <div class="fw-bold">24,780 EUR</div>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <div class="d-flex justify-content-between mb-1">
+                                <span class="text-muted small">Runway</span>
+                                <span class="small fw-bold">4.0 months</span>
+                            </div>
+                            <div class="progress">
+                                <div class="progress-bar bg-danger" role="progressbar" style="width: 33%" aria-valuenow="33" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-between small">
+                            <div>
+                                <div class="text-muted">Burn Rate YoY</div>
+                                <div class="text-danger"><i class="fas fa-arrow-up me-1"></i>+8.3%</div>
+                            </div>
+                            <div>
+                                <div class="text-muted">Cash Flow</div>
+                                <div class="text-danger"><i class="fas fa-arrow-down me-1"></i>-12.5%</div>
+                            </div>
+                            <div>
+                                <div class="text-muted">Trend</div>
+                                <div class="text-danger"><i class="fas fa-chart-line me-1"></i>Worsening</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Brinc Korea -->
+            <div class="col-md-6 col-lg-4">
+                <div class="card entity-card">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">Brinc Korea</h5>
+                        <span class="badge bg-warning">Caution</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between mb-3">
+                            <div>
+                                <div class="text-muted small">Cash Balance</div>
+                                <div class="fw-bold">187,650 EUR</div>
+                            </div>
+                            <div>
+                                <div class="text-muted small">Monthly Burn</div>
+                                <div class="fw-bold">21,350 EUR</div>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <div class="d-flex justify-content-between mb-1">
+                                <span class="text-muted small">Runway</span>
+                                <span class="small fw-bold">8.8 months</span>
+                            </div>
+                            <div class="progress">
+                                <div class="progress-bar bg-warning" role="progressbar" style="width: 68%" aria-valuenow="68" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-between small">
+                            <div>
+                                <div class="text-muted">Burn Rate YoY</div>
+                                <div class="text-warning"><i class="fas fa-arrow-down me-1"></i>-1.8%</div>
+                            </div>
+                            <div>
+                                <div class="text-muted">Cash Flow</div>
+                                <div class="text-warning"><i class="fas fa-arrow-up me-1"></i>+2.1%</div>
+                            </div>
+                            <div>
+                                <div class="text-muted">Trend</div>
+                                <div class="text-warning"><i class="fas fa-chart-line me-1"></i>Stable</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Brinc India -->
+            <div class="col-md-6 col-lg-4">
+                <div class="card entity-card">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">Brinc India</h5>
+                        <span class="badge bg-success">Healthy</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between mb-3">
+                            <div>
+                                <div class="text-muted small">Cash Balance</div>
+                                <div class="fw-bold">156,780 EUR</div>
+                            </div>
+                            <div>
+                                <div class="text-muted small">Monthly Burn</div>
+                                <div class="fw-bold">12,450 EUR</div>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <div class="d-flex justify-content-between mb-1">
+                                <span class="text-muted small">Runway</span>
+                                <span class="small fw-bold">12.6 months</span>
+                            </div>
+                            <div class="progress">
+                                <div class="progress-bar bg-success" role="progressbar" style="width: 82%" aria-valuenow="82" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-between small">
+                            <div>
+                                <div class="text-muted">Burn Rate YoY</div>
+                                <div class="text-success"><i class="fas fa-arrow-down me-1"></i>-15.2%</div>
+                            </div>
+                            <div>
+                                <div class="text-muted">Cash Flow</div>
+                                <div class="text-success"><i class="fas fa-arrow-up me-1"></i>+9.7%</div>
+                            </div>
+                            <div>
+                                <div class="text-muted">Trend</div>
+                                <div class="text-success"><i class="fas fa-chart-line me-1"></i>Improving</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Brinc MENA -->
+            <div class="col-md-6 col-lg-4">
+                <div class="card entity-card">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">Brinc MENA</h5>
+                        <span class="badge bg-danger">Critical</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between mb-3">
+                            <div>
+                                <div class="text-muted small">Cash Balance</div>
+                                <div class="fw-bold">87,320 EUR</div>
+                            </div>
+                            <div>
+                                <div class="text-muted small">Monthly Burn</div>
+                                <div class="fw-bold">19,850 EUR</div>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <div class="d-flex justify-content-between mb-1">
+                                <span class="text-muted small">Runway</span>
+                                <span class="small fw-bold">4.4 months</span>
+                            </div>
+                            <div class="progress">
+                                <div class="progress-bar bg-danger" role="progressbar" style="width: 37%" aria-valuenow="37" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-between small">
+                            <div>
+                                <div class="text-muted">Burn Rate YoY</div>
+                                <div class="text-danger"><i class="fas fa-arrow-up me-1"></i>+6.8%</div>
+                            </div>
+                            <div>
+                                <div class="text-muted">Cash Flow</div>
+                                <div class="text-danger"><i class="fas fa-arrow-down me-1"></i>-8.3%</div>
+                            </div>
+                            <div>
+                                <div class="text-muted">Trend</div>
+                                <div class="text-danger"><i class="fas fa-chart-line me-1"></i>Worsening</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Burn Rate Analysis -->
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 class="mb-0">Burn Rate Analysis</h5>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Entity</th>
+                                <th>Cash Balance</th>
+                                <th>Monthly Burn</th>
+                                <th>Runway</th>
+                                <th>YoY Change</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Brinc Hong Kong Ltd.</td>
+                                <td>1,245,320 EUR</td>
+                                <td>87,450 EUR</td>
+                                <td>14.2 months</td>
+                                <td class="text-success">-12.5%</td>
+                                <td><span class="badge bg-success">Healthy</span></td>
+                            </tr>
+                            <tr>
+                                <td>Brinc US Inc.</td>
+                                <td>587,230 EUR</td>
+                                <td>73,820 EUR</td>
+                                <td>7.9 months</td>
+                                <td class="text-danger">+5.2%</td>
+                                <td><span class="badge bg-warning">Caution</span></td>
+                            </tr>
+                            <tr>
+                                <td>Brinc UK Ltd.</td>
+                                <td>432,150 EUR</td>
+                                <td>35,780 EUR</td>
+                                <td>12.1 months</td>
+                                <td class="text-success">-8.7%</td>
+                                <td><span class="badge bg-success">Healthy</span></td>
+                            </tr>
+                            <tr>
+                                <td>Brinc Singapore Pte. Ltd.</td>
+                                <td>378,920 EUR</td>
+                                <td>29,450 EUR</td>
+                                <td>12.9 months</td>
+                                <td class="text-success">-10.3%</td>
+                                <td><span class="badge bg-success">Healthy</span></td>
+                            </tr>
+                            <tr>
+                                <td>Brinc China</td>
+                                <td>245,780 EUR</td>
+                                <td>32,150 EUR</td>
+                                <td>7.6 months</td>
+                                <td class="text-warning">-2.1%</td>
+                                <td><span class="badge bg-warning">Caution</span></td>
+                            </tr>
+                            <tr>
+                                <td>Brinc Japan</td>
+                                <td>98,450 EUR</td>
+                                <td>24,780 EUR</td>
+                                <td>4.0 months</td>
+                                <td class="text-danger">+8.3%</td>
+                                <td><span class="badge bg-danger">Critical</span></td>
+                            </tr>
+                            <tr>
+                                <td>Brinc Korea</td>
+                                <td>187,650 EUR</td>
+                                <td>21,350 EUR</td>
+                                <td>8.8 months</td>
+                                <td class="text-warning">-1.8%</td>
+                                <td><span class="badge bg-warning">Caution</span></td>
+                            </tr>
+                            <tr>
+                                <td>Brinc India</td>
+                                <td>156,780 EUR</td>
+                                <td>12,450 EUR</td>
+                                <td>12.6 months</td>
+                                <td class="text-success">-15.2%</td>
+                                <td><span class="badge bg-success">Healthy</span></td>
+                            </tr>
+                            <tr>
+                                <td>Brinc MENA</td>
+                                <td>87,320 EUR</td>
+                                <td>19,850 EUR</td>
+                                <td>4.4 months</td>
+                                <td class="text-danger">+6.8%</td>
+                                <td><span class="badge bg-danger">Critical</span></td>
+                            </tr>
+                        </tbody>
+                        <tfoot class="table-light">
+                            <tr>
+                                <td><strong>Total / Average</strong></td>
+                                <td><strong>3,419,600 EUR</strong></td>
+                                <td><strong>287,500 EUR</strong></td>
+                                <td><strong>11.9 months</strong></td>
+                                <td class="text-success"><strong>-3.4%</strong></td>
+                                <td><span class="badge bg-success">Healthy</span></td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Burn Rate Breakdown -->
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 class="mb-0">Burn Rate Breakdown</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="chart-container" style="position: relative; height:300px;">
+                            <canvas id="burnRateBreakdownChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="table-responsive">
+                            <table class="table table-sm">
+                                <thead>
+                                    <tr>
+                                        <th>Category</th>
+                                        <th>Amount</th>
+                                        <th>% of Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Salaries & Benefits</td>
+                                        <td>172,500 EUR</td>
+                                        <td>60.0%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Office & Facilities</td>
+                                        <td>43,125 EUR</td>
+                                        <td>15.0%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Marketing & Events</td>
+                                        <td>28,750 EUR</td>
+                                        <td>10.0%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Technology & Software</td>
+                                        <td>20,125 EUR</td>
+                                        <td>7.0%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Professional Services</td>
+                                        <td>14,375 EUR</td>
+                                        <td>5.0%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Travel & Entertainment</td>
+                                        <td>8,625 EUR</td>
+                                        <td>3.0%</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-light py-3 mt-5">
+        <div class="container text-center">
+            <p class="text-muted mb-0">© 2023 Brinc CEO Dashboard. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- Dashboard JS -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Sync from Xero button functionality
+            const syncXeroBtn = document.getElementById('syncXeroBtn');
+            const syncToast = document.getElementById('syncToast');
+            const lastSyncBadge = document.getElementById('lastSyncBadge');
+            
+            if (syncXeroBtn && syncToast) {
+                syncXeroBtn.addEventListener('click', function() {
+                    // Show loading state
+                    syncXeroBtn.disabled = true;
+                    syncXeroBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span> Syncing...';
+                    
+                    // Simulate API call delay
+                    setTimeout(function() {
+                        // Reset button
+                        syncXeroBtn.disabled = false;
+                        syncXeroBtn.innerHTML = '<i class="fas fa-sync me-1"></i> Sync from Xero';
+                        
+                        // Update last sync time
+                        const now = new Date();
+                        const timeString = now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+                        lastSyncBadge.textContent = 'Last synced: Today, ' + timeString;
+                        
+                        // Show success toast
+                        const toast = new bootstrap.Toast(syncToast);
+                        toast.show();
+                    }, 2000);
+                });
+            }
+            
+            // Burn Rate Trend Chart
+            const burnRateTrendCtx = document.getElementById('burnRateTrendChart').getContext('2d');
+            const burnRateTrendChart = new Chart(burnRateTrendCtx, {
+                type: 'line',
+                data: {
+                    labels: ['Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                    datasets: [{
+                        label: 'Monthly Burn Rate (K EUR)',
+                        data: [320, 310, 305, 295, 290, 287.5],
+                        borderColor: '#0d6efd',
+                        backgroundColor: 'rgba(13, 110, 253, 0.1)',
+                        borderWidth: 2,
+                        pointRadius: 3,
+                        fill: true,
+                        tension: 0.2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return context.parsed.y + 'K EUR';
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            display: false
+                        },
+                        y: {
+                            display: false,
+                            min: 280
+                        }
+                    }
+                }
+            });
+            
+            // Burn Rate by Entity Chart
+            const burnRateByEntityCtx = document.getElementById('burnRateByEntityChart').getContext('2d');
+            const burnRateByEntityChart = new Chart(burnRateByEntityCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Hong Kong', 'US', 'UK', 'Singapore', 'China', 'Japan', 'Korea', 'India', 'MENA'],
+                    datasets: [{
+                        label: 'Monthly Burn Rate (K EUR)',
+                        data: [87.45, 73.82, 35.78, 29.45, 32.15, 24.78, 21.35, 12.45, 19.85],
+                        backgroundColor: [
+                            'rgba(25, 135, 84, 0.7)',
+                            'rgba(255, 193, 7, 0.7)',
+                            'rgba(25, 135, 84, 0.7)',
+                            'rgba(25, 135, 84, 0.7)',
+                            'rgba(255, 193, 7, 0.7)',
+                            'rgba(220, 53, 69, 0.7)',
+                            'rgba(255, 193, 7, 0.7)',
+                            'rgba(25, 135, 84, 0.7)',
+                            'rgba(220, 53, 69, 0.7)'
+                        ],
+                        borderColor: [
+                            'rgba(25, 135, 84, 1)',
+                            'rgba(255, 193, 7, 1)',
+                            'rgba(25, 135, 84, 1)',
+                            'rgba(25, 135, 84, 1)',
+                            'rgba(255, 193, 7, 1)',
+                            'rgba(220, 53, 69, 1)',
+                            'rgba(255, 193, 7, 1)',
+                            'rgba(25, 135, 84, 1)',
+                            'rgba(220, 53, 69, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return context.parsed.y + 'K EUR';
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Monthly Burn Rate (K EUR)'
+                            },
+                            ticks: {
+                                callback: function(value) {
+                                    return value + 'K';
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+            
+            // Cash Runway Forecast Chart
+            const cashRunwayForecastCtx = document.getElementById('cashRunwayForecastChart').getContext('2d');
+            const cashRunwayForecastChart = new Chart(cashRunwayForecastCtx, {
+                type: 'line',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                    datasets: [{
+                        label: 'Projected Cash Balance',
+                        data: [3420, 3132, 2845, 2557, 2270, 1982, 1695, 1407, 1120, 832, 545, 257],
+                        borderColor: 'rgba(13, 110, 253, 1)',
+                        backgroundColor: 'rgba(13, 110, 253, 0.1)',
+                        borderWidth: 2,
+                        fill: true,
+                        tension: 0.1
+                    },
+                    {
+                        label: 'Critical Threshold',
+                        data: [1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000],
+                        borderColor: 'rgba(220, 53, 69, 0.7)',
+                        borderWidth: 2,
+                        borderDash: [5, 5],
+                        fill: false,
+                        pointRadius: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return context.dataset.label + ': ' + context.parsed.y + 'K EUR';
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            title: {
+                                display: true,
+                                text: 'Cash Balance (K EUR)'
+                            },
+                            ticks: {
+                                callback: function(value) {
+                                    return value + 'K';
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+            
+            // Burn Rate Breakdown Chart
+            const burnRateBreakdownCtx = document.getElementById('burnRateBreakdownChart').getContext('2d');
+            const burnRateBreakdownChart = new Chart(burnRateBreakdownCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Salaries & Benefits', 'Office & Facilities', 'Marketing & Events', 'Technology & Software', 'Professional Services', 'Travel & Entertainment'],
+                    datasets: [{
+                        data: [60, 15, 10, 7, 5, 3],
+                        backgroundColor: [
+                            'rgba(13, 110, 253, 0.7)',
+                            'rgba(25, 135, 84, 0.7)',
+                            'rgba(255, 193, 7, 0.7)',
+                            'rgba(111, 66, 193, 0.7)',
+                            'rgba(23, 162, 184, 0.7)',
+                            'rgba(220, 53, 69, 0.7)'
+                        ],
+                        borderColor: [
+                            'rgba(13, 110, 253, 1)',
+                            'rgba(25, 135, 84, 1)',
+                            'rgba(255, 193, 7, 1)',
+                            'rgba(111, 66, 193, 1)',
+                            'rgba(23, 162, 184, 1)',
+                            'rgba(220, 53, 69, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return context.label + ': ' + context.parsed + '%';
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+            
+            // Filter badge removal
+            document.querySelectorAll('.filter-badge').forEach(badge => {
+                badge.addEventListener('click', function() {
+                    this.remove();
+                });
+            });
+        });
+    </script>
+</body>
+</html>

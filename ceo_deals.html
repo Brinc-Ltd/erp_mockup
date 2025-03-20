@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deals - Brinc CEO Dashboard</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .logo {
+            max-height: 40px;
+        }
+        .filter-badge {
+            cursor: pointer;
+        }
+        .card-header {
+            background-color: #f8f9fa;
+        }
+        .search-container {
+            position: relative;
+        }
+        .search-container .fa-search {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            color: #6c757d;
+        }
+        .search-input {
+            padding-left: 35px;
+        }
+        .metric-card {
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s;
+            height: 100%;
+        }
+        .metric-card:hover {
+            transform: translateY(-5px);
+        }
+        .metric-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+        .metric-currency {
+            font-size: 1rem;
+            font-weight: 500;
+        }
+        .metric-change {
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+        .metric-change.positive {
+            color: #198754;
+        }
+        .metric-change.negative {
+            color: #dc3545;
+        }
+        .metric-subtitle {
+            font-size: 0.85rem;
+            color: #6c757d;
+        }
+        .entity-badge {
+            font-size: 0.75rem;
+        }
+        .table-container {
+            overflow-x: auto;
+        }
+        .hubspot-sync-info {
+            font-size: 0.8rem;
+            color: #6c757d;
+        }
+        .deals-table th {
+            position: sticky;
+            top: 0;
+            background-color: #f8f9fa;
+            z-index: 1;
+        }
+        .table-container {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        .progress {
+            height: 8px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <img src="https://storage.googleapis.com/clean-finder-353810/$Dd5BJMS3vYBf7ZOld70TQI6BwJGDbX0AROpvZc0RexkhTUrPQZBO4S" alt="Brinc Logo" class="logo">
+                <span class="ms-2 fw-bold">CEO Dashboard</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="projects.html">Projects</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="payroll_dashboard.html">Payroll System</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="token_dashboard.html">Digital Currency System</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
+                            <img src="https://s3-ap-southeast-1.amazonaws.com/timeauction.paperclip/auctions/images/000/000/123/display/Manav-Gupta_Founder-CEO_brinc_profilephoto.webp?1614188921" alt="Manav" class="rounded-circle" style="width: 24px; height: 24px; object-fit: cover;"> Manav
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="#">Profile</a></li>
+                            <li><a class="dropdown-item" href="#">Settings</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#">Logout</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container mt-4">
+        <!-- Back Button and Page Header -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <a href="ceo_view.html" class="btn btn-outline-secondary mb-2">
+                    <i class="fas fa-arrow-left me-1"></i> Back to Dashboard
+                </a>
+                <h2 class="mb-1">Deals</h2>
+                <p class="text-muted mb-0">All active deals across Brinc entities</p>
+            </div>
+            <div class="text-end">
+                <div class="hubspot-sync-info mb-2">
+                    <i class="fas fa-sync-alt me-1"></i> Last synced from HubSpot: Today, 09:45 AM
+                </div>
+                <button class="btn btn-outline-primary" id="syncHubspotBtn">
+                    <i class="fas fa-sync me-1"></i> Sync from HubSpot
+                </button>
+            </div>
+        </div>
+
+        <!-- Filters -->
+        <div class="card mb-4">
+            <div class="card-body">
+                <div class="row g-3">
+                    <div class="col-md-3">
+                        <div class="dropdown">
+                            <button class="btn btn-outline-secondary dropdown-toggle w-100" type="button" data-bs-toggle="dropdown">
+                                <i class="fas fa-globe me-2"></i> Location
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#">All Locations</a></li>
+                                <li><a class="dropdown-item" href="#">HK</a></li>
+                                <li><a class="dropdown-item" href="#">GZ</a></li>
+                                <li><a class="dropdown-item" href="#">MENA</a></li>
+                                <li><a class="dropdown-item" href="#">JP</a></li>
+                                <li><a class="dropdown-item" href="#">KR</a></li>
+                                <li><a class="dropdown-item" href="#">INDIA</a></li>
+                                <li><a class="dropdown-item" href="#">US</a></li>
+                                <li><a class="dropdown-item" href="#">UK</a></li>
+                                <li><a class="dropdown-item" href="#">SG</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="dropdown">
+                            <button class="btn btn-outline-secondary dropdown-toggle w-100" type="button" data-bs-toggle="dropdown">
+                                <i class="fas fa-building me-2"></i> Entity
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#">All Entities</a></li>
+                                <li><a class="dropdown-item" href="#">Brinc Hong Kong Ltd.</a></li>
+                                <li><a class="dropdown-item" href="#">Brinc China</a></li>
+                                <li><a class="dropdown-item" href="#">Brinc India</a></li>
+                                <li><a class="dropdown-item" href="#">Brinc Japan</a></li>
+                                <li><a class="dropdown-item" href="#">Brinc MENA</a></li>
+                                <li><a class="dropdown-item" href="#">Brinc Korea</a></li>
+                                <li><a class="dropdown-item" href="#">Brinc US Inc.</a></li>
+                                <li><a class="dropdown-item" href="#">Brinc UK Ltd.</a></li>
+                                <li><a class="dropdown-item" href="#">Brinc Singapore Pte. Ltd.</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="dropdown">
+                            <button class="btn btn-outline-secondary dropdown-toggle w-100" type="button" data-bs-toggle="dropdown">
+                                <i class="fas fa-user me-2"></i> Owner
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#">All Owners</a></li>
+                                <li><a class="dropdown-item" href="#">Aisling Gormley</a></li>
+                                <li><a class="dropdown-item" href="#">Castor Hui</a></li>
+                                <li><a class="dropdown-item" href="#">Cheyelene Singh</a></li>
+                                <li><a class="dropdown-item" href="#">Edwin Lee</a></li>
+                                <li><a class="dropdown-item" href="#">Guillermo Ginesta</a></li>
+                                <li><a class="dropdown-item" href="#">Kevin Brisbois</a></li>
+                                <li><a class="dropdown-item" href="#">Kevin Leung</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="dropdown">
+                            <button class="btn btn-outline-secondary dropdown-toggle w-100" type="button" data-bs-toggle="dropdown">
+                                <i class="fas fa-filter me-2"></i> Deal Stage
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#">All Stages</a></li>
+                                <li><a class="dropdown-item" href="#">Lead</a></li>
+                                <li><a class="dropdown-item" href="#">Initial Meeting</a></li>
+                                <li><a class="dropdown-item" href="#">Qualification</a></li>
+                                <li><a class="dropdown-item" href="#">Due Diligence</a></li>
+                                <li><a class="dropdown-item" href="#">Negotiation</a></li>
+                                <li><a class="dropdown-item" href="#">Closing</a></li>
+                                <li><a class="dropdown-item" href="#">Closed Won</a></li>
+                                <li><a class="dropdown-item" href="#">Closed Lost</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Active Filters -->
+        <div class="d-flex flex-wrap gap-2 mb-3">
+            <span class="badge bg-primary filter-badge">All Locations <i class="fas fa-times-circle"></i></span>
+            <span class="badge bg-primary filter-badge">All Entities <i class="fas fa-times-circle"></i></span>
+            <span class="badge bg-primary filter-badge">All Owners <i class="fas fa-times-circle"></i></span>
+            <!-- More filters would appear here when selected -->
+        </div>
+
+        <!-- Summary Cards -->
+        <div class="row g-3 mb-4">
+            <!-- Total Deals -->
+            <div class="col-md-3">
+                <div class="card metric-card">
+                    <div class="card-body">
+                        <h6 class="card-subtitle mb-2 text-muted">Total Active Deals</h6>
+                        <div class="d-flex align-items-baseline">
+                            <div class="metric-value me-2">42</div>
+                        </div>
+                        <div class="metric-subtitle mt-1">Across all stages</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Total Value -->
+            <div class="col-md-3">
+                <div class="card metric-card">
+                    <div class="card-body">
+                        <h6 class="card-subtitle mb-2 text-muted">Total Deal Value</h6>
+                        <div class="d-flex align-items-baseline">
+                            <div class="metric-value me-2">1.2M</div>
+                            <div class="metric-currency">USD</div>
+                        </div>
+                        <div class="metric-subtitle mt-1">Potential revenue</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Closing This Month -->
+            <div class="col-md-3">
+                <div class="card metric-card">
+                    <div class="card-body">
+                        <h6 class="card-subtitle mb-2 text-muted">Closing This Month</h6>
+                        <div class="d-flex align-items-baseline">
+                            <div class="metric-value me-2">8</div>
+                            <div class="metric-currency">Deals</div>
+                        </div>
+                        <div class="metric-subtitle mt-1">$215,500 USD</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Win Rate -->
+            <div class="col-md-3">
+                <div class="card metric-card">
+                    <div class="card-body">
+                        <h6 class="card-subtitle mb-2 text-muted">Win Rate (YTD)</h6>
+                        <div class="d-flex align-items-baseline">
+                            <div class="metric-value me-2">68%</div>
+                        </div>
+                        <div class="metric-subtitle mt-1">15 won / 22 closed</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Deal Pipeline Chart -->
+        <div class="card mb-4">
+            <div class="card-header bg-white">
+                <h5 class="mb-0">Deal Pipeline</h5>
+            </div>
+            <div class="card-body">
+                <div class="chart-container" style="position: relative; height:300px;">
+                    <canvas id="dealPipelineChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Deals Table -->
+        <div class="card mb-4">
+            <div class="card-header bg-white d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">All Deals</h5>
+                <div class="search-container">
+                    <i class="fas fa-search"></i>
+                    <input type="text" class="form-control search-input" placeholder="Search deals...">
+                </div>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-container">
+                    <table class="table table-hover deals-table mb-0">
+                        <thead>
+                            <tr>
+                                <th>Deal Name</th>
+                                <th>Client</th>
+                                <th>Location</th>
+                                <th>Owner</th>
+                                <th>Stage</th>
+                                <th>Value (USD)</th>
+                                <th>Probability</th>
+                                <th>Expected Close</th>
+                                <th>Last Activity</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Deals in Closing Stage -->
+                            <tr>
+                                <td>Climate Tech Accelerator</td>
+                                <td>Artesian</td>
+                                <td><span class="badge bg-secondary entity-badge">HK</span></td>
+                                <td>Cheyelene Singh</td>
+                                <td><span class="badge bg-success">Closing</span></td>
+                                <td>$30,369.50</td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <div class="progress flex-grow-1 me-2">
+                                            <div class="progress-bar bg-success" role="progressbar" style="width: 95%"></div>
+                                        </div>
+                                        <span>95%</span>
+                                    </div>
+                                </td>
+                                <td>Feb 28, 2024</td>
+                                <td>Today, 09:15 AM</td>
+                            </tr>
+                            <tr>
+                                <td>Web3 Grow Program</td>
+                                <td>Blockchain Foundation</td>
+                                <td><span class="badge bg-secondary entity-badge">SG</span></td>
+                                <td>Kevin Brisbois</td>
+                                <td><span class="badge bg-success">Closing</span></td>
+                                <td>$42,500.00</td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <div class="progress flex-grow-1 me-2">
+                                            <div class="progress-bar bg-success" role="progressbar" style="width: 90%"></div>
+                                        </div>
+                                        <span>90%</span>
+                                    </div>
+                                </td>
+                                <td>Mar 05, 2024</td>
+                                <td>Yesterday, 14:30 PM</td>
+                            </tr>
+                            
+                            <!-- Deals in Negotiation Stage -->
+                            <tr>
+                                <td>XDC Blockchain Partnership</td>
+                                <td>Hatcher</td>
+                                <td><span class="badge bg-secondary entity-badge">JP</span></td>
+                                <td>Castor Hui</td>
+                                <td><span class="badge bg-warning">Negotiation</span></td>
+                                <td>$17,831.82</td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <div class="progress flex-grow-1 me-2">
+                                            <div class="progress-bar bg-warning" role="progressbar" style="width: 75%"></div>
+                                        </div>
+                                        <span>75%</span>
+                                    </div>
+                                </td>
+                                <td>Mar 15, 2024</td>
+                                <td>Feb 20, 2024</td>
+                            </tr>
+                            <tr>
+                                <td>ZK Advancer Program</td>
+                                <td>Polygon Labs</td>
+                                <td><span class="badge bg-secondary entity-badge">US</span></td>
+                                <td>Guillermo Ginesta</td>
+                                <td><span class="badge bg-warning">Negotiation</span></td>
+                                <td>$85,000.00</td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <div class="progress flex-grow-1 me-2">
+                                            <div class="progress-bar bg-warning" role="progressbar" style="width: 70%"></div>
+                                        </div>
+                                        <span>70%</span>
+                                    </div>
+                                </td>
+                                <td>Mar 20, 2024</td>
+                                <td>Feb 22, 2024</td>
+                            </tr>
+                            <tr>
+                                <td>SuiHub Accelerator</td>
+                                <td>25 Spring</td>
+                                <td><span class="badge bg-secondary entity-badge">MENA</span></td>
+                                <td>Kevin Leung</td>
+                                <td><span class="badge bg-warning">Negotiation</span></td>
+                                <td>$68,500.00</td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <div class="progress flex-grow-1 me-2">
+                                            <div class="progress-bar bg-warning" role="progressbar" style="width: 65%"></div>
+                                        </div>
+                                        <span>65%</span>
+                                    </div>
+                                </td>
+                                <td>Mar 25, 2024</td>
+                                <td>Feb 19, 2024</td>
+                            </tr>
+                            
+                            <!-- Deals in Due Diligence Stage -->
+                            <tr>
+                                <td>BharatBox Joint Venture</td>
+                                <td>BharatBox</td>
+                                <td><span class="badge bg-secondary entity-badge">INDIA</span></td>
+                                <td>Edwin Lee</td>
+                                <td><span class="badge bg-info">Due Diligence</span></td>
+                                <td>$120,000.00</td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <div class="progress flex-grow-1 me-2">
+                                            <div class="progress-bar bg-info" role="progressbar" style="width: 60%"></div>
+                                        </div>
+                                        <span>60%</span>
+                                    </div>
+                                </td>
+                                <td>Apr 10, 2024</td>
+                                <td>Feb 15, 2024</td>
+                            </tr>
+                            <tr>
+                                <td>Abillion Direct Investment</td>
+                                <td>Abillion</td>
+                                <td><span class="badge bg-secondary entity-badge">SG</span></td>
+                                <td>Castor Hui</td>
+                                <td><span class="badge bg-info">Due Diligence</span></td>
+                                <td>$75,000.00</td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <div class="progress flex-grow-1 me-2">
+                                            <div class="progress-bar bg-info" role="progressbar" style="width: 55%"></div>
+                                        </div>
+                                        <span>55%</span>
+                                    </div>
+                                </td>
+                                <td>Apr 15, 2024</td>
+                                <td>Feb 12, 2024</td>
+                            </tr>
+                            <tr>
+                                <td>Animoca Ventures Investment</td>
+                                <td>Animoca Ventures</td>
+                                <td><span class="badge bg-secondary entity-badge">HK</span></td>
+                                <td>Guillermo Ginesta</td>
+                                <td><span class="badge bg-info">Due Diligence</span></td>
+                                <td>$95,000.00</td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <div class="progress flex-grow-1 me-2">
+                                            <div class="progress-bar bg-info" role="progressbar" style="width: 50%"></div>
+                                        </div>
+                                        <span>50%</span>
+                                    </div>
+                                </td>
+                                <td>Apr 20, 2024</td>
+                                <td>Feb 10, 2024</td>
+                            </tr>
+                            
+                            <!-- Deals in Qualification Stage -->
+                            <tr>
+                                <td>Climate Partner Open Application</td>
+                                <td>Climate Partners</td>
+                                <td><span class="badge bg-secondary entity-badge">UK</span></td>
+                                <td>Aisling Gormley</td>
+                                <td><span class="badge bg-secondary">Qualification</span></td>
+                                <td>$55,000.00</td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <div class="progress flex-grow-1 me-2">
+                                            <div class="progress-bar bg-secondary" role="progressbar" style="width: 40%"></div>
+                                        </div>
+                                        <span>40%</span>
+                                    </div>
+                                </td>
+                                <td>May 05, 2024</td>
+                                <td>Feb 05, 2024</td>
+                            </tr>
+                            <tr>
+                                <td>Summer Climate Tech Program</td>
+                                <td>GreenTech Ventures</td>
+                                <td><span class="badge bg-secondary entity-badge">US</span></td>
+                                <td>Cheyelene Singh</td>
+                                <td><span class="badge bg-secondary">Qualification</span></td>
+                                <td>$48,000.00</td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <div class="progress flex-grow-1 me-2">
+                                            <div class="progress-bar bg-secondary" role="progressbar" style="width: 35%"></div>
+                                        </div>
+                                        <span>35%</span>
+                                    </div>
+                                </td>
+                                <td>May 15, 2024</td>
+                                <td>Feb 03, 2024</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="card-footer bg-white d-flex justify-content-between align-items-center">
+                <div>
+                    <span class="text-muted">Showing 10 of 42 deals</span>
+                </div>
+                <nav aria-label="Deal pagination">
+                    <ul class="pagination mb-0">
+                        <li class="page-item disabled">
+                            <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+                        </li>
+                        <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                        <li class="page-item"><a class="page-link" href="#">2</a></li>
+                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+                        <li class="page-item"><a class="page-link" href="#">4</a></li>
+                        <li class="page-item"><a class="page-link" href="#">5</a></li>
+                        <li class="page-item">
+                            <a class="page-link" href="#">Next</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+
+        <!-- Deal Distribution -->
+        <h4 class="mb-3">Deal Distribution</h4>
+        <div class="row g-3 mb-4">
+            <div class="col-md-6">
+                <div class="card metric-card">
+                    <div class="card-body">
+                        <h6 class="card-subtitle mb-3 text-muted">Deals by Location</h6>
+                        <div class="chart-container" style="position: relative; height:300px;">
+                            <canvas id="locationDistributionChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card metric-card">
+                    <div class="card-body">
+                        <h6 class="card-subtitle mb-3 text-muted">Deals by Owner</h6>
+                        <div class="chart-container" style="position: relative; height:300px;">
+                            <canvas id="ownerDistributionChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-light py-3 mt-5">
+        <div class="container text-center">
+            <p class="text-muted mb-0">© 2024 Brinc. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- HubSpot Sync Toast Notification -->
+    <div class="position-fixed top-0 end-0 p-3" style="z-index: 11">
+        <div id="hubspotSyncToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header bg-success text-white">
+                <i class="fas fa-check-circle me-2"></i>
+                <strong class="me-auto">Success</strong>
+                <small>Just now</small>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body">
+                Deal data has been successfully synced from HubSpot.
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <script>
+        // Initialize the deal pipeline chart
+        const pipelineCtx = document.getElementById('dealPipelineChart').getContext('2d');
+        const dealPipelineChart = new Chart(pipelineCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Lead', 'Initial Meeting', 'Qualification', 'Due Diligence', 'Negotiation', 'Closing'],
+                datasets: [{
+                    label: 'Number of Deals',
+                    data: [8, 6, 10, 7, 6, 5],
+                    backgroundColor: [
+                        'rgba(108, 117, 125, 0.7)',
+                        'rgba(108, 117, 125, 0.7)',
+                        'rgba(108, 117, 125, 0.7)',
+                        'rgba(23, 162, 184, 0.7)',
+                        'rgba(255, 193, 7, 0.7)',
+                        'rgba(40, 167, 69, 0.7)'
+                    ],
+                    borderColor: [
+                        'rgba(108, 117, 125, 1)',
+                        'rgba(108, 117, 125, 1)',
+                        'rgba(108, 117, 125, 1)',
+                        'rgba(23, 162, 184, 1)',
+                        'rgba(255, 193, 7, 1)',
+                        'rgba(40, 167, 69, 1)'
+                    ],
+                    borderWidth: 1
+                }, {
+                    label: 'Value (USD)',
+                    data: [120000, 180000, 250000, 290000, 320000, 240000],
+                    backgroundColor: 'rgba(0, 123, 255, 0.2)',
+                    borderColor: 'rgba(0, 123, 255, 1)',
+                    borderWidth: 1,
+                    type: 'line',
+                    yAxisID: 'y1'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Number of Deals'
+                        }
+                    },
+                    y1: {
+                        beginAtZero: true,
+                        position: 'right',
+                        grid: {
+                            drawOnChartArea: false
+                        },
+                        title: {
+                            display: true,
+                            text: 'Value (USD)'
+                        },
+                        ticks: {
+                            callback: function(value) {
+                                return '$' + value.toLocaleString();
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        // Initialize the location distribution chart
+        const locationCtx = document.getElementById('locationDistributionChart').getContext('2d');
+        const locationDistributionChart = new Chart(locationCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['HK', 'SG', 'US', 'MENA', 'INDIA', 'JP', 'UK', 'KR', 'GZ'],
+                datasets: [{
+                    data: [9, 7, 6, 5, 4, 4, 3, 2, 2],
+                    backgroundColor: [
+                        'rgba(54, 162, 235, 0.7)',
+                        'rgba(255, 99, 132, 0.7)',
+                        'rgba(255, 206, 86, 0.7)',
+                        'rgba(75, 192, 192, 0.7)',
+                        'rgba(153, 102, 255, 0.7)',
+                        'rgba(255, 159, 64, 0.7)',
+                        'rgba(199, 199, 199, 0.7)',
+                        'rgba(83, 102, 255, 0.7)',
+                        'rgba(40, 167, 69, 0.7)'
+                    ],
+                    borderColor: [
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)',
+                        'rgba(199, 199, 199, 1)',
+                        'rgba(83, 102, 255, 1)',
+                        'rgba(40, 167, 69, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'right',
+                        labels: {
+                            boxWidth: 12
+                        }
+                    }
+                }
+            }
+        });
+
+        // Initialize the owner distribution chart
+        const ownerCtx = document.getElementById('ownerDistributionChart').getContext('2d');
+        const ownerDistributionChart = new Chart(ownerCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Castor Hui', 'Guillermo Ginesta', 'Kevin Brisbois', 'Cheyelene Singh', 'Kevin Leung', 'Edwin Lee', 'Aisling Gormley'],
+                datasets: [{
+                    label: 'Number of Deals',
+                    data: [9, 8, 7, 6, 5, 4, 3],
+                    backgroundColor: 'rgba(54, 162, 235, 0.7)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                indexAxis: 'y',
+                scales: {
+                    x: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        // HubSpot sync button functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const syncHubspotBtn = document.getElementById('syncHubspotBtn');
+            const hubspotSyncToast = document.getElementById('hubspotSyncToast');
+            
+            if (syncHubspotBtn && hubspotSyncToast) {
+                syncHubspotBtn.addEventListener('click', function() {
+                    // Show loading state
+                    syncHubspotBtn.disabled = true;
+                    syncHubspotBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span> Syncing...';
+                    
+                    // Simulate API call delay
+                    setTimeout(function() {
+                        // Reset button
+                        syncHubspotBtn.disabled = false;
+                        syncHubspotBtn.innerHTML = '<i class="fas fa-sync me-1"></i> Sync from HubSpot';
+                        
+                        // Update last synced time
+                        const now = new Date();
+                        const hours = now.getHours().toString().padStart(2, '0');
+                        const minutes = now.getMinutes().toString().padStart(2, '0');
+                        const timeString = `${hours}:${minutes}`;
+                        
+                        const syncInfoElement = document.querySelector('.hubspot-sync-info');
+                        if (syncInfoElement) {
+                            syncInfoElement.innerHTML = `<i class="fas fa-sync-alt me-1"></i> Last synced from HubSpot: Today, ${timeString} AM`;
+                        }
+                        
+                        // Show success toast
+                        const toast = new bootstrap.Toast(hubspotSyncToast);
+                        toast.show();
+                    }, 1500);
+                });
+            }
+            
+            // Initialize search functionality
+            const searchInput = document.querySelector('.search-input');
+            if (searchInput) {
+                searchInput.addEventListener('keyup', function() {
+                    const searchTerm = this.value.toLowerCase();
+                    const tableRows = document.querySelectorAll('.deals-table tbody tr');
+                    
+                    tableRows.forEach(row => {
+                        const text = row.textContent.toLowerCase();
+                        if (text.includes(searchTerm)) {
+                            row.style.display = '';
+                        } else {
+                            row.style.display = 'none';
+                        }
+                    });
+                });
+            }
+            
+            // Initialize filter badges
+            const filterBadges = document.querySelectorAll('.filter-badge');
+            filterBadges.forEach(badge => {
+                badge.addEventListener('click', function() {
+                    this.remove();
+                });
+            });
+        });
+    </script>
+</body>
+</html>

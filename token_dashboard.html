@@ -114,6 +114,16 @@
             </div>
         </div>
 
+        <!-- Coinbase Price Data Alert -->
+        <div class="alert alert-light border d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <i class="fab fa-coinbase text-primary me-2"></i> Price data imported from Coinbase API. Last updated: <span id="lastUpdated">May 15, 2023 09:45 AM</span>
+            </div>
+            <button class="btn btn-sm btn-outline-primary" id="refreshPrices">
+                <i class="fas fa-sync-alt"></i> Refresh Prices
+            </button>
+        </div>
+
         <!-- Portfolio Summary Cards -->
         <div class="row g-3 mb-4">
             <!-- Total Portfolio Value -->
@@ -739,6 +749,36 @@
                     }
                 }
             }
+        });
+
+        // Refresh prices button
+        document.getElementById('refreshPrices').addEventListener('click', function() {
+            // Show spinner in button while "refreshing"
+            const button = this;
+            const originalContent = button.innerHTML;
+            button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Updating...';
+            button.disabled = true;
+            
+            // Simulate API call delay
+            setTimeout(function() {
+                // Update the last updated time
+                const now = new Date();
+                const formattedDate = now.toLocaleDateString('en-US', { 
+                    month: 'short', 
+                    day: 'numeric', 
+                    year: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
+                document.getElementById('lastUpdated').textContent = formattedDate;
+                
+                // Restore button
+                button.innerHTML = originalContent;
+                button.disabled = false;
+                
+                // Show success toast/alert
+                alert('Price data successfully updated from Coinbase');
+            }, 1500);
         });
     </script>
 </body>

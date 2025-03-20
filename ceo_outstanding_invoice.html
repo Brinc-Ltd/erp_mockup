@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Outstanding Invoices - Brinc CEO Dashboard</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .logo {
+            max-height: 40px;
+        }
+        .filter-badge {
+            cursor: pointer;
+        }
+        .card-header {
+            background-color: #f8f9fa;
+        }
+        .search-container {
+            position: relative;
+        }
+        .search-container .fa-search {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            color: #6c757d;
+        }
+        .search-input {
+            padding-left: 35px;
+        }
+        .metric-card {
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s;
+            height: 100%;
+        }
+        .metric-card:hover {
+            transform: translateY(-5px);
+        }
+        .metric-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+        .metric-currency {
+            font-size: 1rem;
+            font-weight: 500;
+        }
+        .metric-subtitle {
+            font-size: 0.85rem;
+            color: #6c757d;
+        }
+        .badge-overdue {
+            background-color: #dc3545;
+            color: white;
+        }
+        .badge-due-soon {
+            background-color: #ffc107;
+            color: #212529;
+        }
+        .badge-future {
+            background-color: #0d6efd;
+            color: white;
+        }
+        .entity-badge {
+            font-size: 0.75rem;
+        }
+        .table-container {
+            overflow-x: auto;
+        }
+        .xero-sync-info {
+            font-size: 0.8rem;
+            color: #6c757d;
+        }
+        .invoice-table th {
+            position: sticky;
+            top: 0;
+            background-color: #f8f9fa;
+            z-index: 1;
+        }
+        .table-container {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <img src="https://storage.googleapis.com/clean-finder-353810/$Dd5BJMS3vYBf7ZOld70TQI6BwJGDbX0AROpvZc0RexkhTUrPQZBO4S" alt="Brinc Logo" class="logo">
+                <span class="ms-2 fw-bold">CEO Dashboard</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="projects.html">Projects</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="payroll_dashboard.html">Payroll System</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="token_dashboard.html">Digital Currency System</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
+                            <img src="https://s3-ap-southeast-1.amazonaws.com/timeauction.paperclip/auctions/images/000/000/123/display/Manav-Gupta_Founder-CEO_brinc_profilephoto.webp?1614188921" alt="Manav" class="rounded-circle" style="width: 24px; height: 24px; object-fit: cover;"> Manav
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="#">Profile</a></li>
+                            <li><a class="dropdown-item" href="#">Settings</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#">Logout</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container mt-4">
+        <!-- Back Button and Page Header -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <a href="ceo_view.html" class="btn btn-outline-secondary mb-2">
+                    <i class="fas fa-arrow-left me-1"></i> Back to Dashboard
+                </a>
+                <h2 class="mb-1">Outstanding Invoices</h2>
+                <p class="text-muted mb-0">View all unpaid invoices across Brinc entities</p>
+            </div>
+            <div class="text-end">
+                <div class="xero-sync-info mb-2">
+                    <i class="fas fa-sync-alt me-1"></i> Last synced from Xero: Today, 09:45 AM
+                </div>
+                <button class="btn btn-outline-primary" id="syncXeroBtn">
+                    <i class="fas fa-sync me-1"></i> Sync from Xero
+                </button>
+            </div>
+        </div>
+
+        <!-- Filters -->
+        <div class="card mb-4">
+            <div class="card-body">
+                <div class="row g-3">
+                    <div class="col-md-3">
+                        <div class="dropdown">
+                            <button class="btn btn-outline-secondary dropdown-toggle w-100" type="button" data-bs-toggle="dropdown">
+                                <i class="fas fa-globe me-2"></i> Location
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#">All Locations</a></li>
+                                <li><a class="dropdown-item" href="#">Hong Kong</a></li>
+                                <li><a class="dropdown-item" href="#">United States</a></li>
+                                <li><a class="dropdown-item" href="#">United Kingdom</a></li>
+                                <li><a class="dropdown-item" href="#">Singapore</a></li>
+                                <li><a class="dropdown-item" href="#">Japan</a></li>
+                                <li><a class="dropdown-item" href="#">Korea</a></li>
+                                <li><a class="dropdown-item" href="#">MENA</a></li>
+                                <li><a class="dropdown-item" href="#">India</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="dropdown">
+                            <button class="btn btn-outline-secondary dropdown-toggle w-100" type="button" data-bs-toggle="dropdown">
+                                <i class="fas fa-building me-2"></i> Entity
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#">All Entities</a></li>
+                                <li><a class="dropdown-item" href="#">Brinc Hong Kong Ltd.</a></li>
+                                <li><a class="dropdown-item" href="#">Brinc US Inc.</a></li>
+                                <li><a class="dropdown-item" href="#">Brinc UK Ltd.</a></li>
+                                <li><a class="dropdown-item" href="#">Brinc Singapore Pte. Ltd.</a></li>
+                                <li><a class="dropdown-item" href="#">Brinc China</a></li>
+                                <li><a class="dropdown-item" href="#">Brinc Japan</a></li>
+                                <li><a class="dropdown-item" href="#">Brinc Korea</a></li>
+                                <li><a class="dropdown-item" href="#">Brinc MENA</a></li>
+                                <li><a class="dropdown-item" href="#">Brinc India</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="dropdown">
+                            <button class="btn btn-outline-secondary dropdown-toggle w-100" type="button" data-bs-toggle="dropdown">
+                                <i class="fas fa-calendar me-2"></i> Due Date
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#">All Due Dates</a></li>
+                                <li><a class="dropdown-item" href="#">Overdue</a></li>
+                                <li><a class="dropdown-item" href="#">Due in 7 days</a></li>
+                                <li><a class="dropdown-item" href="#">Due in 30 days</a></li>
+                                <li><a class="dropdown-item" href="#">Due in 60+ days</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="dropdown">
+                            <button class="btn btn-outline-secondary dropdown-toggle w-100" type="button" data-bs-toggle="dropdown">
+                                <i class="fas fa-project-diagram me-2"></i> Project
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#">All Projects</a></li>
+                                <li><a class="dropdown-item" href="#">XDC</a></li>
+                                <li><a class="dropdown-item" href="#">Boda</a></li>
+                                <li><a class="dropdown-item" href="#">Climate Tech</a></li>
+                                <li><a class="dropdown-item" href="#">VentureVerse</a></li>
+                                <li><a class="dropdown-item" href="#">Academy</a></li>
+                                <li><a class="dropdown-item" href="#">Callmi</a></li>
+                                <li><a class="dropdown-item" href="#">BharatBox</a></li>
+                                <li><a class="dropdown-item" href="#">SuiHub</a></li>
+                                <li><a class="dropdown-item" href="#">ZK Advancer</a></li>
+                                <li><a class="dropdown-item" href="#">Web3 Grow</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Active Filters -->
+        <div class="d-flex flex-wrap gap-2 mb-3">
+            <span class="badge bg-primary filter-badge">All Locations <i class="fas fa-times-circle"></i></span>
+            <span class="badge bg-primary filter-badge">All Entities <i class="fas fa-times-circle"></i></span>
+            <span class="badge bg-primary filter-badge">All Due Dates <i class="fas fa-times-circle"></i></span>
+            <!-- More filters would appear here when selected -->
+        </div>
+
+        <!-- Summary Cards -->
+        <div class="row g-3 mb-4">
+            <!-- Total Outstanding -->
+            <div class="col-md-3">
+                <div class="card metric-card">
+                    <div class="card-body">
+                        <h6 class="card-subtitle mb-2 text-muted">Total Outstanding</h6>
+                        <div class="d-flex align-items-baseline">
+                            <div class="metric-value me-2">255.1K</div>
+                            <div class="metric-currency">EUR</div>
+                        </div>
+                        <div class="metric-subtitle mt-1">85 invoices</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Overdue -->
+            <div class="col-md-3">
+                <div class="card metric-card">
+                    <div class="card-body">
+                        <h6 class="card-subtitle mb-2 text-muted">Overdue</h6>
+                        <div class="d-flex align-items-baseline">
+                            <div class="metric-value me-2 text-danger">118.7K</div>
+                            <div class="metric-currency">EUR</div>
+                        </div>
+                        <div class="metric-subtitle mt-1">37 invoices</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Due This Month -->
+            <div class="col-md-3">
+                <div class="card metric-card">
+                    <div class="card-body">
+                        <h6 class="card-subtitle mb-2 text-muted">Due This Month</h6>
+                        <div class="d-flex align-items-baseline">
+                            <div class="metric-value me-2 text-warning">86.3K</div>
+                            <div class="metric-currency">EUR</div>
+                        </div>
+                        <div class="metric-subtitle mt-1">29 invoices</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Due Next Month -->
+            <div class="col-md-3">
+                <div class="card metric-card">
+                    <div class="card-body">
+                        <h6 class="card-subtitle mb-2 text-muted">Due Next Month</h6>
+                        <div class="d-flex align-items-baseline">
+                            <div class="metric-value me-2">50.1K</div>
+                            <div class="metric-currency">EUR</div>
+                        </div>
+                        <div class="metric-subtitle mt-1">19 invoices</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Outstanding Invoices Table -->
+        <div class="card mb-4">
+            <div class="card-header bg-white d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">Outstanding Invoices</h5>
+                <div class="search-container">
+                    <i class="fas fa-search"></i>
+                    <input type="text" class="form-control search-input" placeholder="Search invoices...">
+                </div>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-container">
+                    <table class="table table-hover invoice-table mb-0">
+                        <thead>
+                            <tr>
+                                <th>Invoice #</th>
+                                <th>Entity</th>
+                                <th>Client</th>
+                                <th>Project</th>
+                                <th>Issue Date</th>
+                                <th>Due Date</th>
+                                <th>Status</th>
+                                <th>Amount</th>
+                                <th>Currency</th>
+                                <th>EUR Equivalent</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Overdue Invoices -->
+                            <tr>
+                                <td>INV-2024-0127</td>
+                                <td><span class="badge bg-secondary entity-badge">Brinc HK</span></td>
+                                <td>Hatcher+ Ltd.</td>
+                                <td>XDC</td>
+                                <td>15 Nov 2023</td>
+                                <td>15 Dec 2023</td>
+                                <td><span class="badge badge-overdue">Overdue (45 days)</span></td>
+                                <td>17,500.00</td>
+                                <td>USD</td>
+                                <td>16,230.50</td>
+                            </tr>
+                            <tr>
+                                <td>INV-2024-0135</td>
+                                <td><span class="badge bg-secondary entity-badge">Brinc US</span></td>
+                                <td>Artesian Venture Partners</td>
+                                <td>Climate Tech</td>
+                                <td>20 Nov 2023</td>
+                                <td>20 Dec 2023</td>
+                                <td><span class="badge badge-overdue">Overdue (40 days)</span></td>
+                                <td>32,000.00</td>
+                                <td>USD</td>
+                                <td>29,683.20</td>
+                            </tr>
+                            <tr>
+                                <td>INV-2024-0142</td>
+                                <td><span class="badge bg-secondary entity-badge">Brinc SG</span></td>
+                                <td>Abillion Pte Ltd</td>
+                                <td>Direct Investment</td>
+                                <td>25 Nov 2023</td>
+                                <td>25 Dec 2023</td>
+                                <td><span class="badge badge-overdue">Overdue (35 days)</span></td>
+                                <td>25,000.00</td>
+                                <td>SGD</td>
+                                <td>17,325.00</td>
+                            </tr>
+                            <tr>
+                                <td>INV-2024-0156</td>
+                                <td><span class="badge bg-secondary entity-badge">Brinc UK</span></td>
+                                <td>Animoca Ventures</td>
+                                <td>Direct Investment</td>
+                                <td>01 Dec 2023</td>
+                                <td>01 Jan 2024</td>
+                                <td><span class="badge badge-overdue">Overdue (28 days)</span></td>
+                                <td>18,500.00</td>
+                                <td>GBP</td>
+                                <td>21,867.50</td>
+                            </tr>
+                            <tr>
+                                <td>INV-2024-0163</td>
+                                <td><span class="badge bg-secondary entity-badge">Brinc JP</span></td>
+                                <td>SoftBank Corp.</td>
+                                <td>Corporate Innovation</td>
+                                <td>05 Dec 2023</td>
+                                <td>05 Jan 2024</td>
+                                <td><span class="badge badge-overdue">Overdue (24 days)</span></td>
+                                <td>2,500,000.00</td>
+                                <td>JPY</td>
+                                <td>15,625.00</td>
+                            </tr>
+                            
+                            <!-- Due Soon Invoices -->
+                            <tr>
+                                <td>INV-2024-0178</td>
+                                <td><span class="badge bg-secondary entity-badge">Brinc HK</span></td>
+                                <td>Sui Foundation</td>
+                                <td>SuiHub</td>
+                                <td>15 Dec 2023</td>
+                                <td>15 Jan 2024</td>
+                                <td><span class="badge badge-due-soon">Due in 7 days</span></td>
+                                <td>45,000.00</td>
+                                <td>USD</td>
+                                <td>41,737.50</td>
+                            </tr>
+                            <tr>
+                                <td>INV-2024-0185</td>
+                                <td><span class="badge bg-secondary entity-badge">Brinc MENA</span></td>
+                                <td>Mubadala Investment Company</td>
+                                <td>Climate Tech</td>
+                                <td>20 Dec 2023</td>
+                                <td>20 Jan 2024</td>
+                                <td><span class="badge badge-due-soon">Due in 12 days</span></td>
+                                <td>150,000.00</td>
+                                <td>AED</td>
+                                <td>37,500.00</td>
+                            </tr>
+                            <tr>
+                                <td>INV-2024-0192</td>
+                                <td><span class="badge bg-secondary entity-badge">Brinc India</span></td>
+                                <td>BharatBox Ventures</td>
+                                <td>Joint Venture</td>
+                                <td>22 Dec 2023</td>
+                                <td>22 Jan 2024</td>
+                                <td><span class="badge badge-due-soon">Due in 14 days</span></td>
+                                <td>1,200,000.00</td>
+                                <td>INR</td>
+                                <td>13,200.00</td>
+                            </tr>
+                            
+                            <!-- Future Due Invoices -->
+                            <tr>
+                                <td>INV-2024-0201</td>
+                                <td><span class="badge bg-secondary entity-badge">Brinc KR</span></td>
+                                <td>Samsung Next</td>
+                                <td>ZK Advancer</td>
+                                <td>05 Jan 2024</td>
+                                <td>05 Feb 2024</td>
+                                <td><span class="badge badge-future">Due in 28 days</span></td>
+                                <td>25,000,000.00</td>
+                                <td>KRW</td>
+                                <td>17,250.00</td>
+                            </tr>
+                            <tr>
+                                <td>INV-2024-0208</td>
+                                <td><span class="badge bg-secondary entity-badge">Brinc US</span></td>
+                                <td>Polygon Labs</td>
+                                <td>Web3 Grow</td>
+                                <td>10 Jan 2024</td>
+                                <td>10 Feb 2024</td>
+                                <td><span class="badge badge-future">Due in 33 days</span></td>
+                                <td>35,000.00</td>
+                                <td>USD</td>
+                                <td>32,462.50</td>
+                            </tr>
+                            <tr>
+                                <td>INV-2024-0215</td>
+                                <td><span class="badge bg-secondary entity-badge">Brinc HK</span></td>
+                                <td>Callmi Technologies</td>
+                                <td>Callmi</td>
+                                <td>15 Jan 2024</td>
+                                <td>15 Feb 2024</td>
+                                <td><span class="badge badge-future">Due in 38 days</span></td>
+                                <td>120,000.00</td>
+                                <td>HKD</td>
+                                <td>14,160.00</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="card-footer bg-white d-flex justify-content-between align-items-center">
+                <div>
+                    <span class="text-muted">Showing 11 of 85 invoices</span>
+                </div>
+                <nav aria-label="Invoice pagination">
+                    <ul class="pagination mb-0">
+                        <li class="page-item disabled">
+                            <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+                        </li>
+                        <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                        <li class="page-item"><a class="page-link" href="#">2</a></li>
+                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+                        <li class="page-item">
+                            <a class="page-link" href="#">Next</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+
+        <!-- Aging Analysis -->
+        <h4 class="mb-3">Aging Analysis</h4>
+        <div class="row g-3 mb-4">
+            <div class="col-md-8">
+                <div class="card metric-card">
+                    <div class="card-body">
+                        <h6 class="card-subtitle mb-3 text-muted">Invoice Aging by Amount</h6>
+                        <div class="chart-container" style="position: relative; height:300px;">
+                            <canvas id="invoiceAgingChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card metric-card">
+                    <div class="card-body">
+                        <h6 class="card-subtitle mb-3 text-muted">Aging Summary</h6>
+                        <table class="table table-sm">
+                            <thead>
+                                <tr>
+                                    <th>Age</th>
+                                    <th>Count</th>
+                                    <th>Amount (EUR)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Current</td>
+                                    <td>19</td>
+                                    <td>50,100</td>
+                                </tr>
+                                <tr>
+                                    <td>1-30 days</td>
+                                    <td>29</td>
+                                    <td>86,300</td>
+                                </tr>
+                                <tr>
+                                    <td>31-60 days</td>
+                                    <td>22</td>
+                                    <td>65,200</td>
+                                </tr>
+                                <tr>
+                                    <td>61-90 days</td>
+                                    <td>10</td>
+                                    <td>35,500</td>
+                                </tr>
+                                <tr>
+                                    <td>90+ days</td>
+                                    <td>5</td>
+                                    <td>18,000</td>
+                                </tr>
+                                <tr class="table-light">
+                                    <td><strong>Total</strong></td>
+                                    <td><strong>85</strong></td>
+                                    <td><strong>255,100</strong></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Entity Breakdown -->
+        <h4 class="mb-3">Entity Breakdown</h4>
+        <div class="row g-3 mb-4">
+            <div class="col-md-12">
+                <div class="card metric-card">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Entity</th>
+                                        <th>Total Outstanding</th>
+                                        <th>Overdue</th>
+                                        <th>Current</th>
+                                        <th>% of Total</th>
+                                        <th>Visualization</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Brinc Hong Kong Ltd.</td>
+                                        <td>72,128</td>
+                                        <td>16,231</td>
+                                        <td>55,897</td>
+                                        <td>28.3%</td>
+                                        <td>
+                                            <div class="progress" style="height: 8px;">
+                                                <div class="progress-bar bg-danger" role="progressbar" style="width: 22.5%" aria-valuenow="22.5"></div>
+                                                <div class="progress-bar bg-success" role="progressbar" style="width: 77.5%" aria-valuenow="77.5"></div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Brinc US Inc.</td>
+                                        <td>62,146</td>
+                                        <td>29,683</td>
+                                        <td>32,463</td>
+                                        <td>24.4%</td>
+                                        <td>
+                                            <div class="progress" style="height: 8px;">
+                                                <div class="progress-bar bg-danger" role="progressbar" style="width: 47.8%" aria-valuenow="47.8"></div>
+                                                <div class="progress-bar bg-success" role="progressbar" style="width: 52.2%" aria-valuenow="52.2"></div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Brinc UK Ltd.</td>
+                                        <td>21,868</td>
+                                        <td>21,868</td>
+                                        <td>0</td>
+                                        <td>8.6%</td>
+                                        <td>
+                                            <div class="progress" style="height: 8px;">
+                                                <div class="progress-bar bg-danger" role="progressbar" style="width: 100%" aria-valuenow="100"></div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Brinc Singapore Pte. Ltd.</td>
+                                        <td>17,325</td>
+                                        <td>17,325</td>
+                                        <td>0</td>
+                                        <td>6.8%</td>
+                                        <td>
+                                            <div class="progress" style="height: 8px;">
+                                                <div class="progress-bar bg-danger" role="progressbar" style="width: 100%" aria-valuenow="100"></div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Brinc MENA</td>
+                                        <td>37,500</td>
+                                        <td>0</td>
+                                        <td>37,500</td>
+                                        <td>14.7%</td>
+                                        <td>
+                                            <div class="progress" style="height: 8px;">
+                                                <div class="progress-bar bg-success" role="progressbar" style="width: 100%" aria-valuenow="100"></div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Brinc Japan</td>
+                                        <td>15,625</td>
+                                        <td>15,625</td>
+                                        <td>0</td>
+                                        <td>6.1%</td>
+                                        <td>
+                                            <div class="progress" style="height: 8px;">
+                                                <div class="progress-bar bg-danger" role="progressbar" style="width: 100%" aria-valuenow="100"></div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Brinc Korea</td>
+                                        <td>17,250</td>
+                                        <td>0</td>
+                                        <td>17,250</td>
+                                        <td>6.8%</td>
+                                        <td>
+                                            <div class="progress" style="height: 8px;">
+                                                <div class="progress-bar bg-success" role="progressbar" style="width: 100%" aria-valuenow="100"></div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Brinc India</td>
+                                        <td>13,200</td>
+                                        <td>0</td>
+                                        <td>13,200</td>
+                                        <td>5.2%</td>
+                                        <td>
+                                            <div class="progress" style="height: 8px;">
+                                                <div class="progress-bar bg-success" role="progressbar" style="width: 100%" aria-valuenow="100"></div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr class="table-light">
+                                        <td><strong>Total</strong></td>
+                                        <td><strong>255,100</strong></td>
+                                        <td><strong>118,700</strong></td>
+                                        <td><strong>136,400</strong></td>
+                                        <td><strong>100%</strong></td>
+                                        <td>
+                                            <div class="progress" style="height: 8px;">
+                                                <div class="progress-bar bg-danger" role="progressbar" style="width: 46.5%" aria-valuenow="46.5"></div>
+                                                <div class="progress-bar bg-success" role="progressbar" style="width: 53.5%" aria-valuenow="53.5"></div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-light py-3 mt-5">
+        <div class="container text-center">
+            <p class="text-muted mb-0">© 2024 Brinc. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <script>
+        // Initialize the invoice aging chart
+        const ctx = document.getElementById('invoiceAgingChart').getContext('2d');
+        const invoiceAgingChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Current', '1-30 days', '31-60 days', '61-90 days', '90+ days'],
+                datasets: [{
+                    label: 'Amount (EUR)',
+                    data: [50100, 86300, 65200, 35500, 18000],
+                    backgroundColor: [
+                        'rgba(13, 110, 253, 0.7)',
+                        'rgba(255, 193, 7, 0.7)',
+                        'rgba(255, 143, 0, 0.7)',
+                        'rgba(220, 53, 69, 0.7)',
+                        'rgba(108, 17, 17, 0.7)'
+                    ],
+                    borderColor: [
+                        'rgba(13, 110, 253, 1)',
+                        'rgba(255, 193, 7, 1)',
+                        'rgba(255, 143, 0, 1)',
+                        'rgba(220, 53, 69, 1)',
+                        'rgba(108, 17, 17, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            callback: function(value) {
+                                return value.toLocaleString() + ' €';
+                            }
+                        }
+                    }
+                },
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                let label = context.dataset.label || '';
+                                if (label) {
+                                    label += ': ';
+                                }
+                                label += new Intl.NumberFormat('en-US', { 
+                                    style: 'currency', 
+                                    currency: 'EUR',
+                                    minimumFractionDigits: 0,
+                                    maximumFractionDigits: 0
+                                }).format(context.parsed.y);
+                                return label;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        // Sync from Xero button functionality
+        document.getElementById('syncXeroBtn').addEventListener('click', function() {
+            // Show loading state
+            this.disabled = true;
+            this.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Syncing...';
+            
+            // Simulate API call to Xero
+            setTimeout(() => {
+                // Update the last synced time
+                const now = new Date();
+                const timeString = now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+                document.querySelector('.xero-sync-info').innerHTML = 
+                    `<i class="fas fa-sync-alt me-1"></i> Last synced from Xero: Today, ${timeString}`;
+                
+                // Reset button state
+                this.disabled = false;
+                this.innerHTML = '<i class="fas fa-sync me-1"></i> Sync from Xero';
+                
+                // Show success toast (would require additional toast component)
+                alert('Successfully synced data from Xero');
+            }, 2000);
+        });
+
+        // Filter badge removal
+        document.querySelectorAll('.filter-badge').forEach(badge => {
+            badge.addEventListener('click', function() {
+                this.remove();
+            });
+        });
+
+        // Search functionality
+        document.querySelector('.search-input').addEventListener('keyup', function() {
+            const searchTerm = this.value.toLowerCase();
+            const tableRows = document.querySelectorAll('.invoice-table tbody tr');
+            
+            tableRows.forEach(row => {
+                const text = row.textContent.toLowerCase();
+                if(text.includes(searchTerm)) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        });
+
+        // Dropdown filter functionality
+        document.querySelectorAll('.dropdown-item').forEach(item => {
+            item.addEventListener('click', function(e) {
+                e.preventDefault();
+                const filterType = this.closest('.dropdown').querySelector('.dropdown-toggle').textContent.trim();
+                const filterValue = this.textContent.trim();
+                
+                // Update dropdown button text
+                this.closest('.dropdown').querySelector('.dropdown-toggle').innerHTML = 
+                    `<i class="fas fa-filter me-2"></i> ${filterValue}`;
+                
+                // Add filter badge if it doesn't exist already
+                const existingBadges = Array.from(document.querySelectorAll('.filter-badge')).map(b => b.textContent.trim());
+                if(!existingBadges.includes(`${filterValue} ×`)) {
+                    const badge = document.createElement('span');
+                    badge.className = 'badge bg-primary filter-badge';
+                    badge.innerHTML = `${filterValue} <i class="fas fa-times-circle"></i>`;
+                    badge.addEventListener('click', function() {
+                        this.remove();
+                    });
+                    document.querySelector('.d-flex.flex-wrap.gap-2').appendChild(badge);
+                }
+                
+                // Here you would typically filter the table data based on the selection
+                // For this demo, we'll just log the filter
+                console.log(`Filter applied: ${filterType} - ${filterValue}`);
+            });
+        });
+    </script>
+</body>
+</html> 
