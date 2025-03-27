@@ -249,12 +249,29 @@
             </div>
             
             <div class="form-group">
+                <label for="projectCode">Project Code</label>
+                <input type="text" id="projectCode" name="projectCode" value="20240601-AC-HK-SCT-B" readonly>
+                <small class="form-text text-muted">Auto-generated based on project details</small>
+            </div>
+            
+            <div class="form-group">
                 <label>Project Type</label>
                 <div class="project-type-toggle">
                     <button type="button" class="toggle-btn" data-type="internal">Internal</button>
                     <button type="button" class="toggle-btn active" data-type="external">External</button>
                 </div>
                 <input type="hidden" id="projectType" name="projectType" value="external">
+            </div>
+            
+            <!-- New Deal Type Section for External Projects -->
+            <div id="dealTypeSection" class="form-group">
+                <label for="dealType">Deal Type</label>
+                <select id="dealType" name="dealType" class="form-control">
+                    <option value="">Select Deal Type</option>
+                    <option value="consulting">Consulting Deal</option>
+                    <option value="accelerator_program" selected>Accelerator - Program Fee</option>
+                    <option value="accelerator_opex">Accelerator - Opex</option>
+                </select>
             </div>
             
             <!-- Asset Section for External Projects -->
@@ -608,6 +625,7 @@
             const toggleBtns = document.querySelectorAll('.toggle-btn');
             const projectTypeInput = document.getElementById('projectType');
             const assetSection = document.getElementById('assetSection');
+            const dealTypeSection = document.getElementById('dealTypeSection');
             
             toggleBtns.forEach(btn => {
                 btn.addEventListener('click', function() {
@@ -616,11 +634,13 @@
                     const projectType = this.getAttribute('data-type');
                     projectTypeInput.value = projectType;
                     
-                    // Show/hide asset section based on project type
+                    // Show/hide sections based on project type
                     if (projectType === 'external') {
                         assetSection.style.display = 'block';
+                        dealTypeSection.style.display = 'block';
                     } else {
                         assetSection.style.display = 'none';
+                        dealTypeSection.style.display = 'none';
                     }
                 });
             });
@@ -1145,6 +1165,50 @@
                 console.log('Project Data:', projectData);
                 alert('Project updated successfully!');
                 window.location.href = 'projects.html';
+            });
+
+            // Add project code generation
+            function generateProjectCode() {
+                const projectName = document.getElementById('projectName').value.trim();
+                const department = document.getElementById('department').value;
+                const office = document.getElementById('office').value;
+                const client = document.getElementById('client').value.trim();
+                const projectCodeInput = document.getElementById('projectCode');
+
+                if (!projectName || !department || !office) return;
+
+                // Get today's date in YYYYMMDD format
+                const today = new Date();
+                const timestamp = today.getFullYear().toString() +
+                    (today.getMonth() + 1).toString().padStart(2, '0') +
+                    today.getDate().toString().padStart(2, '0');
+                
+                // Get department code (first 2 letters)
+                const deptCode = department.slice(0, 2).toUpperCase();
+                
+                // Get office code
+                const officeCode = office.toUpperCase();
+                
+                // Get first letter of each word in project name (up to 3 letters)
+                const nameInitials = projectName
+                    .split(' ')
+                    .map(word => word.charAt(0).toUpperCase())
+                    .join('')
+                    .slice(0, 3);
+                    
+                // Get first letter of client name (if exists)
+                const clientCode = client ? client.charAt(0).toUpperCase() : 'X';
+
+                // Combine all parts: YYYYMMDD-DEPT-OFFICE-NAME-CLIENT
+                const projectCode = `${timestamp}-${deptCode}-${officeCode}-${nameInitials}-${clientCode}`;
+                
+                projectCodeInput.value = projectCode;
+            }
+
+            // Add event listeners
+            ['projectName', 'department', 'office', 'client'].forEach(id => {
+                document.getElementById(id).addEventListener('input', generateProjectCode);
+                document.getElementById(id).addEventListener('change', generateProjectCode);
             });
         });
     </script>
