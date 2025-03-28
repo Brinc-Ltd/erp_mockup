@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brinc CEO Reports</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .logo {
+            max-height: 40px;
+        }
+        .nav-tabs .nav-link {
+            color: #6c757d;
+            border: none;
+            padding: 1rem 1.5rem;
+            font-weight: 500;
+        }
+        .nav-tabs .nav-link.active {
+            color: #0d6efd;
+            border-bottom: 2px solid #0d6efd;
+            background: none;
+        }
+        .nav-tabs .nav-link:hover:not(.active) {
+            border: none;
+            color: #0d6efd;
+        }
+        .dropdown-item.active {
+            background-color: #0d6efd;
+            color: white;
+        }
+        .dropdown-item:hover:not(.active) {
+            background-color: #e9ecef;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <img src="https://storage.googleapis.com/clean-finder-353810/$Dd5BJMS3vYBf7ZOld70TQI6BwJGDbX0AROpvZc0RexkhTUrPQZBO4S" alt="Brinc Logo" class="logo">
+                <span class="ms-2 fw-bold">CEO Dashboard</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="projects.html">Projects</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="payroll_dashboard.html">Payroll System</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="token_dashboard.html">Digital Currency System</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
+                            <img src="https://s3-ap-southeast-1.amazonaws.com/timeauction.paperclip/auctions/images/000/000/123/display/Manav-Gupta_Founder-CEO_brinc_profilephoto.webp?1614188921" alt="Manav" class="rounded-circle" style="width: 24px; height: 24px; object-fit: cover;"> Manav
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="#">Profile</a></li>
+                            <li><a class="dropdown-item" href="#">Settings</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#">Logout</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container mt-4">
+        <!-- Report Tabs -->
+        <ul class="nav nav-tabs mb-4">
+            <li class="nav-item">
+                <a class="nav-link active" href="ceo_report.html">
+                    <i class="fas fa-chart-line me-2"></i>Rolling Forecast Report
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="ceo_report_finance.html">
+                    <i class="fas fa-file-invoice-dollar me-2"></i>Finance Report
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="ceo_report_team_allocation.html">
+                    <i class="fas fa-users me-2"></i>Team Allocation Report
+                </a>
+            </li>
+        </ul>
+
+        <!-- Content Area -->
+        <div class="card">
+            <div class="card-body">
+                <!-- Title Section -->
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h5 class="card-title mb-0">
+                        Rolling Forecast FY25 - <span id="locationEntity">Vision US</span> (USD)
+                    </h5>
+                    <div>
+                        <button class="btn btn-outline-secondary btn-sm me-2">
+                            <i class="fas fa-download me-1"></i> Export
+                        </button>
+                        <button class="btn btn-outline-secondary btn-sm">
+                            <i class="fas fa-print me-1"></i> Print
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Filters Row -->
+                <div class="row g-3 mb-4">
+                    <div class="col-md-3">
+                        <div class="dropdown">
+                            <button class="btn btn-outline-secondary dropdown-toggle w-100" type="button" data-bs-toggle="dropdown">
+                                <i class="fas fa-globe me-2"></i> Location
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#">All Locations</a></li>
+                                <li><a class="dropdown-item" href="#">HK</a></li>
+                                <li><a class="dropdown-item" href="#">GZ</a></li>
+                                <li><a class="dropdown-item" href="#">MENA</a></li>
+                                <li><a class="dropdown-item" href="#">JP</a></li>
+                                <li><a class="dropdown-item" href="#">KR</a></li>
+                                <li><a class="dropdown-item" href="#">INDIA</a></li>
+                                <li><a class="dropdown-item" href="#">US</a></li>
+                                <li><a class="dropdown-item" href="#">UK</a></li>
+                                <li><a class="dropdown-item" href="#">SG</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="dropdown">
+                            <button class="btn btn-outline-secondary dropdown-toggle w-100" type="button" data-bs-toggle="dropdown">
+                                <i class="fas fa-building me-2"></i> Entity
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#">All Entities</a></li>
+                                <li><a class="dropdown-item" href="#">Brinc Hong Kong Ltd.</a></li>
+                                <li><a class="dropdown-item" href="#">Brinc China</a></li>
+                                <li><a class="dropdown-item" href="#">Brinc India</a></li>
+                                <li><a class="dropdown-item" href="#">Brinc Japan</a></li>
+                                <li><a class="dropdown-item" href="#">Brinc MENA</a></li>
+                                <li><a class="dropdown-item" href="#">Brinc Korea</a></li>
+                                <li><a class="dropdown-item" href="#">Brinc US Inc.</a></li>
+                                <li><a class="dropdown-item" href="#">Brinc UK Ltd.</a></li>
+                                <li><a class="dropdown-item" href="#">Brinc Singapore Pte. Ltd.</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="dropdown">
+                            <button class="btn btn-outline-secondary dropdown-toggle w-100" type="button" data-bs-toggle="dropdown">
+                                <i class="fas fa-sitemap me-2"></i> Department
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#">All Departments</a></li>
+                                <li><a class="dropdown-item" href="#">Business Management</a></li>
+                                <li><a class="dropdown-item" href="#">Legal</a></li>
+                                <li><a class="dropdown-item" href="#">Marketing</a></li>
+                                <li><a class="dropdown-item" href="#">Finance</a></li>
+                                <li><a class="dropdown-item" href="#">Transformation</a></li>
+                                <li><a class="dropdown-item" href="#">Accelerator</a></li>
+                                <li><a class="dropdown-item" href="#">Portfolio</a></li>
+                                <li><a class="dropdown-item" href="#">HR</a></li>
+                                <li><a class="dropdown-item" href="#">Cooperate Innovation</a></li>
+                                <li><a class="dropdown-item" href="#">Fund</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="dropdown">
+                            <button class="btn btn-outline-secondary dropdown-toggle w-100" type="button" data-bs-toggle="dropdown">
+                                <i class="fas fa-project-diagram me-2"></i> Project
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#">All Projects</a></li>
+                                <li><a class="dropdown-item" href="#">Brinc Climate Partner Open Application</a></li>
+                                <li><a class="dropdown-item" href="#">BharatBox Joint Venture</a></li>
+                                <li><a class="dropdown-item" href="#">Abillion Direct Investment</a></li>
+                                <li><a class="dropdown-item" href="#">Animoca Ventures Direct Investment</a></li>
+                                <li><a class="dropdown-item" href="#">25 Spring SuiHub</a></li>
+                                <li><a class="dropdown-item" href="#">24 Summer Climate Tech</a></li>
+                                <li><a class="dropdown-item" href="#">24 Spring ZK Advancer</a></li>
+                                <li><a class="dropdown-item" href="#">24 Spring Web3 Grow</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Forecast Table -->
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Category</th>
+                                <th>Apr</th>
+                                <th>May</th>
+                                <th>Jun</th>
+                                <th>Jul</th>
+                                <th>Aug</th>
+                                <th>Sep</th>
+                                <th>Oct</th>
+                                <th>Nov</th>
+                                <th>Dec</th>
+                                <th>Jan</th>
+                                <th>Mar</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Opening Balance -->
+                            <tr class="table-secondary">
+                                <td class="fw-bold">Opening Balance</td>
+                                <td>1,043,297</td>
+                                <td>772,991</td>
+                                <td>1,191,046</td>
+                                <td>622,266</td>
+                                <td>1,100,498</td>
+                                <td>-417,595</td>
+                                <td>35,938</td>
+                                <td>-336,118</td>
+                                <td>297,140</td>
+                                <td>189,197</td>
+                                <td>384,835</td>
+                            </tr>
+
+                            <!-- Operating Cash Inflows -->
+                            <tr class="table-light">
+                                <td colspan="12" class="fw-bold">Operating Cash Inflows</td>
+                            </tr>
+                            <tr>
+                                <td>Customer Receipts</td>
+                                <td>1,153,684</td>
+                                <td>1,508,938</td>
+                                <td>1,281,109</td>
+                                <td>1,577,862</td>
+                                <td>1,108,788</td>
+                                <td>827,219</td>
+                                <td>1,051,248</td>
+                                <td>1,004,692</td>
+                                <td>813,522</td>
+                                <td>1,233,044</td>
+                                <td>820,488</td>
+                            </tr>
+                            <tr>
+                                <td>Receivables Invoices</td>
+                                <td>-</td>
+                                <td>1,453,152</td>
+                                <td>1,223,144</td>
+                                <td>1,274,603</td>
+                                <td>1,108,788</td>
+                                <td>827,219</td>
+                                <td>1,051,248</td>
+                                <td>1,004,692</td>
+                                <td>813,522</td>
+                                <td>1,233,044</td>
+                                <td>820,488</td>
+                            </tr>
+                            <tr>
+                                <td>Receivables Overdue Invoices</td>
+                                <td>-</td>
+                                <td>55,786</td>
+                                <td>57,965</td>
+                                <td>103,259</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                            </tr>
+
+                            <!-- Operating Cash Outflows -->
+                            <tr class="table-light">
+                                <td colspan="12" class="fw-bold">Operating Cash Outflows</td>
+                            </tr>
+                            <tr>
+                                <td>Supplier Payments</td>
+                                <td>1,210,549</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                            </tr>
+                            <tr>
+                                <td>Payables Invoices</td>
+                                <td>-</td>
+                                <td>222,294</td>
+                                <td>399,073</td>
+                                <td>691,781</td>
+                                <td>366,005</td>
+                                <td>234,234</td>
+                                <td>537,710</td>
+                                <td>225,076</td>
+                                <td>222,769</td>
+                                <td>603,870</td>
+                                <td>225,076</td>
+                            </tr>
+                            <tr>
+                                <td>Payables Overdue Invoices</td>
+                                <td>-</td>
+                                <td>2,397</td>
+                                <td>26,804</td>
+                                <td>22,308</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                            </tr>
+                            <tr>
+                                <td>Salary Fixed Component</td>
+                                <td>61,540</td>
+                                <td>-</td>
+                                <td>61,540</td>
+                                <td>-</td>
+                                <td>61,540</td>
+                                <td>-</td>
+                                <td>61,540</td>
+                                <td>-</td>
+                                <td>61,540</td>
+                                <td>-</td>
+                                <td>61,540</td>
+                            </tr>
+                            <tr>
+                                <td>Salary Variable Component</td>
+                                <td>411,652</td>
+                                <td>-</td>
+                                <td>392,301</td>
+                                <td>-</td>
+                                <td>244,004</td>
+                                <td>-</td>
+                                <td>309,168</td>
+                                <td>-</td>
+                                <td>491,459</td>
+                                <td>-</td>
+                                <td>310,705</td>
+                            </tr>
+                            <tr>
+                                <td>Annual Bonus</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>417,600</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                            </tr>
+                            <tr>
+                                <td>Lease Rent Payments</td>
+                                <td>-</td>
+                                <td>328,000</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>328,000</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>328,000</td>
+                            </tr>
+                            <tr>
+                                <td>Utilities Payments</td>
+                                <td>226,080</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>202,320</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>226,080</td>
+                                <td>-</td>
+                            </tr>
+                            <tr>
+                                <td>Travel Payments</td>
+                                <td>25,028</td>
+                                <td>30,518</td>
+                                <td>24,198</td>
+                                <td>65,304</td>
+                                <td>31,762</td>
+                                <td>25,164</td>
+                                <td>64,761</td>
+                                <td>32,148</td>
+                                <td>25,699</td>
+                                <td>64,041</td>
+                                <td>32,427</td>
+                            </tr>
+                            <tr>
+                                <td>Opex Payments</td>
+                                <td>198,560</td>
+                                <td>107,674</td>
+                                <td>108,785</td>
+                                <td>120,237</td>
+                                <td>130,351</td>
+                                <td>114,288</td>
+                                <td>122,124</td>
+                                <td>114,211</td>
+                                <td>119,996</td>
+                                <td>143,415</td>
+                                <td>143,415</td>
+                            </tr>
+                            <tr>
+                                <td>Direct Tax Payments</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>419,588</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                            </tr>
+                            <tr>
+                                <td>Indirect Tax Payments</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>677,700</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                            </tr>
+
+                            <!-- Cash Flow Summary -->
+                            <tr class="table-light">
+                                <td colspan="12" class="fw-bold">Cash Flow Summary</td>
+                            </tr>
+                            <tr>
+                                <td>Cash from Operating Activities</td>
+                                <td>-979,725</td>
+                                <td>818,055</td>
+                                <td>-568,780</td>
+                                <td>478,233</td>
+                                <td>-604,893</td>
+                                <td>453,533</td>
+                                <td>-372,056</td>
+                                <td>633,258</td>
+                                <td>-107,942</td>
+                                <td>195,638</td>
+                                <td>-280,675</td>
+                            </tr>
+                            <tr>
+                                <td>Cash from Investing Activities</td>
+                                <td>-503,124</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-913,200</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                            </tr>
+                            <tr>
+                                <td>Cash from Financing Activities</td>
+                                <td>1,212,543</td>
+                                <td>-400,000</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                            </tr>
+
+                            <!-- Closing Balance -->
+                            <tr class="table-primary">
+                                <td class="fw-bold">Closing Balance</td>
+                                <td>772,991</td>
+                                <td>1,191,046</td>
+                                <td>622,266</td>
+                                <td>1,100,498</td>
+                                <td>-417,595</td>
+                                <td>35,938</td>
+                                <td>-336,118</td>
+                                <td>297,140</td>
+                                <td>189,197</td>
+                                <td>384,835</td>
+                                <td>104,160</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Chart Section -->
+                <div class="row mt-4">
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-body">
+                                <h6 class="card-title">Cash Balance Trend</h6>
+                                <canvas id="cashBalanceChart" height="200"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-body">
+                                <h6 class="card-title">Cash Flow Components</h6>
+                                <canvas id="cashFlowComponentsChart" height="200"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-light py-3 mt-5">
+        <div class="container text-center">
+            <p class="text-muted mb-0">© 2023 Brinc CEO Dashboard. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Data arrays
+        const months = ['Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec', 'Jan', 'Mar'];
+        const openingBalance = [1043297, 772991, 1191046, 622266, 1100498, -417595, 35938, -336118, 297140, 189197, 384835];
+        const closingBalance = [772991, 1191046, 622266, 1100498, -417595, 35938, -336118, 297140, 189197, 384835, 104160];
+        const operatingActivities = [-979725, 818055, -568780, 478233, -604893, 453533, -372056, 633258, -107942, 195638, -280675];
+        const investingActivities = [-503124, 0, 0, 0, -913200, 0, 0, 0, 0, 0, 0];
+        const financingActivities = [1212543, -400000, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+
+        // Format numbers to display in K or M
+        function formatNumber(number) {
+            if (Math.abs(number) >= 1000000) {
+                return (number / 1000000).toFixed(1) + 'M';
+            } else if (Math.abs(number) >= 1000) {
+                return (number / 1000).toFixed(1) + 'K';
+            }
+            return number;
+        }
+
+        // Cash Balance Trend Chart
+        new Chart(document.getElementById('cashBalanceChart'), {
+            type: 'line',
+            data: {
+                labels: months,
+                datasets: [{
+                    label: 'Opening Balance',
+                    data: openingBalance,
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    backgroundColor: 'rgba(54, 162, 235, 0.1)',
+                    borderWidth: 2,
+                    fill: true,
+                    tension: 0.4
+                }, {
+                    label: 'Closing Balance',
+                    data: closingBalance,
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    backgroundColor: 'rgba(75, 192, 192, 0.1)',
+                    borderWidth: 2,
+                    fill: true,
+                    tension: 0.4
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'bottom'
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return context.dataset.label + ': $' + formatNumber(context.parsed.y);
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        ticks: {
+                            callback: function(value) {
+                                return '$' + formatNumber(value);
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        // Cash Flow Components Chart
+        new Chart(document.getElementById('cashFlowComponentsChart'), {
+            type: 'bar',
+            data: {
+                labels: months,
+                datasets: [{
+                    label: 'Operating Activities',
+                    data: operatingActivities,
+                    backgroundColor: 'rgba(54, 162, 235, 0.7)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                }, {
+                    label: 'Investing Activities',
+                    data: investingActivities,
+                    backgroundColor: 'rgba(255, 206, 86, 0.7)',
+                    borderColor: 'rgba(255, 206, 86, 1)',
+                    borderWidth: 1
+                }, {
+                    label: 'Financing Activities',
+                    data: financingActivities,
+                    backgroundColor: 'rgba(75, 192, 192, 0.7)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'bottom'
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return context.dataset.label + ': $' + formatNumber(context.parsed.y);
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        stacked: true
+                    },
+                    y: {
+                        stacked: true,
+                        ticks: {
+                            callback: function(value) {
+                                return '$' + formatNumber(value);
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        // Add this to your existing JavaScript
+        document.addEventListener('DOMContentLoaded', function() {
+            const locationDropdown = document.querySelector('[data-filter="location"]');
+            const entityDropdown = document.querySelector('[data-filter="entity"]');
+            const titleSpan = document.getElementById('locationEntity');
+            
+            // Add data-filter attributes to the dropdown buttons
+            const filterButtons = document.querySelectorAll('.dropdown button');
+            filterButtons[0].setAttribute('data-filter', 'location');
+            filterButtons[1].setAttribute('data-filter', 'entity');
+            filterButtons[2].setAttribute('data-filter', 'department');
+            filterButtons[3].setAttribute('data-filter', 'project');
+
+            // Initialize selected values
+            let selectedLocation = 'US';
+            let selectedEntity = 'Vision US';
+
+            // Update title function
+            function updateTitle() {
+                titleSpan.textContent = `${selectedEntity}`;
+            }
+
+            // Add click event listeners to all dropdown items
+            document.querySelectorAll('.dropdown-menu a').forEach(item => {
+                item.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const filterType = this.closest('.dropdown').querySelector('button').getAttribute('data-filter');
+                    const selectedValue = this.textContent;
+                    
+                    // Update button text
+                    const button = this.closest('.dropdown').querySelector('button');
+                    const icon = button.querySelector('i').outerHTML;
+                    button.innerHTML = icon + ' ' + selectedValue;
+
+                    // Update selected values
+                    if (filterType === 'location') {
+                        selectedLocation = selectedValue;
+                        // Update entity options based on location if needed
+                    } else if (filterType === 'entity') {
+                        selectedEntity = selectedValue;
+                    }
+
+                    // Update title
+                    updateTitle();
+
+                    // Add active class to selected item
+                    this.closest('.dropdown-menu').querySelectorAll('a').forEach(a => {
+                        a.classList.remove('active');
+                    });
+                    this.classList.add('active');
+                });
+            });
+
+            // Add hover effect to dropdown items
+            document.querySelectorAll('.dropdown-item').forEach(item => {
+                item.style.cursor = 'pointer';
+            });
+
+            // Initialize active states
+            document.querySelectorAll('.dropdown-menu').forEach(menu => {
+                const firstItem = menu.querySelector('a');
+                if (firstItem) {
+                    firstItem.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

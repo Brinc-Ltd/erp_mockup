@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brinc CEO Reports</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .logo {
+            max-height: 40px;
+        }
+        .nav-tabs .nav-link {
+            color: #6c757d;
+            border: none;
+            padding: 1rem 1.5rem;
+            font-weight: 500;
+        }
+        .nav-tabs .nav-link.active {
+            color: #0d6efd;
+            border-bottom: 2px solid #0d6efd;
+            background: none;
+        }
+        .nav-tabs .nav-link:hover:not(.active) {
+            border: none;
+            color: #0d6efd;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <img src="https://storage.googleapis.com/clean-finder-353810/$Dd5BJMS3vYBf7ZOld70TQI6BwJGDbX0AROpvZc0RexkhTUrPQZBO4S" alt="Brinc Logo" class="logo">
+                <span class="ms-2 fw-bold">CEO Dashboard</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="projects.html">Projects</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="payroll_dashboard.html">Payroll System</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="token_dashboard.html">Digital Currency System</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
+                            <img src="https://s3-ap-southeast-1.amazonaws.com/timeauction.paperclip/auctions/images/000/000/123/display/Manav-Gupta_Founder-CEO_brinc_profilephoto.webp?1614188921" alt="Manav" class="rounded-circle" style="width: 24px; height: 24px; object-fit: cover;"> Manav
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="#">Profile</a></li>
+                            <li><a class="dropdown-item" href="#">Settings</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#">Logout</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container mt-4">
+        <!-- Report Tabs -->
+        <ul class="nav nav-tabs mb-4">
+            <li class="nav-item">
+                <a class="nav-link" href="ceo_report.html">
+                    <i class="fas fa-chart-line me-2"></i>Rolling Forecast Report
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="ceo_report_finance.html">
+                    <i class="fas fa-file-invoice-dollar me-2"></i>Finance Report
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" href="ceo_report_team_allocation.html">
+                    <i class="fas fa-users me-2"></i>Team Allocation Report
+                </a>
+            </li>
+        </ul>
+
+        <!-- Content Area -->
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Team Allocation Report</h5>
+                
+                <!-- Filters -->
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <div class="row g-3">
+                            <div class="col-md-3">
+                                <div class="dropdown">
+                                    <button class="btn btn-outline-secondary dropdown-toggle w-100" type="button" data-bs-toggle="dropdown">
+                                        <i class="fas fa-globe me-2"></i> Location
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li><a class="dropdown-item" href="#">All Locations</a></li>
+                                        <li><a class="dropdown-item" href="#">Hong Kong</a></li>
+                                        <li><a class="dropdown-item" href="#">United States</a></li>
+                                        <li><a class="dropdown-item" href="#">United Kingdom</a></li>
+                                        <li><a class="dropdown-item" href="#">Singapore</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="dropdown">
+                                    <button class="btn btn-outline-secondary dropdown-toggle w-100" type="button" data-bs-toggle="dropdown">
+                                        <i class="fas fa-building me-2"></i> Entity
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li><a class="dropdown-item" href="#">All Entities</a></li>
+                                        <li><a class="dropdown-item" href="#">Brinc Hong Kong Ltd.</a></li>
+                                        <li><a class="dropdown-item" href="#">Brinc US Inc.</a></li>
+                                        <li><a class="dropdown-item" href="#">Brinc UK Ltd.</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="dropdown">
+                                    <button class="btn btn-outline-secondary dropdown-toggle w-100" type="button" data-bs-toggle="dropdown">
+                                        <i class="fas fa-sitemap me-2"></i> Department
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li><a class="dropdown-item" href="#">All Departments</a></li>
+                                        <li><a class="dropdown-item" href="#">Engineering</a></li>
+                                        <li><a class="dropdown-item" href="#">Marketing</a></li>
+                                        <li><a class="dropdown-item" href="#">Sales</a></li>
+                                        <li><a class="dropdown-item" href="#">Operations</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="dropdown">
+                                    <button class="btn btn-outline-secondary dropdown-toggle w-100" type="button" data-bs-toggle="dropdown">
+                                        <i class="fas fa-project-diagram me-2"></i> Project
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li><a class="dropdown-item" href="#">All Projects</a></li>
+                                        <li><a class="dropdown-item" href="#">XDC</a></li>
+                                        <li><a class="dropdown-item" href="#">Boda</a></li>
+                                        <li><a class="dropdown-item" href="#">Climate Tech</a></li>
+                                        <li><a class="dropdown-item" href="#">VentureVerse</a></li>
+                                        <li><a class="dropdown-item" href="#">Academy</a></li>
+                                        <li><a class="dropdown-item" href="#">Callmi</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Active Filters -->
+                <div class="d-flex flex-wrap gap-2 mb-3">
+                    <span class="badge bg-primary filter-badge">All Locations <i class="fas fa-times-circle"></i></span>
+                    <span class="badge bg-primary filter-badge">All Entities <i class="fas fa-times-circle"></i></span>
+                </div>
+                
+                <!-- Your team allocation report content will go here -->
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Team Member</th>
+                                <th>Department</th>
+                                <th>Entity</th>
+                                <th>Office</th>
+                                <th>Jan 2024</th>
+                                <th>Feb 2024</th>
+                                <th>Mar 2024</th>
+                                <th>Apr 2024</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Denise Africano -->
+                            <tr>
+                                <td>Denise Africano</td>
+                                <td>Marketing</td>
+                                <td>Brinc Hong Kong Ltd.</td>
+                                <td>HK</td>
+                                <td>
+                                    <div class="progress" style="height: 8px;">
+                                        <div class="progress-bar bg-success" role="progressbar" style="width: 85%"></div>
+                                    </div>
+                                    <small class="text-muted">85%</small>
+                                </td>
+                                <td>
+                                    <div class="progress" style="height: 8px;">
+                                        <div class="progress-bar bg-success" role="progressbar" style="width: 90%"></div>
+                                    </div>
+                                    <small class="text-muted">90%</small>
+                                </td>
+                                <td>
+                                    <div class="progress" style="height: 8px;">
+                                        <div class="progress-bar bg-danger" role="progressbar" style="width: 110%"></div>
+                                    </div>
+                                    <small class="text-danger">110%</small>
+                                </td>
+                                <td>
+                                    <div class="progress" style="height: 8px;">
+                                        <div class="progress-bar bg-success" role="progressbar" style="width: 95%"></div>
+                                    </div>
+                                    <small class="text-muted">95%</small>
+                                </td>
+                            </tr>
+
+                            <!-- Edwin Lee -->
+                            <tr>
+                                <td>Edwin Lee</td>
+                                <td>Accelerator</td>
+                                <td>Brinc Hong Kong Ltd.</td>
+                                <td>HK</td>
+                                <td>
+                                    <div class="progress" style="height: 8px;">
+                                        <div class="progress-bar bg-danger" role="progressbar" style="width: 130%"></div>
+                                    </div>
+                                    <small class="text-danger">130%</small>
+                                </td>
+                                <td>
+                                    <div class="progress" style="height: 8px;">
+                                        <div class="progress-bar bg-danger" role="progressbar" style="width: 125%"></div>
+                                    </div>
+                                    <small class="text-danger">125%</small>
+                                </td>
+                                <td>
+                                    <div class="progress" style="height: 8px;">
+                                        <div class="progress-bar bg-success" role="progressbar" style="width: 95%"></div>
+                                    </div>
+                                    <small class="text-muted">95%</small>
+                                </td>
+                                <td>
+                                    <div class="progress" style="height: 8px;">
+                                        <div class="progress-bar bg-success" role="progressbar" style="width: 85%"></div>
+                                    </div>
+                                    <small class="text-muted">85%</small>
+                                </td>
+                            </tr>
+
+                            <!-- Einstein Rojas -->
+                            <tr>
+                                <td>Einstein Rojas</td>
+                                <td>Transformation</td>
+                                <td>Brinc Hong Kong Ltd.</td>
+                                <td>HK</td>
+                                <td>
+                                    <div class="progress" style="height: 8px;">
+                                        <div class="progress-bar bg-warning" role="progressbar" style="width: 50%"></div>
+                                    </div>
+                                    <small class="text-muted">50%</small>
+                                </td>
+                                <td>
+                                    <div class="progress" style="height: 8px;">
+                                        <div class="progress-bar bg-success" role="progressbar" style="width: 85%"></div>
+                                    </div>
+                                    <small class="text-muted">85%</small>
+                                </td>
+                                <td>
+                                    <div class="progress" style="height: 8px;">
+                                        <div class="progress-bar bg-success" role="progressbar" style="width: 90%"></div>
+                                    </div>
+                                    <small class="text-muted">90%</small>
+                                </td>
+                                <td>
+                                    <div class="progress" style="height: 8px;">
+                                        <div class="progress-bar bg-warning" role="progressbar" style="width: 65%"></div>
+                                    </div>
+                                    <small class="text-muted">65%</small>
+                                </td>
+                            </tr>
+
+                            <!-- Guillermo Ginesta -->
+                            <tr>
+                                <td>Guillermo Ginesta</td>
+                                <td>Business Management</td>
+                                <td>Brinc Hong Kong Ltd.</td>
+                                <td>HK</td>
+                                <td>
+                                    <div class="progress" style="height: 8px;">
+                                        <div class="progress-bar bg-success" role="progressbar" style="width: 95%"></div>
+                                    </div>
+                                    <small class="text-muted">95%</small>
+                                </td>
+                                <td>
+                                    <div class="progress" style="height: 8px;">
+                                        <div class="progress-bar bg-danger" role="progressbar" style="width: 115%"></div>
+                                    </div>
+                                    <small class="text-danger">115%</small>
+                                </td>
+                                <td>
+                                    <div class="progress" style="height: 8px;">
+                                        <div class="progress-bar bg-success" role="progressbar" style="width: 100%"></div>
+                                    </div>
+                                    <small class="text-muted">100%</small>
+                                </td>
+                                <td>
+                                    <div class="progress" style="height: 8px;">
+                                        <div class="progress-bar bg-success" role="progressbar" style="width: 90%"></div>
+                                    </div>
+                                    <small class="text-muted">90%</small>
+                                </td>
+                            </tr>
+
+                            <!-- Janina Motter -->
+                            <tr>
+                                <td>Janina Motter</td>
+                                <td>Accelerator</td>
+                                <td>Brinc UK Ltd.</td>
+                                <td>UK</td>
+                                <td>
+                                    <div class="progress" style="height: 8px;">
+                                        <div class="progress-bar bg-warning" role="progressbar" style="width: 70%"></div>
+                                    </div>
+                                    <small class="text-muted">70%</small>
+                                </td>
+                                <td>
+                                    <div class="progress" style="height: 8px;">
+                                        <div class="progress-bar bg-success" role="progressbar" style="width: 100%"></div>
+                                    </div>
+                                    <small class="text-muted">100%</small>
+                                </td>
+                                <td>
+                                    <div class="progress" style="height: 8px;">
+                                        <div class="progress-bar bg-danger" role="progressbar" style="width: 120%"></div>
+                                    </div>
+                                    <small class="text-danger">120%</small>
+                                </td>
+                                <td>
+                                    <div class="progress" style="height: 8px;">
+                                        <div class="progress-bar bg-success" role="progressbar" style="width: 95%"></div>
+                                    </div>
+                                    <small class="text-muted">95%</small>
+                                </td>
+                            </tr>
+
+                            <!-- Kevin Brisbois -->
+                            <tr>
+                                <td>Kevin Brisbois</td>
+                                <td>Corporate Innovation</td>
+                                <td>Brinc US Inc.</td>
+                                <td>US</td>
+                                <td>
+                                    <div class="progress" style="height: 8px;">
+                                        <div class="progress-bar bg-success" role="progressbar" style="width: 85%"></div>
+                                    </div>
+                                    <small class="text-muted">85%</small>
+                                </td>
+                                <td>
+                                    <div class="progress" style="height: 8px;">
+                                        <div class="progress-bar bg-danger" role="progressbar" style="width: 140%"></div>
+                                    </div>
+                                    <small class="text-danger">140%</small>
+                                </td>
+                                <td>
+                                    <div class="progress" style="height: 8px;">
+                                        <div class="progress-bar bg-danger" role="progressbar" style="width: 130%"></div>
+                                    </div>
+                                    <small class="text-danger">130%</small>
+                                </td>
+                                <td>
+                                    <div class="progress" style="height: 8px;">
+                                        <div class="progress-bar bg-success" role="progressbar" style="width: 95%"></div>
+                                    </div>
+                                    <small class="text-muted">95%</small>
+                                </td>
+                            </tr>
+
+                            <!-- Natalie Lung -->
+                            <tr>
+                                <td>Natalie Lung</td>
+                                <td>Portfolio</td>
+                                <td>Brinc Hong Kong Ltd.</td>
+                                <td>HK</td>
+                                <td>
+                                    <div class="progress" style="height: 8px;">
+                                        <div class="progress-bar bg-warning" role="progressbar" style="width: 45%"></div>
+                                    </div>
+                                    <small class="text-muted">45%</small>
+                                </td>
+                                <td>
+                                    <div class="progress" style="height: 8px;">
+                                        <div class="progress-bar bg-warning" role="progressbar" style="width: 60%"></div>
+                                    </div>
+                                    <small class="text-muted">60%</small>
+                                </td>
+                                <td>
+                                    <div class="progress" style="height: 8px;">
+                                        <div class="progress-bar bg-success" role="progressbar" style="width: 85%"></div>
+                                    </div>
+                                    <small class="text-muted">85%</small>
+                                </td>
+                                <td>
+                                    <div class="progress" style="height: 8px;">
+                                        <div class="progress-bar bg-success" role="progressbar" style="width: 90%"></div>
+                                    </div>
+                                    <small class="text-muted">90%</small>
+                                </td>
+                            </tr>
+
+                            <!-- Suphansa Thesanok -->
+                            <tr>
+                                <td>Suphansa Thesanok</td>
+                                <td>Marketing</td>
+                                <td>Brinc Hong Kong Ltd.</td>
+                                <td>HK</td>
+                                <td>
+                                    <div class="progress" style="height: 8px;">
+                                        <div class="progress-bar bg-success" role="progressbar" style="width: 80%"></div>
+                                    </div>
+                                    <small class="text-muted">80%</small>
+                                </td>
+                                <td>
+                                    <div class="progress" style="height: 8px;">
+                                        <div class="progress-bar bg-success" role="progressbar" style="width: 95%"></div>
+                                    </div>
+                                    <small class="text-muted">95%</small>
+                                </td>
+                                <td>
+                                    <div class="progress" style="height: 8px;">
+                                        <div class="progress-bar bg-danger" role="progressbar" style="width: 115%"></div>
+                                    </div>
+                                    <small class="text-danger">115%</small>
+                                </td>
+                                <td>
+                                    <div class="progress" style="height: 8px;">
+                                        <div class="progress-bar bg-success" role="progressbar" style="width: 85%"></div>
+                                    </div>
+                                    <small class="text-muted">85%</small>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Summary Stats -->
+                <div class="row g-3 mt-3">
+                    <div class="col-md-3">
+                        <div class="card">
+                            <div class="card-body">
+                                <h6 class="card-subtitle mb-2 text-muted">Overallocated</h6>
+                                <h3 class="card-title mb-0 text-danger">4</h3>
+                                <small class="text-muted">Team members > 100%</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card">
+                            <div class="card-body">
+                                <h6 class="card-subtitle mb-2 text-muted">Fully Allocated</h6>
+                                <h3 class="card-title mb-0 text-success">8</h3>
+                                <small class="text-muted">80% - 100%</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card">
+                            <div class="card-body">
+                                <h6 class="card-subtitle mb-2 text-muted">Underallocated</h6>
+                                <h3 class="card-title mb-0 text-warning">3</h3>
+                                <small class="text-muted">< 80%</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card">
+                            <div class="card-body">
+                                <h6 class="card-subtitle mb-2 text-muted">Avg. Allocation</h6>
+                                <h3 class="card-title mb-0">92%</h3>
+                                <small class="text-muted">This month</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-light py-3 mt-5">
+        <div class="container text-center">
+            <p class="text-muted mb-0">© 2023 Brinc CEO Dashboard. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
