@@ -245,6 +245,35 @@
                 <div class="info-value" id="departmentValue">Programs</div>
             </div>
             <div class="info-row">
+                <div class="info-label">Project Type:</div>
+                <div class="info-value" id="projectTypeValue">External</div>
+            </div>
+            <div class="info-row" id="dealTypeRow">
+                <div class="info-label">Deal Type:</div>
+                <div class="info-value" id="dealTypeValue">Accelerator - Program Fee</div>
+            </div>
+            <div class="info-row" id="assetInfoRow">
+                <div class="info-label">Asset Information:</div>
+                <div class="info-value">
+                    <div class="asset-details">
+                        <span class="asset-label">Target Equity Holding:</span>
+                        <span class="asset-value" id="targetEquityValue">$250,000</span>
+                    </div>
+                    <div class="asset-details">
+                        <span class="asset-label">Target Token Holding:</span>
+                        <span class="asset-value" id="targetTokenValue">$100,000</span>
+                    </div>
+                </div>
+            </div>
+            <div class="info-row">
+                <div class="info-label">Company Entity:</div>
+                <div class="info-value" id="companyEntityValue">Brinc Hong Kong Ltd.</div>
+            </div>
+            <div class="info-row">
+                <div class="info-label">Office:</div>
+                <div class="info-value" id="officeValue">HK</div>
+            </div>
+            <div class="info-row">
                 <div class="info-label">Client:</div>
                 <div class="info-value" id="clientValue">N/A</div>
             </div>
@@ -385,6 +414,19 @@
             </div>
         </div>
         
+        <div class="budget-section">
+            <div class="section-header">
+                <h3>Corporate Fees</h3>
+            </div>
+            <div class="fee-details">
+                <div class="fee-type" id="corporateFeeTypeDisplay">Fixed Value: $25,000.00</div>
+            </div>
+            <div id="corporateFeesTotal" class="total-row">
+                <div class="total-label">Total:</div>
+                <div class="total-values" id="corporateFeesAmount">25,000.00</div>
+            </div>
+        </div>
+        
         <div class="action-buttons">
             <a href="project_edit.html" class="btn btn-primary">
                 <i class="fas fa-edit"></i> Edit Project
@@ -415,8 +457,15 @@
             // Sample project data (in a real application, this would come from the server)
             const projectData = {
                 projectName: "Digital Transformation Initiative",
-                projectType: "internal",
+                projectType: "external",
+                dealType: "accelerator_program",
+                assets: {
+                    targetEquity: 250000,
+                    targetToken: 100000
+                },
                 department: "Transform",
+                companyEntity: "Brinc Hong Kong Ltd.",
+                office: "HK",
                 client: "Internal",
                 startDate: "2023-06-01",
                 endDate: "2024-05-31",
@@ -442,17 +491,17 @@
                         { name: "Software licenses", month0: 5000, month1: 0, month2: 0, month3: 0, month4: 0, month5: 0, month6: 0, month7: 0, month8: 0, month9: 0, month10: 0, month11: 0, month12: 0 },
                         { name: "Training materials", month0: 0, month1: 0, month2: 2500, month3: 0, month4: 0, month5: 0, month6: 0, month7: 0, month8: 0, month9: 0, month10: 0, month11: 0, month12: 0 },
                         { name: "Consulting services", month0: 10000, month1: 10000, month2: 0, month3: 0, month4: 0, month5: 0, month6: 0, month7: 0, month8: 0, month9: 0, month10: 0, month11: 0, month12: 0 }
-                    ]
+                    ],
+                    sharedCosts: [
+                        { name: "Insurance shared cost", perPersonCost: 500, month0: 1500, month1: 1500, month2: 1500, month3: 1500, month4: 0, month5: 0, month6: 0, month7: 0, month8: 0, month9: 0, month10: 0, month11: 0, month12: 0 },
+                        { name: "Systems shared cost", perPersonCost: 300, month0: 900, month1: 900, month2: 900, month3: 900, month4: 0, month5: 0, month6: 0, month7: 0, month8: 0, month9: 0, month10: 0, month11: 0, month12: 0 }
+                    ],
+                    corporateFees: {
+                        type: "fixed",
+                        value: 25000,
+                        total: 25000
+                    }
                 }
-            };
-
-            // Define salary data for team members (monthly salary)
-            const salaryData = {
-                'Edwin Lee': 8000,
-                'Einstein Rojas': 7500,
-                'Guillermo Ginesta': 9000,
-                'Janina Motter': 8200,
-                'Kevin Leung': 7800
             };
 
             // Populate project details
@@ -460,10 +509,43 @@
             document.getElementById('projectTypeBadge').textContent = projectData.projectType.charAt(0).toUpperCase() + projectData.projectType.slice(1);
             document.getElementById('projectTypeBadge').className = 'badge badge-' + projectData.projectType;
             document.getElementById('departmentValue').textContent = projectData.department;
+            document.getElementById('projectTypeValue').textContent = projectData.projectType.charAt(0).toUpperCase() + projectData.projectType.slice(1);
+            document.getElementById('companyEntityValue').textContent = projectData.companyEntity;
+            document.getElementById('officeValue').textContent = projectData.office;
             document.getElementById('clientValue').textContent = projectData.client;
             document.getElementById('startDateValue').textContent = formatDate(projectData.startDate);
             document.getElementById('endDateValue').textContent = formatDate(projectData.endDate);
             document.getElementById('descriptionValue').textContent = projectData.description;
+
+            // Display external project specific fields
+            if (projectData.projectType === 'external') {
+                // Deal type mapping
+                const dealTypeMap = {
+                    'consulting': 'Consulting Deal',
+                    'accelerator_program': 'Accelerator - Program Fee',
+                    'accelerator_opex': 'Accelerator - Opex'
+                };
+                
+                document.getElementById('dealTypeValue').textContent = dealTypeMap[projectData.dealType] || projectData.dealType;
+                document.getElementById('targetEquityValue').textContent = '$' + projectData.assets.targetEquity.toLocaleString();
+                document.getElementById('targetTokenValue').textContent = '$' + projectData.assets.targetToken.toLocaleString();
+            } else {
+                // Hide external-only fields
+                document.getElementById('dealTypeRow').style.display = 'none';
+                document.getElementById('assetInfoRow').style.display = 'none';
+            }
+
+            // Display corporate fees
+            const corporateFeeTypeDisplay = document.getElementById('corporateFeeTypeDisplay');
+            const corporateFeesAmount = document.getElementById('corporateFeesAmount');
+            
+            if (projectData.budget.corporateFees.type === 'fixed') {
+                corporateFeeTypeDisplay.textContent = `Fixed Value: $${projectData.budget.corporateFees.value.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+            } else {
+                corporateFeeTypeDisplay.textContent = '20% of Received Revenue';
+            }
+            
+            corporateFeesAmount.textContent = projectData.budget.corporateFees.total.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
 
             // Format date for display
             function formatDate(dateString) {
@@ -594,9 +676,10 @@
             // Create shared costs grid
             function createSharedCostsGrid() {
                 const container = document.getElementById('sharedCosts');
+                const data = projectData.budget.sharedCosts;
                 const columns = [];
                 
-                // First column - Cost type
+                // First column - Item name
                 columns.push({
                     title: 'Cost Type',
                     data: 'name',
@@ -604,7 +687,7 @@
                     readOnly: true
                 });
                 
-                // Second column - Cost per person
+                // Per person cost column
                 columns.push({
                     title: 'Cost Per Person',
                     data: 'perPersonCost',
@@ -630,30 +713,9 @@
                     });
                 });
                 
-                // Create initial data
-                const initialData = [
-                    {
-                        name: 'Insurance shared cost',
-                        perPersonCost: 500,
-                        costType: 'insurance'
-                    },
-                    {
-                        name: 'Systems shared cost',
-                        perPersonCost: 300,
-                        costType: 'systems'
-                    }
-                ];
-                
-                // Initialize monthly values
-                initialData.forEach(row => {
-                    for (let i = 0; i < 13; i++) {
-                        row['month' + i] = 0;
-                    }
-                });
-                
                 // Create the grid
                 const hot = new Handsontable(container, {
-                    data: initialData,
+                    data: data,
                     columns: columns,
                     rowHeaders: true,
                     colHeaders: true,
